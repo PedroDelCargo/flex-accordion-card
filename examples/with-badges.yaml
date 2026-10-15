@@ -1,0 +1,38 @@
+# Remplacer les entités fictives ci-dessous avant utilisation.
+type: custom:flex-accordion-card
+layout: separate
+exclusive: false
+sections:
+  - id: salon
+    title: Salon
+    icon: mdi:sofa
+    default_open: true
+    layout: grid
+    columns: 2
+    badges:
+      - type: entity
+        entity: sensor.temperature_salon
+        show_name: true
+        name: Température
+        show_state: true
+        tap_action:
+          action: more-info
+    cards:
+      - type: tile
+        entity: light.salon
+      - type: entities
+        entities:
+          - sensor.temperature_salon
+  - id: energie
+    title: Énergie
+    icon: mdi:lightning-bolt
+    layout: vertical
+    cards:
+      - type: history-graph
+        entities:
+          - sensor.puissance_maison
+        hours_to_show: 12
+    badges:
+      - type: entity
+        entity: sensor.puissance_maison
+        show_state: true

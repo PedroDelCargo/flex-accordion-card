@@ -1,0 +1,24 @@
+type: custom:flex-accordion-card
+layout: unified
+exclusive: true
+sections:
+  - id: fixed-header
+    title: En-tête permanent
+    always_open: true
+    cards:
+      - type: heading
+        heading: Ma maison
+        icon: mdi:home
+  - id: living
+    title: Salon
+    icon: mdi:sofa
+    default_open: true
+    cards:
+      - type: markdown
+        content: Contenu de la section accordéon
+  - id: fixed-footer
+    title: Pied permanent
+    always_open: true
+    cards:
+      - type: markdown
+        content: Ce contenu reste affiché quand les accordéons sont fermés.

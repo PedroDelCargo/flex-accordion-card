@@ -1,0 +1,27 @@
+type: custom:flex-accordion-card
+layout: unified
+exclusive: true
+animation: true
+animation_duration: 750
+sections:
+  - id: salon
+    title: Salon
+    icon: mdi:sofa
+    default_open: true
+    layout: grid
+    columns: 2
+    badges: []
+    cards:
+      - type: markdown
+        content: "Bienvenue dans **Flex Accordion Card**."
+      - type: markdown
+        content: "Ajoutez vos cartes depuis l’éditeur visuel."
+  - id: confort
+    title: Confort
+    icon: mdi:thermometer
+    layout: vertical
+    default_open: false
+    cards:
+      - type: markdown
+        content: "Une seconde section, indépendante."
+    badges: []

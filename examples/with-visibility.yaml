@@ -1,0 +1,23 @@
+# Remplacer les entités ci-dessous par des entités de votre instance.
+type: custom:flex-accordion-card
+layout: separate
+background: true
+sections:
+  - id: salon
+    title: Salon
+    icon: mdi:sofa
+    default_open: true
+    visibility:
+      - condition: state
+        entity: input_boolean.afficher_salon
+        state: "on"
+    badges:
+      - type: entity
+        entity: sensor.temperature_salon
+        visibility:
+          - condition: state
+            entity: input_boolean.afficher_temperature
+            state: "on"
+    cards:
+      - type: markdown
+        content: "Cette section et son badge utilisent des conditions HA."
