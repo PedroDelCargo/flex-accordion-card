@@ -1,0 +1,15 @@
+{
+  "name": "flex-accordion-card",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "description": "An accordion container for Home Assistant Lovelace cards and native badges",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/core.test.mjs test/editor.test.mjs",
+    "test:browser": "node test/browser.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "devDependencies": { "playwright": "1.62.1" },
+  "license": "MIT"
+}
