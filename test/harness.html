@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flex Accordion Card — banc de test simulé</title>
+<style>
+  body{margin:0;padding:32px;background:#f4f6fa;color:#20252b;font:15px system-ui;--primary-color:#008ca8;--divider-color:#e0e5eb;--ha-card-border-radius:16px;--card-background-color:#fff}
+  main{max-width:1120px;margin:auto}h1{font-size:28px}small{color:#667480}.columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px}.preview{position:sticky;top:20px;align-self:start}
+  .notice{background:#e0f3f5;padding:14px;border-radius:10px;line-height:1.5;margin:20px 0}pre{white-space:pre-wrap;font-size:11px}ha-icon{display:inline-block;font-size:20px}
+  @media(max-width:800px){body{padding:14px}.columns{grid-template-columns:1fr}.preview{position:static}}
+</style>
+<main><small>VERSION 0.7.0 · BANC DE TEST</small><h1>Flex Accordion Card</h1>
+<div class="notice">Cette démo utilise des composants HA simulés. Elle teste le conteneur et les événements ; elle ne valide pas les éditeurs ni les badges réels de Home Assistant.</div>
+<div class="columns"><div class="preview"><h2>Aperçu</h2><flex-accordion-card id="card"></flex-accordion-card></div><div><h2>Éditeur</h2><flex-accordion-card-editor id="editor"></flex-accordion-card-editor></div></div>
+<details><summary>Configuration enregistrée</summary><pre id="saved"></pre></details></main>
+<script>
+class MockCard extends HTMLElement {
+  constructor(){super();this.attachShadow({mode:'open'});}
+  setConfig(config){this.config=config;this.shadowRoot.innerHTML='<style>:host{display:block}.box{padding:20px;border-radius:12px;background:#f2f6fa;border:1px solid #e1e8ef}button{padding:8px;border:0;border-radius:6px;background:#008ca8;color:white}</style><div class="box"><strong></strong><p></p><button>Interaction enfant</button></div>';this.shadowRoot.querySelector('strong').textContent=config.title||config.type;this.shadowRoot.querySelector('p').textContent=config.content||config.entity||'Carte native simulée';this.shadowRoot.querySelector('button').onclick=()=>window.childClicks=(window.childClicks||0)+1;}
+  static async getConfigElement(){return document.createElement('mock-config-editor');}
+}
+class MockStack extends MockCard {}
+class MockBadge extends HTMLElement {
+  constructor(){super();this.attachShadow({mode:'open'});}
+  setConfig(config){this.config=config;this.shadowRoot.innerHTML='<style>button{border-radius:20px;border:1px solid #bee2e6;background:#e8f7f8;padding:8px 12px;color:#176575;font:13px system-ui}</style><button></button>';this.shadowRoot.querySelector('button').textContent=config.name||config.entity||'Badge';this.shadowRoot.querySelector('button').onclick=()=>window.badgeClicks=(window.badgeClicks||0)+1;}
+  static async getConfigElement(){return document.createElement('mock-config-editor');}
+}
+class MockConfigEditor extends HTMLElement {
+  constructor(){super();this.attachShadow({mode:'open'});this.shadowRoot.innerHTML='<style>:host{display:block}label{display:flex;justify-content:space-between;gap:10px;margin:16px 0}input{font:inherit;padding:8px;border:1px solid #8094a5;border-radius:6px;min-width:0}p{font-size:12px;color:#667480}</style><p>Éditeur natif simulé — formulaire contrôlé par le parent</p><label>Nom personnalisé<input aria-label="Nom personnalisé" data-field="name"></label><label>Afficher le nom<input aria-label="Afficher le nom" type="checkbox" data-field="show_name"></label><label>Afficher l’état<input aria-label="Afficher l’état" type="checkbox" data-field="show_state"></label><label>Couleur<input aria-label="Couleur" data-field="color"></label>';for(const input of this.shadowRoot.querySelectorAll('input'))input.addEventListener('input',()=>{const config={...this.config,[input.dataset.field]:input.type==='checkbox'?input.checked:input.value};this.dispatchEvent(new CustomEvent('config-changed',{detail:{config},bubbles:true,composed:true}));});}
+  setConfig(config){this.config=JSON.parse(JSON.stringify(config));this.syncForm();}
+  syncForm(){for(const input of this.shadowRoot.querySelectorAll('input')){if(input.type==='checkbox')input.checked=Boolean(this.config?.[input.dataset.field]);else{const value=this.config?.[input.dataset.field]||'';if(input.value!==value)input.value=value;}}}
+  set hass(value){this._hass=value;this.syncForm();}
+  get hass(){return this._hass;}
+}
+customElements.define('mock-card',MockCard);customElements.define('hui-vertical-stack-card',MockStack);customElements.define('mock-badge',MockBadge);customElements.define('mock-config-editor',MockConfigEditor);
+window.loadCardHelpers=async()=>({createCardElement:(config)=>{const node=document.createElement(config.type==='vertical-stack'?'hui-vertical-stack-card':'mock-card');node.setConfig(config);return node;},createBadgeElement:(config)=>{const node=document.createElement('mock-badge');node.setConfig(config);return node;}});
+window.config={type:'custom:flex-accordion-card',layout:'unified',exclusive:true,sections:[{id:'living',title:'Salon',icon:'mdi:sofa',default_open:true,layout:'grid',columns:2,badges:[{type:'entity',entity:'sensor.temperature',name:'21,4 °C'}],cards:[{type:'markdown',title:'Ambiance',content:'Lumières et confort du salon'},{type:'tile',title:'Éclairage',entity:'light.salon'}]},{id:'energy',title:'Énergie',icon:'mdi:lightning-bolt',cards:[{type:'markdown',title:'Consommation',content:'Suivi de la maison'}],badges:[{type:'entity',entity:'sensor.power',name:'420 W'}]}]};
+</script>
+<script type="module">
+import '../dist/flex-accordion-card.js';
+const card=document.querySelector('#card'), editor=document.querySelector('#editor');
+window.card=card;window.editor=editor;
+card.setConfig(window.config);card.hass={states:{'sensor.temperature':{entity_id:'sensor.temperature',state:'21.4',attributes:{friendly_name:'Température du salon'}},'sensor.power':{entity_id:'sensor.power',state:'420',attributes:{friendly_name:'Puissance de la maison'}},'light.salon':{entity_id:'light.salon',state:'on',attributes:{friendly_name:'Lampe du salon'}}}};editor.setConfig(window.config);editor.hass=card.hass;editor.lovelace={views:[]};
+editor.addEventListener('config-changed',event=>{window.savedConfig=event.detail.config;editor.setConfig(JSON.parse(JSON.stringify(window.savedConfig)));card.setConfig(window.savedConfig);document.querySelector('#saved').textContent=JSON.stringify(window.savedConfig,null,2);});
+await card.updateComplete;window.demoReady=true;
+</script>
+</html>
