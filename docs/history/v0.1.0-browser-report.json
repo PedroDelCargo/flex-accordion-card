@@ -1,0 +1,26 @@
+{
+  "simulatedHA": true,
+  "count": 19,
+  "passed": [
+    "Ouverture initiale et grille",
+    "Badge : action indépendante de l’accordéon",
+    "Carte enfant : interaction et instance conservée",
+    "Exclusivité, clavier, aria-expanded et fermeture complète",
+    "Propagation hass sans reconstruction",
+    "Deux layouts et désactivation de l’animation",
+    "Éditeur : déplacement de section par boutons, id conservé",
+    "Drag and drop réel de sections",
+    "Drag and drop réel d’une carte entre sections",
+    "Drag and drop de cartes dans une section",
+    "Déplacement de badge au clavier via destination",
+    "Éditeur natif direct et événement de configuration englobante",
+    "Ajout/suppression visuelle de sections",
+    "Chargements concurrents : seul le dernier setConfig gagne",
+    "Helper indisponible : erreur explicite et réessai",
+    "Fallback : visibilité refusée lorsque le wrapper est absent",
+    "Contrat des wrappers natifs : config, hass, preview et visibilité",
+    "Formulaire, catalogue et wrapper d’éditeur : contrats natifs",
+    "Mobile : aucune largeur débordante"
+  ],
+  "pageErrors": []
+}
