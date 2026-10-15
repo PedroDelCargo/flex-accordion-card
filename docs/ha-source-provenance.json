@@ -1,0 +1,248 @@
+{
+  "repository": "https://github.com/home-assistant/frontend",
+  "revision": "a2ad5c4b14665be671b18ed496df3e22b8e23aeb",
+  "reference": "dev",
+  "evidenceType": "official source inspected, not a live HA integration test",
+  "files": [
+    {
+      "path": "src/panels/lovelace/create-element/create-badge-element.ts",
+      "gitBlobSha": "2249cd6f5d800d3a1c5565bd4fa369e770824b47",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/create-element/create-badge-element.ts"
+    },
+    {
+      "path": "src/panels/lovelace/create-element/create-element-base.ts",
+      "gitBlobSha": "3f6d96d486efc21b6d7c367ae8882d121cc1c7f5",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/create-element/create-element-base.ts"
+    },
+    {
+      "path": "src/panels/lovelace/custom-card-helpers.ts",
+      "gitBlobSha": "5cf34343aaaee008dd74b8b00366cc029bb81fa5",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/custom-card-helpers.ts"
+    },
+    {
+      "path": "src/panels/lovelace/ha-panel-lovelace.ts",
+      "gitBlobSha": "1a9938a0d807ae73286a3b8be785a1c7f1e91b44",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/ha-panel-lovelace.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/badge-editor/hui-badge-element-editor.ts",
+      "gitBlobSha": "60b7156756ede03048880e0a89fd73bcd553339a",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/badge-editor/hui-badge-element-editor.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/badge-editor/hui-badge-picker.ts",
+      "gitBlobSha": "ce0fda9fcee94ba48834e5d7ff7140ad437744e5",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/badge-editor/hui-badge-picker.ts"
+    },
+    {
+      "path": "src/panels/lovelace/badges/hui-badge.ts",
+      "gitBlobSha": "bf847a414fc9c6b894cfa4c18811f5e4a9c4cb13",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/badges/hui-badge.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/card-editor/hui-card-element-editor.ts",
+      "gitBlobSha": "73d758600fc498638fae5430c441014b156e5df9",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/card-editor/hui-card-element-editor.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/card-editor/hui-card-picker.ts",
+      "gitBlobSha": "c2d7cd5b10b8d37c8e024955102ec83ef52accd4",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/card-editor/hui-card-picker.ts"
+    },
+    {
+      "path": "src/panels/lovelace/cards/hui-card.ts",
+      "gitBlobSha": "f5f405273c0a4fc18802a13bce84893161976a67",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/cards/hui-card.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/badge-editor/hui-dialog-edit-badge.ts",
+      "gitBlobSha": "900783f3d6153d15dd4918fabe3febde0e9f562f",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/badge-editor/hui-dialog-edit-badge.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/card-editor/hui-dialog-edit-card.ts",
+      "gitBlobSha": "081bd0c3f0b1955ebf5c5a2076800ef3adc5fb1f",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/card-editor/hui-dialog-edit-card.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/hui-element-editor.ts",
+      "gitBlobSha": "7106a8622200957529e61c2acd2e3a70de39ba4a",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/hui-element-editor.ts"
+    },
+    {
+      "path": "src/panels/lovelace/badges/hui-entity-badge.ts",
+      "gitBlobSha": "47b99d681117147f160337418dafb7a84bfd313e",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/badges/hui-entity-badge.ts"
+    },
+    {
+      "path": "src/panels/lovelace/heading-badges/hui-heading-badge.ts",
+      "gitBlobSha": "fca90f793b14d512727897afff813663159091f5",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/heading-badges/hui-heading-badge.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/config-elements/hui-heading-badges-editor.ts",
+      "gitBlobSha": "c260f518f60d27d7892f0c94505c9ad1dd5eb8ac",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/config-elements/hui-heading-badges-editor.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/config-elements/hui-heading-card-editor.ts",
+      "gitBlobSha": "4ffae80e8fce35031b27eee4b35a2286c332ca17",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/config-elements/hui-heading-card-editor.ts"
+    },
+    {
+      "path": "src/panels/lovelace/cards/hui-heading-card.ts",
+      "gitBlobSha": "ec1ef6b33e7a73908a01c7a571a369e6b054b97f",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/cards/hui-heading-card.ts"
+    },
+    {
+      "path": "src/panels/lovelace/hui-root.ts",
+      "gitBlobSha": "f544ace27b6f20b40482f62267abbc71338f352b",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/hui-root.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/config-elements/hui-stack-card-editor.ts",
+      "gitBlobSha": "02312844933a01e37b8c40851999635a9d1c849f",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/config-elements/hui-stack-card-editor.ts"
+    },
+    {
+      "path": "src/panels/lovelace/cards/hui-stack-card.ts",
+      "gitBlobSha": "f8a3a426d9cb9130a3f331ebea2812e79385a6d0",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/cards/hui-stack-card.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/hui-typed-element-editor.ts",
+      "gitBlobSha": "72189151f886dbf98dcd741f334df3b72561e70e",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/hui-typed-element-editor.ts"
+    },
+    {
+      "path": "src/panels/lovelace/cards/hui-vertical-stack-card.ts",
+      "gitBlobSha": "f6c812e903abc5a390eeadc51220a49bc4cb7506",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/cards/hui-vertical-stack-card.ts"
+    },
+    {
+      "path": "demo/src/configs/types.ts",
+      "gitBlobSha": "b1d2593cb2579333def88c32382d0455983b372a",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/demo/src/configs/types.ts"
+    },
+    {
+      "path": "demo/src/stubs/connectivity/types.ts",
+      "gitBlobSha": "3335fd9001c848ffc8fa4a407f1196727469287f",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/demo/src/stubs/connectivity/types.ts"
+    },
+    {
+      "path": "gallery/src/data/traces/types.ts",
+      "gitBlobSha": "c06cea33e5ccb323c903710f55cee5b3d9079729",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/gallery/src/data/traces/types.ts"
+    },
+    {
+      "path": "src/cast/types.ts",
+      "gitBlobSha": "95695fcad6abd29fb33226b4a6fcd7c371b50213",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/cast/types.ts"
+    },
+    {
+      "path": "src/components/ha-form/types.ts",
+      "gitBlobSha": "0f7c3e7c440cd7c4732cf7953a7fc83413716868",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/components/ha-form/types.ts"
+    },
+    {
+      "path": "src/components/list/types.ts",
+      "gitBlobSha": "4dd7984a579afd2818b73223a2453fd4a85f98fc",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/components/list/types.ts"
+    },
+    {
+      "path": "src/data/lovelace/config/types.ts",
+      "gitBlobSha": "b5b15ed37ae8ddae21464dae7778a2afb074e563",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/data/lovelace/config/types.ts"
+    },
+    {
+      "path": "src/fake_data/entities/types.ts",
+      "gitBlobSha": "d50759524a9aecde48835e943e7ddd78bff58a7c",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/fake_data/entities/types.ts"
+    },
+    {
+      "path": "src/panels/config/automation/types.ts",
+      "gitBlobSha": "1bb44f10eca02bf5d6f6650597d0d82bdeffd9ec",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/config/automation/types.ts"
+    },
+    {
+      "path": "src/panels/config/integrations/integration-panels/zha/types.ts",
+      "gitBlobSha": "234c013ea5515b2fb67aeda0a59adf6e230d6e45",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/config/integrations/integration-panels/zha/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/badge-suggestions/types.ts",
+      "gitBlobSha": "3cd369c2b21310936d140ade192e1b8a9d83a6ae",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/badge-suggestions/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/badges/types.ts",
+      "gitBlobSha": "be8a67f867079a4e9c934fea7bc831f1849687e9",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/badges/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/card-features/types.ts",
+      "gitBlobSha": "fe7f3277da3a0515edc8419c962485cfd2f7b604",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/card-features/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/card-suggestions/types.ts",
+      "gitBlobSha": "c476a710ec5b4277d7098f83fd2305874298ee54",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/card-suggestions/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/cards/types.ts",
+      "gitBlobSha": "4c06bce3ded11cf65615579257a93b59ed803b11",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/cards/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/components/types.ts",
+      "gitBlobSha": "f4eb195b9740139e02fc186d8dd1c982d7ef2e4c",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/components/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/conditions/types.ts",
+      "gitBlobSha": "291658f4aee50657ce70c6a24f0e38db1f4aa6d4",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/conditions/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/editor/types.ts",
+      "gitBlobSha": "cf5f10b6b5fdd898417fac2eb776c47572f60362",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/editor/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/elements/types.ts",
+      "gitBlobSha": "94220676530b939204c5feb76d629e272acddcc2",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/elements/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/entity-rows/types.ts",
+      "gitBlobSha": "63011de9f71118f1d93bf49205c5fd143c079f87",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/entity-rows/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/header-footer/types.ts",
+      "gitBlobSha": "5f13b5cc94be61e733b6be3cde7712a1c24c39e2",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/header-footer/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/heading-badges/types.ts",
+      "gitBlobSha": "7d8e52f54c08babb14b2a6e7668a73f87a4f8539",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/heading-badges/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/strategies/types.ts",
+      "gitBlobSha": "dc20e5e520d17e1eb87ba5e8f0eb28cb7eea4821",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/strategies/types.ts"
+    },
+    {
+      "path": "src/panels/lovelace/types.ts",
+      "gitBlobSha": "a02a816775b5c7aca3e6306a983fa414b4553bd3",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/panels/lovelace/types.ts"
+    },
+    {
+      "path": "src/types.ts",
+      "gitBlobSha": "6e7833c1f72aa7798e736291861e2db7823fb1f6",
+      "url": "https://github.com/home-assistant/frontend/blob/a2ad5c4b14665be671b18ed496df3e22b8e23aeb/src/types.ts"
+    }
+  ]
+}
