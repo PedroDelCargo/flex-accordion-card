@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/build.mjs
+      - run: node --test test/core.test.mjs test/editor.test.mjs
+      - run: node --check dist/flex-accordion-card.js
+      - run: node --check test/browser.mjs
+      - run: git diff --exit-code -- dist/flex-accordion-card.js
