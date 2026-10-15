@@ -50,7 +50,7 @@ Compléter la [fiche VALIDATION.md](VALIDATION.md), notamment :
 7. Copier dans la section courante, y compris lorsqu’elle est seule, puis modifier la copie indépendamment.
 8. Tester les thèmes, le clavier, les cartes tierces et les conditions hors mode édition. Consigner les versions avant toute annonce de compatibilité.
 
-La CI GitHub préparée exécute les contrôles Node et de construction. Elle n’a pas encore été exécutée sur GitHub et ne publie rien.
+La première CI GitHub a réussi le 15 octobre 2026 : construction, 53 tests, syntaxe et bundle reproductible. Voir https://github.com/PedroDelCargo/flex-accordion-card/actions/runs/38754608331. Elle ne publie aucune release.
 
 ## Sections fixes 0.7.0
 

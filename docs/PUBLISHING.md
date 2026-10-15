@@ -14,7 +14,7 @@
 
 Après validation, créer un dépôt public avec une description, par exemple « Accordion container for Home Assistant Lovelace cards with native badges and a contextual visual editor ». Topics suggérés : `home-assistant`, `lovelace`, `custom-card`, `hacs`, `accordion`.
 
-Les modèles de signalement et la CI locale sont préparés dans `.github/`. La CI construit et exécute les tests Node, vérifie la syntaxe et l’absence de différence du bundle reconstruit. Elle ne publie rien et ne valide pas une instance HA. Aucun workflow n’a encore été exécuté sur GitHub.
+Les modèles de signalement et la CI locale sont préparés dans `.github/`. La CI construit et exécute les tests Node, vérifie la syntaxe et l’absence de différence du bundle reconstruit. Elle ne publie rien et ne valide pas une instance HA. La première exécution CI a réussi le 15 octobre 2026 : https://github.com/PedroDelCargo/flex-accordion-card/actions/runs/38754608331.
 
 Pour chaque version :
 
