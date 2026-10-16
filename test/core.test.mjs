@@ -121,3 +121,11 @@ test("sections fixes validées et exclues de l’état exclusif", () => {
  for(const invalid of ["true",1,null]) { const bad=input(); bad.sections[0].always_open=invalid; if(invalid===null)assert.equal(normalizeConfig(bad).sections[0].always_open,false); else assert.throws(()=>normalizeConfig(bad)); }
  config.sections.reverse(); assert.deepEqual([...initialOpen(config,new Set(["top","b"]))],["b"]);
 });
+
+test("badge raccourci natif : texte, type localisé et actions sans entité", () => {
+ const config=input();config.sections[0].badges=[{type:"shortcut",text:"Accueil",icon:"mdi:home",tap_action:{action:"navigate",navigation_path:"/home"}}];const badge=normalizeConfig(config).sections[0].badges[0];assert.equal(itemName(badge),"Accueil");assert.equal(itemTypeName(badge,{language:"en"},"badges"),"Shortcut");assert.equal(withDefaultInteraction(badge,"badges"),badge);assert.equal(badge.entity,undefined);
+});
+
+test("apparence de badge : booléens validés et conservés sans modifier les actions", () => {
+ const config=input();config.sections[0].badges=[{type:'entity',entity:'sensor.a',hide_border:true,transparent_background:false,tap_action:{action:'none'}}];const badge=normalizeConfig(config).sections[0].badges[0];assert.equal(badge.hide_border,true);assert.equal(badge.transparent_background,false);assert.equal(badge.tap_action.action,'none');config.sections[0].badges[0].hide_border='true';assert.throws(()=>normalizeConfig(config));
+});

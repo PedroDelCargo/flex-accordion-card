@@ -1,10 +1,11 @@
 import { messages, language, t, localizeSchema } from "../src/i18n.js";
 import test from "node:test";
 import assert from "node:assert/strict";
+import { itemName } from "../src/core.js";
 import { TestElement, ControlledEditor, NativeStack, NativeContent } from "./dom-fixture.mjs";
 import { FlexAccordionCardEditor } from "../src/editor.js";
-import { FlexAccordionCard, FlexAccordionSectionHost } from "../src/card.js";
-import { createEntityBadgeEditor, entityBadgeSchema, FlexBadgeDisplayOptions, FlexCompactField, compactSchema } from "../src/badge-editor.js";
+import { FlexAccordionCard, FlexAccordionSectionHost, badgeNativeConfig, applyBadgeAppearance } from "../src/card.js";
+import { createEntityBadgeEditor, entityBadgeSchema, FlexBadgeDisplayOptions, FlexCompactField, compactSchema, FlexBadgeExpandable, badgeConfigForType, FlexBadgeTypeField } from "../src/badge-editor.js";
 const source = () => ({ type: "custom:flex-accordion-card", sections: [
   { id: "living", title: "Salon", default_open: true, cards: [{ type: "button", entity: "light.salon" }], badges: [{ type: "entity", entity: "sensor.temperature", name: "Nom initial", show_state: true, show_name: false }] },
   { id: "energy", title: "Énergie", cards: [], badges: [] },
@@ -315,6 +316,7 @@ for (const [locale,settings,prefix,type] of [["fr","Réglages de carte","Section
  editor._openSection("living"); assert.equal(editor.shadowRoot.querySelector(".section-title").textContent,prefix+" · Salon"); assert.equal(editor.shadowRoot.querySelector('.list[data-kind="cards"] .type-label').textContent,type);
  editor._select({kind:"badges",s:0,i:0}); await editor.updateComplete; const active=editor._active?.node; editor.hass={language:locale,states:{}}; if(active)assert.equal(editor._active.node,active); assert.equal(editor._config.sections[0].badges[0].name,"Nom initial");
  const display=new FlexBadgeDisplayOptions(); display.hass={language:locale}; assert.equal(display._controls[0].getAttribute("aria-label"),messages[locale]["Afficher le nom"]);
+ assert.equal(itemName({type:"button"},{language:locale}),type);
 });
 test("champ de taille vide, saisie numérique et effacement sans défaut enregistré", () => {
  const editor=setup(); editor._config.header={enabled:true,title:"Maison",badges:[]}; editor._sectionId=null; editor._render();
@@ -352,4 +354,125 @@ test("section fixe : conditions HA conservées et contenu ouvert au réaffichage
  const card=new FlexAccordionCard(); card.setConfig(config); card.hass={sectionVisible:false}; await card.updateComplete;
  const wrapper=card.shadowRoot.querySelector("hui-card"); assert.equal(wrapper.hidden,true); assert.deepEqual(wrapper.config.visibility,config.sections[0].visibility);
  const fixed=card._sectionNodes[0]; card.hass={sectionVisible:true}; assert.equal(wrapper.hidden,false); assert.equal(fixed.querySelector(".panel").inert,false); assert.equal(fixed.querySelector(".toggle"),null);
+});
+
+test("colonnes conditionnelles : grille/vertical réversibles sans perte du nombre", () => {
+ const editor=setup(); const content=()=>editor.shadowRoot.querySelector('.group[data-kind="cards"]').querySelector('ha-form');
+ assert.equal(content().schema.some(f=>f.name==="columns"),false);
+ content().dispatchEvent(new CustomEvent("value-changed",{detail:{value:{layout:"grid"}}})); assert.equal(content().schema.some(f=>f.name==="columns"),true);
+ content().dispatchEvent(new CustomEvent("value-changed",{detail:{value:{columns:4}}}));
+ content().dispatchEvent(new CustomEvent("value-changed",{detail:{value:{layout:"vertical"}}})); assert.equal(content().schema.some(f=>f.name==="columns"),false); assert.equal(editor._currentSection().columns,4);
+ content().dispatchEvent(new CustomEvent("value-changed",{detail:{value:{layout:"grid"}}})); assert.equal(content().data.columns,4);
+});
+test("copie : section actuelle en tête même si elle n’est pas la première", () => {
+ const editor=setup(); editor._config.sections[1].cards=[{type:"markdown",content:"Original"}]; editor._openSection("energy"); editor._transfer={kind:"cards",s:1,i:0,mode:"copy"}; editor._render();
+ const choices=editor.shadowRoot.querySelector('.transfer-options').querySelectorAll('button'); assert.equal(choices[0].textContent,"Section actuelle"); assert.equal(choices[0].dataset.destination,"energy"); assert.equal(choices[1].dataset.destination,"living");
+ choices[0].dispatchEvent(new Event("click")); assert.equal(editor._config.sections[1].cards.length,2); editor._config.sections[1].cards[1].content="Copie"; assert.equal(editor._config.sections[1].cards[0].content,"Original");
+});
+test("raccourci natif indisponible : aucune configuration créée", async () => {
+ const editor=setup(); editor._helpers={createBadgeElement(){throw Error("unsupported");}}; const pane=new TestElement(); let saved=false; await editor._addShortcut(pane,()=>saved=true,editor._epoch);
+ assert.equal(saved,false); assert.match(pane.querySelector('p').textContent,/indisponible/);
+});
+test("ajout de raccourci natif sans entité, actions et texte préservés", async () => {
+ customElements.define('hui-shortcut-badge',NativeContent); const editor=setup(); editor._select({kind:"badges",s:0,i:null}); await editor.updateComplete;
+ assert.ok(editor.shadowRoot.querySelector('.pane ha-form').schema.some(field=>field.name==="type"));
+ await editor._addShortcut(editor.shadowRoot.querySelector('.pane'),config=>editor._saveItem(config),editor._epoch); await editor.updateComplete;
+ const badge=editor._config.sections[0].badges.at(-1); assert.equal(badge.type,"shortcut"); assert.equal(Object.hasOwn(badge,"entity"),false); assert.equal(badge.tap_action.action,"none");
+ editor._saveItem({...badge,text:"Navigation",tap_action:{action:"navigate",navigation_path:"/lovelace/home"}}); assert.equal(editor._config.sections[0].badges.at(-1).text,"Navigation"); assert.equal(editor._config.sections[0].badges.at(-1).tap_action.navigation_path,"/lovelace/home");
+});
+
+test("ajout unifié : type en premier, entité conditionnelle et ajout sans entité", async () => {
+ const editor=setup(); editor._select({kind:"badges",s:0,i:null}); await editor.updateComplete; const pane=editor.shadowRoot.querySelector('.pane'); const form=pane.querySelector('ha-form');
+ assert.deepEqual(form.schema.map(f=>f.name),["type","entity","content","interactions"]); assert.equal(pane.querySelectorAll('button').some(n=>n.textContent==="Badge raccourci (sans entité)"),false);
+ const add=pane.querySelectorAll('button').find(n=>n.textContent==="Ajouter le badge"); add.dispatchEvent(new Event('click')); assert.equal(editor._config.sections[0].badges.length,1); assert.match(pane.querySelector('.error').textContent,/entité/);
+ form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,type:"shortcut",icon:"mdi:home",name:"Accueil"}}})); assert.deepEqual(form.schema.map(f=>f.name),["type","content","interactions"]); assert.equal(form.data.entity,undefined);
+ form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,text:"Ma page",tap_action:{action:"navigate",navigation_path:"/home"}}}}));
+ add.dispatchEvent(new Event('click')); await editor.updateComplete; const saved=editor._config.sections[0].badges.at(-1); assert.equal(saved.type,"shortcut"); assert.equal(saved.text,"Ma page"); assert.equal(saved.entity,undefined); assert.equal(saved.tap_action.navigation_path,"/home");
+});
+test("ordre des réglages identique en édition : type, entité éventuelle, contenu, interactions, visibilité", async () => {
+ const editor=setup(); for(const type of ['entity','shortcut']) { editor._config.sections[0].badges[0]=type==='entity'?{type,entity:'sensor.temperature'}:{type,text:'Accueil'}; editor._select({kind:'badges',s:0,i:0}); await editor.updateComplete;
+ const pane=editor.shadowRoot.querySelector('.pane'); const controller=pane.querySelector('.entity-badge-editor'); assert.ok(controller); const fields=controller.querySelector('ha-form').schema; assert.deepEqual(fields.map(f=>f.name),type==='entity'?['type','entity','content','interactions']:['type','content','interactions']);
+ assert.ok(fields.filter(f=>['content','interactions'].includes(f.name)).every(f=>f.type==='flex-expandable')); assert.ok(pane.querySelector('.group')); assert.ok(pane.children.indexOf(controller)<pane.children.indexOf(pane.querySelector('.group')));
+ assert.equal(pane.querySelectorAll('.hint').some(n=>n.textContent.includes('Action par défaut')),false);
+ }
+});
+test("accordéons de badge : ouverture et instance conservées aux changements de données/hass", () => {
+ const field=new FlexBadgeExpandable(); field.schema={name:'content',schema:[{name:'name',selector:{text:{}}}]}; field.label='Contenu'; field.details.open=true; const form=field.form;
+ field.data={name:'Premier'}; field.hass={states:{}}; field.data={name:'Second'}; assert.equal(field.details.open,true); assert.equal(field.form,form); assert.equal(form.data.name,'Second');
+ let value;field.addEventListener('value-changed',e=>value=e.detail.value); form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{name:'Édité'}}})); assert.equal(value.name,'Édité'); assert.equal(field.details.open,true);
+});
+test("bordures neutres des accordéons et accent uniquement sur les titres contextuels", () => {
+ const editor=setup(); const css=editor.shadowRoot.querySelector('style').textContent; const field=new FlexBadgeExpandable(); const badgeCss=field.shadowRoot.querySelector('style').textContent;
+ assert.match(css,/section-title,\.context-title\{border-inline-start:4px/); assert.match(badgeCss,/border:2px solid var\(--fac-editor-border/); assert.equal(badgeCss.includes('border-inline-start'),false);
+ assert.equal(css.match(/border-inline-start/g).length,1);
+});
+test("changement de type : nom/texte et actions conservés, champs entité retirés du raccourci", () => {
+ const source={type:'entity',entity:'sensor.temperature',name:'Maison',icon:'mdi:home',show_state:true,time_format:'relative',tap_action:{action:'navigate',navigation_path:'/home'},visibility:[{condition:'screen',media_query:'(min-width: 400px)'}]};
+ const shortcut=badgeConfigForType(source,'shortcut'); assert.equal(shortcut.text,'Maison'); assert.equal(shortcut.entity,undefined); assert.equal(shortcut.show_state,undefined); assert.equal(shortcut.time_format,undefined); assert.deepEqual(shortcut.tap_action,source.tap_action); assert.deepEqual(shortcut.visibility,source.visibility); assert.equal(source.entity,'sensor.temperature');
+ const entity=badgeConfigForType(shortcut,'entity');assert.equal(entity.name,'Maison');assert.equal(entity.text,undefined);
+});
+
+test("type raccourci indisponible en édition : configuration et formulaire restent sur l’entité", async () => {
+ customElements.define('hui-shortcut-badge',undefined);
+ try { const editor=setup(); editor._helpers={createBadgeElement(){throw Error('unsupported');}}; editor._select({kind:'badges',s:0,i:0}); await editor.updateComplete; const node=editor._active.node; const form=node.querySelector('ha-form');
+ form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,type:'shortcut'}}})); await Promise.resolve(); await Promise.resolve();
+ assert.equal(editor._config.sections[0].badges[0].type,'entity'); assert.equal(editor._config.sections[0].badges[0].name,'Nom initial'); assert.equal(node.config.type,'entity'); assert.equal(node.config.entity,'sensor.temperature');
+ } finally {customElements.define('hui-shortcut-badge',NativeContent);}
+});
+
+test("réutilisation HA des champs : les sélecteurs de contenu deviennent bien des actions", () => {
+ const oldSelectors=[{text:{}},{icon:{}},{ui_color:{default_color:'state'}}];
+ for(const [index,name] of ['tap_action','hold_action','double_tap_action'].entries()) {
+  const field=new FlexCompactField();field.schema={name:'old-'+index,compact_selector:oldSelectors[index]};field.data='ancienne valeur';const control=field._control;
+  const selector={ui_action:{default_action:'none'}};field.schema={name,compact_selector:selector};field.label=name;field.context={entity_id:undefined};field.data={action:'navigate',navigation_path:'/home'};
+  assert.equal(field._control,control);assert.deepEqual(control.selector,selector);assert.equal(control.name,name);assert.deepEqual(control.schema.selector,selector);assert.deepEqual(control.value,{action:'navigate',navigation_path:'/home'});
+  let saved;field.addEventListener('value-changed',event=>saved=event.detail.value);control.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{action:'url',url_path:'https://example.com'}}}));assert.equal(saved.action,'url');
+  field.schema={name:'color',compact_selector:oldSelectors[2]};assert.deepEqual(control.selector,oldSelectors[2]);
+ }
+});
+test("champ réutilisé : changement booléen/sélecteur sans contrôle résiduel", () => {
+ const field=new FlexCompactField();field.schema={name:'enabled',compact_selector:{boolean:{}}};const toggle=field._control;field.schema={name:'tap_action',compact_selector:{ui_action:{}}};assert.notEqual(field._control,toggle);assert.equal(field.shadowRoot.querySelectorAll('ha-selector').length,1);assert.equal(field.shadowRoot.querySelectorAll('label').length,0);
+ field.schema={name:'enabled',compact_selector:{boolean:{}}};assert.equal(field.shadowRoot.querySelectorAll('ha-selector').length,0);field.data=true;assert.equal(field._control.checked,true);
+});
+test("type de badge : boutons radio contrôlés, traduits et sans option vide", () => {
+ const field=new FlexBadgeTypeField();field.schema={name:'type',type:'flex-badge-type'};field.label='Type de badge';field.data='entity';assert.equal(field._controls.length,2);assert.ok(field._controls.every(row=>row.input.type==='radio'));assert.equal(field._controls[0].input.checked,true);
+ let saved;field.addEventListener('value-changed',event=>saved=event.detail.value);field._controls[1].input.checked=true;field._controls[1].input.dispatchEvent(new Event('change'));assert.equal(saved,'shortcut');field.data=saved;assert.equal(field._controls[0].input.checked,false);assert.equal(field._controls[1].input.checked,true);
+ field.hass={language:'en'};assert.equal(field._controls[0].caption.textContent,'Entity');assert.equal(field._controls[1].caption.textContent,'Shortcut');field.disabled=true;assert.ok(field._controls.every(row=>row.input.disabled));assert.equal(entityBadgeSchema({type:'shortcut'})[0].type,'flex-badge-type');
+});
+
+test("toujours ouverte : aide exacte juste après l’option, avant le titre", () => {
+ const editor=setup();editor._currentSection().always_open=true;editor._render();const body=editor.shadowRoot.querySelector('.group[data-kind="header"] .group-body');assert.equal(body.children[0].localName,'ha-form');assert.deepEqual(body.children[0].schema.map(f=>f.name),['always_open']);assert.equal(body.children[0].computeLabel({name:'always_open'}),'Toujours ouverte');assert.equal(body.children[1].textContent,"Cette section reste toujours ouverte. Elle n'a ni en-tête ni badge.");assert.equal(body.children[2].schema[0].name,'title');
+});
+test("Manuel du catalogue HA : ouverture du YAML sans enregistrer le type vide", async () => {
+ customElements.define('hui-card-picker',class extends TestElement{});const editor=setup();editor._select({kind:'cards',s:0,i:null});await editor.updateComplete;const picker=editor.shadowRoot.querySelector('hui-card-picker');picker.dispatchEvent(new CustomEvent('config-changed',{detail:{config:{type:''}}}));
+ const pane=editor.shadowRoot.querySelector('.pane');const yaml=pane.querySelector('ha-yaml-editor');assert.ok(yaml);assert.equal(editor._config.sections[0].cards.length,1);const add=pane.querySelectorAll('button').find(n=>n.textContent==='Ajouter la carte');add.dispatchEvent(new Event('click'));assert.equal(editor._config.sections[0].cards.length,1);
+ yaml.dispatchEvent(new CustomEvent('value-changed',{detail:{isValid:true,value:{type:'markdown',content:'Carte manuelle'}}}));add.dispatchEvent(new Event('click'));await editor.updateComplete;assert.equal(editor._config.sections[0].cards.length,2);assert.equal(editor._config.sections[0].cards[1].content,'Carte manuelle');
+});
+test("carte manuelle : repli JSON explicite, configuration invalide refusée", () => {
+ const ctor=customElements.get('ha-yaml-editor');customElements.define('ha-yaml-editor',undefined);try{const editor=setup();editor._selection={kind:'cards',i:null};const pane=new TestElement();editor._renderManualCardDraft(pane,editor._epoch);const input=pane.querySelector('textarea'),add=pane.querySelector('button');input.value='{';input.dispatchEvent(new Event('input'));add.dispatchEvent(new Event('click'));assert.equal(editor._config.sections[0].cards.length,1);input.value=JSON.stringify({type:'button',entity:'light.salon'});input.dispatchEvent(new Event('input'));add.dispatchEvent(new Event('click'));assert.equal(editor._config.sections[0].cards.length,2);}finally{customElements.define('ha-yaml-editor',ctor);}
+});
+test("aperçu natif du badge avant ajout : données/hass actualisés sans configuration persistée", async () => {
+ const editor=setup();editor._select({kind:'badges',s:0,i:null});await editor.updateComplete;const pane=editor.shadowRoot.querySelector('.pane');const controller=pane.querySelector('.entity-badge-editor');const form=controller.querySelector('ha-form');const preview=pane.querySelector('.badge-preview-content');assert.ok(preview);assert.equal(editor._config.sections[0].badges.length,1);
+ form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,entity:'sensor.temperature',name:'Brouillon'}}}));await controller.updateComplete;const native=preview.children[0];assert.equal(native.config.name,'Brouillon');assert.equal(native.preview,true);assert.equal(editor._config.sections[0].badges.length,1);
+ form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,name:'Autre nom',color:'red'}}}));await controller.updateComplete;assert.equal(preview.children[0],native);assert.equal(native.config.name,'Autre nom');assert.equal(native.config.color,'red');const hass={states:{},tick:123};editor.hass=hass;assert.equal(native.hass,hass);assert.equal(editor._config.sections[0].badges.length,1);
+ editor._backToSection();assert.equal(editor._config.sections[0].badges.length,1);
+});
+test("bascule code/visuel dans une barre finale pour cartes, badges et ajout de badge", async () => {
+ const editor=setup();for(const kind of ['cards','badges']){editor._select({kind,s:0,i:0});await editor.updateComplete;const pane=editor.shadowRoot.querySelector('.pane');assert.equal(pane.lastChild.classList.contains('editor-actions'),true);assert.ok(pane.lastChild.querySelector('.mode-button'));}
+ editor._select({kind:'badges',s:0,i:null});await editor.updateComplete;const pane=editor.shadowRoot.querySelector('.pane');const toolbar=pane.querySelector('.editor-actions');assert.ok(toolbar.querySelector('.mode-button'));assert.ok(toolbar.querySelectorAll('button').some(n=>n.textContent==='Ajouter le badge'));assert.ok(pane.children.indexOf(toolbar)>pane.children.indexOf(pane.querySelector('.badge-draft-preview')));
+});
+
+test("apparence par badge : options indépendantes, styles du thème préservés et rétablis", () => {
+ const a=new TestElement(),b=new TestElement();a.style.setProperty('--ha-card-background','pink');applyBadgeAppearance(a,{});assert.equal(a.style.getPropertyValue('--ha-card-background'),'pink');applyBadgeAppearance(a,{hide_border:true});assert.equal(a.style.getPropertyValue('--ha-card-border-width'),'0px');assert.equal(a.style.getPropertyValue('--ha-card-background'),'pink');assert.equal(b.style.getPropertyValue('--ha-card-border-width'),undefined);
+ applyBadgeAppearance(a,{hide_border:true,transparent_background:true});assert.equal(a.style.getPropertyValue('--ha-card-background'),'transparent');assert.equal(a.style.getPropertyValue('--ha-card-backdrop-filter'),'none');applyBadgeAppearance(a,{});assert.equal(a.style.getPropertyValue('--ha-card-background'),'pink');assert.equal(a.style.getPropertyValue('--ha-card-border-width'),undefined);
+ const raw={type:'shortcut',text:'Accueil',hide_border:true,transparent_background:true,tap_action:{action:'navigate',navigation_path:'/home'}};const native=badgeNativeConfig(raw);assert.equal(native.hide_border,undefined);assert.equal(native.transparent_background,undefined);assert.equal(native.tap_action.action,'navigate');assert.equal(raw.hide_border,true);
+});
+test("rendu natif : apparence locale dans les sections et l’en-tête global", async () => {
+ const card=new FlexAccordionCard();const config=source();config.sections[0].badges[0].hide_border=true;config.header={title:'Maison',badges:[{type:'shortcut',text:'Accueil',transparent_background:true}]};card.setConfig(config);await card.updateComplete;
+ const local=card._sectionNodes[0].querySelector('.badges').children[0],global=card.shadowRoot.querySelector('.card-header .badges').children[0];assert.equal(local.style.getPropertyValue('--ha-card-border-width'),'0px');assert.equal(local.style.getPropertyValue('--ha-card-background'),undefined);assert.equal(global.style.getPropertyValue('--ha-card-background'),'transparent');assert.equal(global.style.getPropertyValue('--ha-card-border-width'),undefined);assert.equal(local.config.hide_border,undefined);
+});
+test("apparence : champs Contenu pour les deux types et aperçu du brouillon actualisé", async () => {
+ for(const type of ['entity','shortcut']) {const fields=entityBadgeSchema({type}).find(f=>f.name==='content').schema;assert.ok(fields.some(f=>f.name==='hide_border'));assert.ok(fields.some(f=>f.name==='transparent_background'));}
+ const editor=setup();editor._select({kind:'badges',s:0,i:null});await editor.updateComplete;const pane=editor.shadowRoot.querySelector('.pane'),controller=pane.querySelector('.entity-badge-editor'),form=controller.querySelector('ha-form');form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,entity:'sensor.temperature',hide_border:true,transparent_background:true}}}));await controller.updateComplete;const native=pane.querySelector('.badge-preview-content').children[0];assert.equal(native.style.getPropertyValue('--ha-card-background'),'transparent');assert.equal(native.style.getPropertyValue('--ha-card-border-width'),'0px');assert.equal(native.config.transparent_background,undefined);
+ form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,hide_border:false,transparent_background:false}}}));await controller.updateComplete;assert.equal(native.style.getPropertyValue('--ha-card-background'),undefined);assert.equal(native.style.getPropertyValue('--ha-card-border-width'),undefined);
 });

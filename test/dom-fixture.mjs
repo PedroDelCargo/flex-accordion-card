@@ -2,7 +2,7 @@
 export class TestElement extends EventTarget {
   constructor(tag = "element") {
     super(); this.localName = tag; this.children = []; this.dataset = {}; this.attributes = new Map(); this.className = ""; this.textContent = ""; this.isConnected = false;
-    this.style = { setProperty: (key, value) => { this.style[key] = value; }, getPropertyValue: (key) => this.style[key] };
+    this.style = { removeProperty: (key) => { delete this.style[key]; }, setProperty: (key, value) => { this.style[key] = value; }, getPropertyValue: (key) => this.style[key] };
     this.classList = {
       contains: (name) => this.className.split(/\s+/).includes(name),
       toggle: (name, force) => { const names = new Set(this.className.split(/\s+/).filter(Boolean)); if (force ?? !names.has(name)) names.add(name); else names.delete(name); this.className = [...names].join(" "); },

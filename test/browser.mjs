@@ -227,6 +227,6 @@ try {
   await list("badges").getByRole("button", { name: "Modifier le badge", exact: true }).click(); await page.waitForSelector("#editor mock-config-editor");
   await page.screenshot({ path: fileURLToPath(new URL("results/demo-edit-badge.png", import.meta.url)), fullPage: true });
   assert.deepEqual(errors, []);
-  await writeFile(new URL("results/browser-report.json", import.meta.url), JSON.stringify({ version: "0.7.0", simulatedHA: true, count: results.length, passed: results, pageErrors: errors }, null, 2));
+  await writeFile(new URL("results/browser-report.json", import.meta.url), JSON.stringify({ version: "0.11.0", simulatedHA: true, count: results.length, passed: results, pageErrors: errors }, null, 2));
   console.log(`${results.length} contrôles navigateur réussis (composants HA simulés).`);
 } finally { await browser?.close(); await new Promise((resolve) => server.close(resolve)); }
