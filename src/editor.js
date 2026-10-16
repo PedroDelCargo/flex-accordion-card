@@ -1,9 +1,9 @@
 import { t, language, localizeSchema } from "./i18n.js";
-import { clone, normalizeConfig, moveItem, moveNested, copyNested, sameConfig, itemName, itemTypeName, defaultInteraction, withDefaultInteraction } from "./core.js";
-import { el, button, svgIcon, bounded, cardHelpers } from "./card.js";
-import { createEntityBadgeEditor, compactSchema } from "./badge-editor.js";
+import { clone, normalizeConfig, moveItem, moveNested, copyNested, sameConfig, itemName, itemTypeName, withDefaultInteraction } from "./core.js";
+import { el, button, svgIcon, bounded, cardHelpers, badgeNativeConfig, applyBadgeAppearance } from "./card.js";
+import { createBadgeEditor, compactSchema } from "./badge-editor.js";
 
-const labels = { always_open: "Toujours ouverte (sans en-tête)", text_size: "Taille du texte (px)", enabled: "Afficher l’en-tête de la carte", layout: "Présentation", background: "Fond global autour des sections", exclusive: "Une seule section ouverte", animation: "Animations", animation_duration: "Durée (ms)", title: "Titre", icon: "Icône", columns: "Colonnes", default_open: "Ouverte au chargement", entity: "Entité" };
+const labels = { always_open: "Toujours ouverte", text_size: "Taille du texte (px)", enabled: "Afficher l’en-tête de la carte", layout: "Présentation", background: "Fond global autour des sections", exclusive: "Une seule section ouverte", animation: "Animations", animation_duration: "Durée (ms)", title: "Titre", icon: "Icône", columns: "Colonnes", default_open: "Ouverte au chargement", entity: "Entité" };
 const selectSchema = (name, options) => ({ name, selector: { select: { mode: "dropdown", options: options.map(([value, label]) => ({ value, label })) } } });
 const globalSchema = [selectSchema("layout", [["unified", "Carte unique"], ["separate", "Cartes séparées"]]), { name: "background", selector: { boolean: {} } }, { name: "exclusive", selector: { boolean: {} } }, { name: "animation", selector: { boolean: {} } }, { name: "animation_duration", selector: { number: { min: 0, max: 2000, mode: "box", step: 10 } } }];
 const headerSchema = [{ name: "title", selector: { text: {} } }, { name: "icon", selector: { icon: {} } }, { name: "default_open", selector: { boolean: {} } }];
@@ -164,6 +164,7 @@ export class FlexAccordionCardEditor extends HTMLElement {
     update(native.GUImode !== false);
     native.addEventListener("GUImode-changed", (event) => { event.stopPropagation(); update(event.detail.guiMode); mode.disabled = !event.detail.guiMode && event.detail.guiModeAvailable === false; }); return mode;
   }
+  _modeToolbar(native,pane) { const actions=el("div","toolbar editor-actions");actions.append(this._modeButton(native));pane.append(actions);return actions; }
   _render() {
     if (!this._config) return;
     for (const group of this.shadowRoot.querySelectorAll(".group")) this._expanded.set(group.dataset.group, group.open);
@@ -172,13 +173,13 @@ export class FlexAccordionCardEditor extends HTMLElement {
       :host{display:block;color:var(--primary-text-color,#20252b);font:14px var(--paper-font-body1_-_font-family,system-ui);--fac-editor-border:color-mix(in srgb,var(--primary-text-color,#20252b) 40%,transparent)}
       *{box-sizing:border-box}button,select,input,textarea{font:inherit;color:inherit}button{border:1px solid var(--fac-editor-border,#8493a2);border-radius:8px;background:var(--card-background-color,#fff);cursor:pointer;padding:8px 10px;min-height:36px}
       button:hover{background:var(--secondary-background-color,#eef3f7)}button:disabled{opacity:.4;cursor:default}button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--primary-color,#03a9f4);outline-offset:2px}
-      .toolbar,.row,.section-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.toolbar{margin:10px 0}.label{flex:1;min-width:70px;overflow-wrap:anywhere}.title-button{border:0;background:transparent;text-align:start;font-weight:600;flex:1;min-width:70px;padding:4px}
+      .toolbar,.row,.section-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.toolbar{margin:10px 0}.editor-actions{align-items:stretch}.editor-actions>button{display:inline-flex;align-items:center;justify-content:center;min-height:40px}.label{flex:1;min-width:70px;overflow-wrap:anywhere}.title-button{border:0;background:transparent;text-align:start;font-weight:600;flex:1;min-width:70px;padding:4px}
       .section-editor,.pane{border:2px solid var(--fac-editor-border,#8493a2);border-radius:12px;margin:12px 0;padding:12px;background:var(--card-background-color,#fff)}
       .section-head{font-weight:600}.counts,.type-label,.hint,.breadcrumb{font-size:12px;color:var(--secondary-text-color,#606973);line-height:1.5}.counts{margin:6px 0 0 44px}.type-label{display:block}.breadcrumb{margin-bottom:10px;overflow-wrap:anywhere}.breadcrumb button{font:inherit;border:0;padding:4px;background:transparent;color:var(--primary-color,#028ca8)}
-      h3{margin:10px 0}h4{margin:8px 0}.group{border:2px solid var(--fac-editor-border,#8493a2);border-inline-start:4px solid var(--primary-color,#028ca8);border-radius:10px;margin:12px 0;overflow:hidden}.group summary{display:flex;gap:10px;align-items:center;cursor:pointer;padding:12px;font-weight:600;background:var(--secondary-background-color,#f1f5f8);list-style:none}.group summary::-webkit-details-marker{display:none}.group summary::marker{content:""}.group summary svg{width:20px;height:20px;flex:none}.group[open]>summary svg{transform:rotate(180deg)}.group-body{padding:12px;border-top:1px solid var(--fac-editor-border,#8493a2)}
+      h3{margin:10px 0}h4{margin:8px 0}.group{border:2px solid var(--fac-editor-border,#8493a2);border-radius:10px;margin:12px 0;overflow:hidden}.group summary{display:flex;gap:10px;align-items:center;cursor:pointer;padding:12px;font-weight:600;background:var(--secondary-background-color,#f1f5f8);list-style:none}.group summary::-webkit-details-marker{display:none}.group summary::marker{content:""}.group summary svg{width:20px;height:20px;flex:none}.group[open]>summary svg{transform:rotate(180deg)}.group-body{padding:12px;border-top:1px solid var(--fac-editor-border,#8493a2)}
       .row{padding:10px 0;border-bottom:1px solid var(--fac-editor-border,#8493a2)}.icon-button{display:inline-flex;align-items:center;justify-content:center;width:38px;padding:6px;flex:none}.drag{cursor:grab}.drop-over{outline:3px dashed var(--primary-color,#03a9f4);outline-offset:-3px}.dropzone{min-height:22px;border-radius:6px}.destinations{margin:10px 0;font-size:12px}.transfer-target{border:1px dashed var(--fac-editor-border,#8493a2);padding:10px;margin-top:6px}.hint{margin:10px 0}.error{color:var(--error-color,#b71c1c);white-space:pre-wrap}.error:empty{display:none}
       .fallback-form{display:grid;gap:8px}.fallback-form label{min-height:40px}.fallback-form label{display:flex;gap:10px;align-items:center;justify-content:space-between}.fallback-form input:not([type=checkbox]),.fallback-form select{width:55%}input,select,textarea{border:1px solid var(--fac-editor-border,#8493a2);border-radius:6px;background:var(--card-background-color,#fff);padding:8px;max-width:100%}textarea{width:100%;min-height:180px;font-family:monospace}select{max-width:160px}.pane:empty{display:none}.item-page>.pane{margin-top:8px}.back{margin:4px 0 12px}.item-page .context-title{font-size:18px;overflow-wrap:anywhere}.manual{margin-top:16px}.manual summary{cursor:pointer;font-weight:500;padding:8px 0}
-      .nav-header{position:sticky;top:var(--flex-accordion-editor-sticky-top,0px);z-index:20;background:var(--card-background-color,var(--ha-card-background,#fff));padding:8px 0;border-bottom:2px solid var(--fac-editor-border,#8493a2);margin-bottom:12px}.nav-header .back{margin:0}.back,.mode-button{display:inline-flex;gap:8px;align-items:center}.back svg,.mode-button svg{flex:none}.transfer-panel{padding:12px;border:2px solid var(--primary-color,#028ca8);border-radius:8px;margin:8px 0}.transfer-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.transfer-options button{display:inline-flex;gap:8px;align-items:center}.badge-code[hidden],ha-form[hidden]{display:none!important}
+      .nav-header{position:sticky;top:var(--flex-accordion-editor-sticky-top,0px);z-index:20;background:var(--card-background-color,var(--ha-card-background,#fff));padding:8px 0;border-bottom:2px solid var(--fac-editor-border,#8493a2);margin-bottom:12px}.nav-header .back{margin:0}.section-title,.context-title{border-inline-start:4px solid var(--primary-color,#028ca8);padding-inline-start:10px}.back,.mode-button{display:inline-flex;gap:8px;align-items:center}.back svg,.mode-button svg{flex:none}.transfer-panel{padding:12px;border:2px solid var(--primary-color,#028ca8);border-radius:8px;margin:8px 0}.transfer-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.transfer-options button{display:inline-flex;gap:8px;align-items:center}.badge-code[hidden],ha-form[hidden]{display:none!important}
     `;
     const root = el("div", `editor ${this._selection ? "item-page" : this._sectionId ? "section-page" : "overview-page"}`);
     if (this._selection) this._renderItemPage(root);
@@ -242,16 +243,16 @@ export class FlexAccordionCardEditor extends HTMLElement {
     const section = this._currentSection(); const s = this._sectionIndex();
     const nav = el("div", "nav-header"); nav.append(this._backButton(t(this._hass, "Toutes les sections"), () => { this._sectionId = null; this._transfer = null; this._render(); }, t(this._hass, "Retour à toutes les sections")), el("h3", "section-title", `${t(this._hass, "Section")} · ${section.title}`)); root.append(nav);
     const header = this._group(t(this._hass, section.always_open ? "Réglages de section" : "En-tête de section"), `${section.id}:header`, true); header.details.dataset.kind = "header";
-    const schema = [{ name: "always_open", selector: { boolean: {} } }, ...headerSchema.filter(field => !section.always_open || field.name === "title")];
-    header.body.append(this._form(section, schema, (value) => { const current = this._currentSection(); const modeChanged = value.always_open !== undefined && current.always_open !== value.always_open; Object.assign(current, value); return this._emit(modeChanged); }));
-    if (section.always_open) header.body.append(el("p", "hint", t(this._hass, "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.")));
+    header.body.append(this._form(section,[{name:"always_open",selector:{boolean:{}}}],value=>{const current=this._currentSection();const changed=current.always_open!==value.always_open;Object.assign(current,value);return this._emit(changed);}));
+    if(section.always_open) header.body.append(el("p","hint",t(this._hass,"Cette section reste toujours ouverte. Elle n'a ni en-tête ni badge.")));
+    header.body.append(this._form(section,headerSchema.filter(field=>!section.always_open||field.name==="title"),value=>{Object.assign(this._currentSection(),value);return this._emit(false);}));
     root.append(header.details);
     const visibility = this._group(t(this._hass, "Visibilité de la section"), `${section.id}:visibility`); visibility.details.dataset.kind = "visibility";
     visibility.body.append(this._visibilityEditor(() => this._currentSection(), (config) => { const current = this._currentSection(); if (config.visibility?.length) current.visibility = config.visibility; else delete current.visibility; this._emit(false); }));
     for (const kind of ["badges", "cards"]) {
       if (kind === "badges" && section.always_open) continue;
       const group = this._group(`${kind === "badges" ? t(this._hass, "Badges") : t(this._hass, "Cartes")} (${section[kind].length})`, `${section.id}:${kind}`); group.details.dataset.kind = kind;
-      if (kind === "cards") group.body.append(this._form(section, contentSchema, (value) => { Object.assign(this._config.sections[this._sectionIndex()], value); return this._emit(false); }));
+      if (kind === "cards") group.body.append(this._form(section, contentSchema.filter(field => field.name !== "columns" || section.layout === "grid"), (value) => { const current = this._currentSection(); const layoutChanged = value.layout !== undefined && current.layout !== value.layout; Object.assign(current, value); return this._emit(layoutChanged); }));
       const list = el("div", "list"); list.dataset.kind = kind;
       section[kind].forEach((item, i) => {
         const row = el("div", "row"); row.dataset.index = String(i); row.dataset.kind = kind;
@@ -313,9 +314,9 @@ export class FlexAccordionCardEditor extends HTMLElement {
   _transferPanel(transfer) {
     const panel = el("div", "transfer-panel"); panel.append(el("strong", "", transfer.mode === "copy" ? t(this._hass, "Copier dans une section") : t(this._hass, "Déplacer dans une autre section")));
     const choices = el("div", "transfer-options");
-    this._config.sections.forEach((section, destination) => {
+    this._config.sections.map((section, destination) => ({ section, destination })).sort((a, b) => transfer.mode === "copy" ? Number(b.destination === transfer.s) - Number(a.destination === transfer.s) : 0).forEach(({ section, destination }) => {
       if (destination === transfer.s && transfer.mode !== "copy" || transfer.kind === "badges" && section.always_open) return;
-      const target = button(section.title, () => {
+      const target = button(transfer.mode === "copy" && destination === transfer.s ? t(this._hass, "Section actuelle") : section.title, () => {
         if (transfer.mode === "copy") { this._config = copyNested(this._config, transfer.kind, transfer.s, transfer.i, destination); this._transfer = null; this._emit(); }
         else this._moveNested(transfer, destination, section[transfer.kind].length);
       }); target.dataset.destination = section.id;
@@ -368,6 +369,11 @@ export class FlexAccordionCardEditor extends HTMLElement {
     node.addEventListener("config-changed", (event) => {
       event.stopPropagation(); if (this._active !== active || epoch !== this._epoch || event.detail.error) return;
       // Accept the complete native configuration, including deliberate field removals.
+      const changeId = active.changeId = (active.changeId || 0) + 1;
+      if (node.unifiedBadgeEditor && event.detail.config?.type === "shortcut" && !customElements.get("hui-shortcut-badge")) {
+        const previous = clone(active.lastSent || this._editingContainer()[this._selection.kind][this._selection.i]);
+        this._addShortcut(pane, value => { if (this._active === active && active.changeId === changeId) this._saveItem(value, true); }, epoch, event.detail.config).then(ok => { if (!ok && this._active === active && active.changeId === changeId) node.setConfig(previous); }); return;
+      }
       this._saveItem(event.detail.config, true);
     });
     this._native(node); this._syncActive(); pane.append(node);
@@ -377,9 +383,17 @@ export class FlexAccordionCardEditor extends HTMLElement {
     const epoch = this._epoch; const { kind, i } = this._selection;
     const save = (config) => { if (epoch === this._epoch) this._saveItem(config); };
     if (i === null) {
+      if (kind === "badges") {
+        if (!customElements.get("ha-form")) {
+          try { const helpers=this._helpers || await cardHelpers(); const entity=helpers.createBadgeElement({type:"entity",entity:""}); if(entity.constructor.getConfigElement) await bounded(entity.constructor.getConfigElement()); } catch { /* Explicit JSON fallback below. */ }
+          if(epoch !== this._epoch) return;
+        }
+        if(!customElements.get("ha-form")) { pane.append(el("p","hint",t(this._hass,"Formulaire HA indisponible : utilisez la configuration JSON."))); this._jsonEditor(pane,()=>({type:"entity"}),save,t(this._hass,"Ajout manuel (JSON)")); return; }
+        this._renderBadgeDraft(pane, epoch); return;
+      }
       const tag = kind === "cards" ? "hui-card-picker" : "hui-badge-picker";
       if (customElements.get(tag)) {
-        const picker = this._native(el(tag)); picker.addEventListener("config-changed", (event) => { event.stopPropagation(); save(event.detail.config); }); pane.append(picker);
+        const picker = this._native(el(tag)); picker.addEventListener("config-changed", (event) => { event.stopPropagation(); if(kind==="cards" && (event.detail.config?.type === "" || event.detail.config?.type === "manual")) this._renderManualCardDraft(pane,epoch); else save(event.detail.config); }); pane.append(picker);
       } else if (kind === "badges") {
         pane.append(el("p", "hint", t(this._hass, "Choisissez une entité. Son éditeur Home Assistant s’ouvrira ensuite."))); const data = { entity: "" };
         pane.append(this._form(data, [{ name: "entity", selector: { entity: {} } }], (value) => Object.assign(data, value)), button(t(this._hass, "Ajouter le badge"), () => { if (data.entity) save({ type: "entity", entity: data.entity }); }));
@@ -387,9 +401,7 @@ export class FlexAccordionCardEditor extends HTMLElement {
       this._jsonEditor(pane, () => kind === "cards" ? { type: "markdown", content: t(this._hass, "Nouvelle carte") } : { type: "entity", entity: "" }, save, t(this._hass, "Ajout manuel (JSON)")); return;
     }
     const config = this._editingContainer()?.[kind]?.[i]; if (!config) return;
-    const interaction = defaultInteraction(config, kind);
-    if (interaction && !Object.hasOwn(config, "tap_action")) pane.append(el("p", "hint", t(this._hass, "Action par défaut : {action}. Une action personnalisée reste prioritaire.", { action: interaction.action === "toggle" ? t(this._hass, "Basculer") : interaction.action === "perform-action" ? interaction.perform_action : t(this._hass, "Plus d’informations") })));
-    if (kind === "badges" && config.type === "entity") {
+    if (kind === "badges" && ["entity", "shortcut"].includes(config.type)) {
       if (!customElements.get("ha-form")) {
         try {
           const helpers = this._helpers || await cardHelpers(); const entity = helpers.createBadgeElement(config);
@@ -398,27 +410,70 @@ export class FlexAccordionCardEditor extends HTMLElement {
         if (epoch !== this._epoch) return;
       }
       if (customElements.get("ha-form")) {
-        const native = createEntityBadgeEditor(); pane.append(this._modeButton(native)); this._bindEditor(native, false, pane, epoch); this._badgeVisibility(pane); return;
+        const native = createBadgeEditor(); this._bindEditor(native, false, pane, epoch); this._badgeVisibility(pane); this._modeToolbar(native,pane); return;
       }
     }
     const tag = kind === "cards" ? "hui-card-element-editor" : "hui-badge-element-editor";
     if (customElements.get(tag)) {
-      const native = el(tag); pane.append(this._modeButton(native));
+      const native = el(tag);
       if (kind === "cards") native.showVisibilityTab = Boolean(customElements.get("hui-card"));
-      this._bindEditor(native, true, pane, epoch); return;
+      this._bindEditor(native, true, pane, epoch); this._modeToolbar(native,pane); return;
     }
-    const loading = el("p", "hint", t(this._hass, "Chargement de l’éditeur natif…")); pane.append(loading);
+    let fallbackEditor; const loading = el("p", "hint", t(this._hass, "Chargement de l’éditeur natif…")); pane.append(loading);
     try {
       const helpers = this._helpers || await cardHelpers(); const factory = kind === "cards" ? helpers.createCardElement : helpers.createBadgeElement;
       if (typeof factory !== "function") throw new Error("Helper natif absent");
       const element = factory(withDefaultInteraction(config, kind));
       const native = element.constructor.getConfigElement ? await bounded(element.constructor.getConfigElement()) : undefined;
       if (epoch !== this._epoch) return; loading.remove();
-      if (native?.setConfig) this._bindEditor(native, false, pane, epoch);
+      if (native?.setConfig) {this._bindEditor(native, false, pane, epoch);fallbackEditor=native;}
       else pane.append(el("p", "hint", t(this._hass, "Aucun éditeur visuel disponible pour cet élément. Utilisez JSON ou le YAML de la carte principale.")));
     } catch (error) { if (epoch !== this._epoch) return; loading.textContent = t(this._hass, "Éditeur natif indisponible : {error}", { error: error.message }); }
     if (epoch === this._epoch && kind === "badges") this._badgeVisibility(pane);
     if (epoch === this._epoch) this._jsonEditor(pane, () => this._editingContainer()[kind][this._selection.i], save, t(this._hass, "Configuration manuelle (JSON)"));
+    if(epoch === this._epoch && fallbackEditor)this._modeToolbar(fallbackEditor,pane);
+  }
+  _renderManualCardDraft(pane,epoch) {
+    pane.replaceChildren();let draft={type:""}; const error=el("p","error");let code;
+    if(customElements.get("ha-yaml-editor")){code=this._native(el("ha-yaml-editor"));code.defaultValue=clone(draft);code.addEventListener("value-changed",event=>{event.stopPropagation();draft=event.detail.isValid?clone(event.detail.value):null;});}
+    else {pane.append(el("p","hint",t(this._hass,"Éditeur YAML HA indisponible : saisie JSON.")));code=el("textarea");code.value=JSON.stringify(draft,null,2);code.addEventListener("input",()=>{try{draft=JSON.parse(code.value);}catch{draft=null;}});}
+    code.setAttribute("aria-label",t(this._hass,"Configuration de la carte"));pane.append(code);
+    const actions=el("div","toolbar editor-actions");actions.append(button(t(this._hass,"Ajouter la carte"),()=>{if(epoch!==this._epoch)return;if(!draft||typeof draft!=="object"||Array.isArray(draft)||typeof draft.type!=="string"||!draft.type||draft.type==="manual"){error.textContent=t(this._hass,"Objet avec type requis");return;}this._saveItem(draft);}));pane.append(actions,error);
+  }
+  _badgeDraftPreview(pane,getDraft,epoch) {
+    const preview=el("div","badge-draft-preview");preview.append(el("h4","",t(this._hass,"Aperçu du badge")));const body=el("div","badge-preview-content");preview.append(body);pane.append(preview);let child;let childType;let generation=0;let hass=this._hass;
+    const update=async()=>{const current=++generation;const config=clone(getDraft());if(config.type==="entity"&&!config.entity){body.replaceChildren(el("p","hint",t(hass,"Choisissez une entité pour ce type de badge.")));child=null;return;}
+      try{const helpers=this._helpers||await cardHelpers();if(current!==generation||epoch!==this._epoch)return;
+        if(!child||childType!==config.type){child=customElements.get("hui-badge")?el("hui-badge"):helpers.createBadgeElement(badgeNativeConfig(withDefaultInteraction(config,"badges")));childType=config.type;child.addEventListener("ll-rebuild",event=>{event.stopPropagation();child=null;update();});body.replaceChildren(child);}
+        const nativeConfig=badgeNativeConfig(withDefaultInteraction(config,"badges"));if(child.setConfig)child.setConfig(nativeConfig);else child.config=nativeConfig;applyBadgeAppearance(child,config);child.hass=hass;child.preview=true;
+      }catch(error){if(current===generation&&epoch===this._epoch)body.replaceChildren(el("p","error",error.message));}
+    };
+    Object.defineProperty(preview,"hass",{get:()=>hass,set:value=>{hass=value;if(child)child.hass=value;}});this._native(preview);update();return update;
+  }
+  _renderBadgeDraft(pane, epoch) {
+    let updatePreview=()=>{}; let draft = {type:"entity"}; const node = this._native(createBadgeEditor()); node.setConfig(draft); pane.append(node);
+    node.addEventListener("config-changed", event => { event.stopPropagation(); draft = clone(event.detail.config); node.setConfig(draft); this._syncVisibility(); node.updateComplete=updatePreview(); });
+    const visibility = this._group(t(this._hass,"Visibilité du badge"), "draft-badge:visibility"); visibility.body.append(this._visibilityEditor(() => draft, value => { draft = value; node.setConfig(draft); node.updateComplete=updatePreview(); })); pane.append(visibility.details);
+    updatePreview=this._badgeDraftPreview(pane,()=>draft,epoch);
+    const error=el("p","error"); const actions=el("div","toolbar editor-actions badge-actions"); actions.append(this._modeButton(node), button(t(this._hass,"Ajouter le badge"), () => {
+      if(epoch !== this._epoch) return; error.textContent="";
+      if(draft.type === "entity" && !draft.entity) { error.textContent=t(this._hass,"Choisissez une entité pour ce type de badge."); return; }
+      if(draft.type === "shortcut") { const value=clone(draft); this._addShortcut(pane, config => this._saveItem(config), epoch, value); } else this._saveItem(draft);
+    })); pane.append(actions,error);
+  }
+  async _addShortcut(pane, save, epoch, config) {
+    const notice = el("p", "hint", t(this._hass, "Vérification du badge raccourci natif…")); pane.append(notice);
+    try {
+      if (!customElements.get("hui-shortcut-badge")) {
+        const helpers = this._helpers || await cardHelpers();
+        helpers.createBadgeElement({ type: "shortcut", text: t(this._hass, "Raccourci"), tap_action: { action: "none" } });
+        await bounded(customElements.whenDefined("hui-shortcut-badge"), 5000);
+      }
+      if (epoch !== this._epoch) return;
+      save(config || { type: "shortcut", text: t(this._hass, "Raccourci"), icon: "mdi:gesture-tap", tap_action: { action: "none" } }); return true;
+    } catch {
+      if (epoch === this._epoch) notice.textContent = t(this._hass, "Badge raccourci natif indisponible sur cette version de HA. Aucun badge personnalisé n’a été créé."); return false;
+    }
   }
   _jsonEditor(pane, getConfig, save, title) {
     const details = el("details", "manual"); details.append(el("summary", "", title));

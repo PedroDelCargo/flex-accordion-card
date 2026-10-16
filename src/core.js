@@ -1,5 +1,5 @@
 import { t } from "./i18n.js";
-export const VERSION = "0.7.0";
+export const VERSION = "0.11.0";
 export const clone = (value) => JSON.parse(JSON.stringify(value));
 // HA may echo configuration objects with a different property order.
 export const configKey = (value) => JSON.stringify(value, (_key, item) =>
@@ -7,20 +7,21 @@ export const configKey = (value) => JSON.stringify(value, (_key, item) =>
     ? Object.fromEntries(Object.keys(item).sort().map((key) => [key, item[key]])) : item);
 export const sameConfig = (a, b) => configKey(a) === configKey(b);
 export function itemName(config, hass) {
+  if (config.type === "shortcut" && typeof config.text === "string" && config.text) return config.text;
   if (typeof config.title === "string" && config.title) return config.title;
   if (typeof config.name === "string" && config.name) return config.name;
   const state = hass?.states?.[config.entity];
   if (state && typeof hass?.formatEntityName === "function") {
     try { const name = hass.formatEntityName(state, config.name); if (name) return name; } catch { /* Older HA naming contract. */ }
   }
-  return state?.attributes?.friendly_name || config.entity || ({ markdown: "Markdown", button: "Bouton", tile: "Tuile", entities: "Entités", entity: "Entité" })[config.type] || config.type;
+  return state?.attributes?.friendly_name || config.entity || itemTypeName(config, hass);
 }
 export function itemTypeName(config, hass, kind = "cards") {
   const type = config.type || "";
   if (type.startsWith("custom:")) return globalThis.window?.customCards?.find((item) => `custom:${item.type}` === type)?.name || type.slice(7);
   const key = `ui.panel.lovelace.editor.${kind === "badges" ? "badge" : "card"}.${type}.name`;
   const translation = hass?.localize?.(key); const localized = translation !== key ? translation : undefined;
-  return localized || t(hass, ({ button: "Bouton", "entity-button": "Bouton d’entité", entity: "Entité", entities: "Entités", tile: "Tuile", markdown: "Markdown", sensor: "Capteur", light: "Éclairage", gauge: "Jauge", heading: "En-tête", "history-graph": "Historique", "statistics-graph": "Statistiques", "weather-forecast": "Météo", "vertical-stack": "Pile verticale", "horizontal-stack": "Pile horizontale", grid: "Grille", conditional: "Conditionnelle", thermostat: "Thermostat", "media-control": "Lecteur multimédia", picture: "Image", map: "Carte géographique", calendar: "Calendrier" })[type] || type.replace(/-/g, " ").replace(/^./, (letter) => letter.toUpperCase()));
+  return localized || t(hass, ({ shortcut: "Raccourci", button: "Bouton", "entity-button": "Bouton d’entité", entity: "Entité", entities: "Entités", tile: "Tuile", markdown: "Markdown", sensor: "Capteur", light: "Éclairage", gauge: "Jauge", heading: "En-tête", "history-graph": "Historique", "statistics-graph": "Statistiques", "weather-forecast": "Météo", "vertical-stack": "Pile verticale", "horizontal-stack": "Pile horizontale", grid: "Grille", conditional: "Conditionnelle", thermostat: "Thermostat", "media-control": "Lecteur multimédia", picture: "Image", map: "Carte géographique", calendar: "Calendrier" })[type] || type.replace(/-/g, " ").replace(/^./, (letter) => letter.toUpperCase()));
 }
 export function badgeShowsTime(config, hass) {
   if (config.show_state === false || !config.entity) return false;
@@ -57,6 +58,7 @@ function normalizeBadges(badges) {
   return badges.map((badge) => {
     if (typeof badge === "string") return { type: "entity", entity: badge };
     if (!object(badge)) fail("badge: objet ou identifiant d’entité attendu");
+    for(const key of ["hide_border", "transparent_background"]) if(badge[key] !== undefined && typeof badge[key] !== "boolean") fail(`${key}: booléen attendu`);
     badge.type ??= "entity";
     if (typeof badge.type !== "string" || !badge.type) fail("badge: type requis");
     return badge;

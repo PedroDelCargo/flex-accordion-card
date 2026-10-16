@@ -15,6 +15,19 @@ export const button = (text, action, label = text) => {
   node.addEventListener("click", action);
   return node;
 };
+// Scoped HA theme variables inherited by the native badge; no shadow DOM edits.
+export function badgeNativeConfig(config) { const { hide_border, transparent_background, ...native } = config; return native; }
+const badgeAppearanceOverrides = new WeakMap();
+export function applyBadgeAppearance(node, config) {
+  const variables = {"--ha-card-border-width": config.hide_border ? "0px" : undefined, "--ha-card-background": config.transparent_background ? "transparent" : undefined, "--ha-card-backdrop-filter": config.transparent_background ? "none" : undefined, "--ha-card-box-shadow": config.hide_border || config.transparent_background ? "none" : undefined};
+  const previous = badgeAppearanceOverrides.get(node) || new Map();
+  for(const [name,value] of Object.entries(variables)) {
+    if(value === undefined) { if(previous.has(name)) { const original=previous.get(name);if(original.value)node.style.setProperty(name,original.value,original.priority);else node.style.removeProperty(name);previous.delete(name); } }
+    else { if(!previous.has(name)) previous.set(name,{value:node.style.getPropertyValue(name)||"",priority:node.style.getPropertyPriority?.(name)||""});node.style.setProperty(name,value); }
+  }
+  badgeAppearanceOverrides.set(node,previous);
+  return node;
+}
 export function svgIcon(name) {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("aria-hidden", "true");
@@ -215,7 +228,9 @@ export class FlexAccordionCard extends HTMLElement {
     }
   }
   _nativeElement(kind, config, helpers) {
+    const fullConfig = config;
     config = withDefaultInteraction(config, kind === "card" ? "cards" : "badges");
+    if(kind === "badge") config = badgeNativeConfig(config);
     let child;
     try {
       const tag = kind === "card" ? "hui-card" : "hui-badge";
@@ -238,13 +253,14 @@ export class FlexAccordionCard extends HTMLElement {
         child = create(config);
         child.addEventListener("ll-rebuild", (event) => {
           event.stopPropagation();
-          const replacement = this._nativeElement(kind, config, helpers);
+          const replacement = this._nativeElement(kind, fullConfig, helpers);
           this._children = this._children.filter((item) => item !== child);
           child.replaceWith(replacement);
           this._propagate();
         }, { once: true });
         child.addEventListener("ll-upgrade", () => this._propagate());
       }
+      if(kind === "badge") applyBadgeAppearance(child,fullConfig);
       child.hass = this._hass;
       child.preview = this._preview;
       this._children.push(child);
