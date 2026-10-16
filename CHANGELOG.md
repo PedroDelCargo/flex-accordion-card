@@ -1,5 +1,55 @@
 # Historique
 
+## 0.11.0 — 16 octobre 2026
+
+- Options indépendantes par badge Entité/Raccourci : Masquer la bordure et Fond transparent, dans Contenu.
+- Rendu et aperçu utilisent les variables natives de thème sur le seul badge concerné ; suppression du flou/ombre décoratifs et restauration des styles précédents à la désactivation.
+- Options Flex retirées de la configuration envoyée aux composants natifs HA.
+- Documentation utilisateur en anglais par défaut, avec guides français, espagnol et allemand ; historique et consignes de développement retirés des README.
+- Vérification des 142 messages dans les quatre langues et localisation du nom de type utilisé en l’absence de nom personnalisé ou d’entité.
+- 76 tests locaux réussis ; version déclarée prête pour publication par le mainteneur.
+
+
+## 0.10.0 — 16 octobre 2026
+
+- Libellé « Toujours ouverte » et aide simplifiée immédiatement sous l’option.
+- Choix natif « Manuel » : ouverture de l’éditeur YAML (ou repli JSON explicite), validation avant ajout d’une carte réelle. Le type vide du catalogue n’est plus ignoré.
+- Aperçu natif du badge dans la page de création, mis à jour avant ajout sans modifier la configuration enregistrée.
+- Bascule code/visuel dans une barre commune en bas des éditeurs de cartes et badges.
+- 72 tests locaux réussis ; rendu réel à vérifier sur HA.
+
+
+## 0.9.2 — 16 octobre 2026
+
+- Boutons Éditeur de code et Ajouter le badge dans une barre flexible commune : alignement, hauteur minimale de 40 px et espacement de 8 px, avec retour à la ligne sur écran étroit.
+
+
+## 0.9.1 — 16 octobre 2026
+
+- Correction des contrôles Interactions après changement de type : les champs compacts réutilisés mettent à jour leur sélecteur, nom, schéma et caractère obligatoire.
+- Le choix du type de badge utilise deux boutons radio Entité/Raccourci, traduits et sans choix vide.
+- 67 tests locaux réussis, dont la réaffectation texte/icône/couleur vers les trois interactions et le passage booléen/sélecteur. Rendu réel encore à vérifier.
+
+
+## 0.9.0 — 16 octobre 2026
+
+- Ajout de badge unifié : choix Entité/Raccourci en premier, puis entité uniquement si nécessaire. Validation explicite avant création.
+- Même ordre en création/édition : Type, Entité éventuelle, Contenu, Interactions, Visibilité.
+- Contours neutres uniformes des accordéons ; accent de couleur réservé au titre contextuel.
+- Suppression du texte sur l’action par défaut sans changer les interactions natives.
+- Formulaire contrôlé pour les deux types avec sélecteurs HA ; disponibilité du rendu shortcut vérifiée avant enregistrement.
+- 64 tests locaux réussis ; validation réelle des changements encore nécessaire.
+
+
+## 0.8.0 — 16 octobre 2026
+
+- Nombre de colonnes visible uniquement pour la grille, sans perdre sa valeur lors d’un passage en présentation verticale.
+- « Section actuelle » en tête des destinations de copie, indices de destination conservés.
+- Ajout du badge raccourci natif HA sans entité, avec vérification de disponibilité ; rendu et éditeur délégués à HA, aucun substitut personnalisé.
+- Texte de badge shortcut et nom de type localisé dans les listes.
+- 58 tests locaux réussis ; validation des changements sur HA réel restant à effectuer.
+
+
 ## 0.7.0 — 15 octobre 2026
 
 - Option de section always_open : contenu toujours ouvert, sans en-tête, badges ni chevron, indépendant du mode exclusif.
