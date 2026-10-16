@@ -59,3 +59,27 @@ Les nouveaux tests vérifient la normalisation, l’exclusion de l’état exclu
 ## Retour du mainteneur avant publication GitHub
 
 La 0.7.0 a été déclarée fonctionnelle sur l’instance HA du mainteneur ; les tests mobiles ont également été confirmés. Versions et appareils non encore renseignés. Ce résultat utilisateur complète les 53 tests locaux ; la suite navigateur automatisée n’a pas été relancée et la distribution HACS reste à tester.
+
+## Candidat 0.8.0 — 16 octobre 2026
+
+58 tests locaux réussis (16 de configuration, 42 de composants/éditeur). Nouveaux contrats : grille/vertical avec conservation des colonnes, section actuelle en premier sans erreur d’indice, copie indépendante, badge natif shortcut sans entité et échec propre lorsque non disponible. Les validations utilisateur et CI précédemment décrites concernent la 0.7.0 ; les changements 0.8.0 n’ont pas encore été testés sur HA réel ni publiés sur GitHub. Vérifier les trois parcours sur ordinateur/mobile, puis tester texte, icône, actions et conditions du vrai badge shortcut si disponible.
+
+## Candidat 0.9.0 — parcours des badges
+
+64 tests locaux réussis : 16 de configuration, 48 de composants/éditeur. Nouveaux contrôles : ajout unique, type en premier et entité conditionnelle, ordre identique des réglages, conservation des données communes lors du changement de type, refus propre du raccourci indisponible, stabilité des accordéons lors des mises à jour, contours neutres et suppression du message d’action par défaut. Le rendu CSS et les sélecteurs natifs réels restent à vérifier.
+
+Recette : ajouter un badge Entité puis un Raccourci dans une section et dans l’en-tête global ; vérifier ordre des champs, contenu et trois actions. Changer le type en édition. Déplier plusieurs groupes puis saisir lentement et attendre les ticks HA : les groupes ne doivent pas se refermer. Vérifier les quatre langues, le clavier/mobile et les conditions de visibilité avant/après l’ajout.
+
+## Correctif 0.9.1
+
+67 tests locaux réussis (16 configuration, 51 composants). La régression reproduit la réutilisation des mêmes champs compacts avec d’abord des sélecteurs de texte/icône/couleur, puis les trois sélecteurs ui_action. Vérification du sélecteur, du nom, du schéma, de la valeur émise et du retour au sélecteur précédent. Les radios sont vérifiées pour la sélection, les traductions et la désactivation. Sur HA réel : changer plusieurs fois Entité/Raccourci avec Interactions ouvert ; vérifier Au toucher/Appui long/Double toucher et leurs actions, ainsi que le clavier et le mobile. Les captures utilisateur proviennent de la 0.9.0 ; aucune nouvelle capture n’est présentée comme validation de la correction.
+
+## Candidat 0.10.0
+
+72 tests locaux réussis : 16 de configuration et 56 de composants/éditeur. Nouveaux tests : texte d’aide exact et placement entre le booléen et les autres champs, signal Manuel natif avec type vide, validation YAML et repli JSON, aperçu de brouillon mis à jour sans ajout dans la configuration, transmission de hass et position finale des boutons code/visuel. Les composants de rendu sont des doubles : l’aperçu réel et le clavier/mobile restent à tester sur HA.
+
+Recette : activer Toujours ouverte puis lire l’aide ; ajouter une carte via le choix Manuel du catalogue et tester une configuration invalide puis valide ; créer un badge sans valider immédiatement, modifier nom/icône/couleur et observer son aperçu dans la page d’ajout ; revenir sans ajouter et vérifier qu’aucun badge n’est enregistré. Comparer l’emplacement de la bascule code/visuel dans les éditeurs natifs, personnalisés et de badges.
+
+## Candidat 0.11.0
+
+76 tests locaux réussis (17 configuration, 59 composants). Contrôles : booléens, schéma des deux types, retrait des options avant passage à HA, styles indépendants, configuration/rendu des badges de section et de l’en-tête global, aperçu du brouillon, restauration des variables inline initiales. Sans moteur de rendu, ces tests ne prouvent pas l’absence visuelle de bordure/fond. Sur HA réel, tester les deux options séparément et ensemble, les désactiver, changer de thème et vérifier le focus clavier et l’absence d’effet sur les autres badges.

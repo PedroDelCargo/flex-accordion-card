@@ -1,49 +1,150 @@
-# Flex Accordion Card — 0.7.0
+# Flex Accordion Card
 
-[Français](../README.md) · [English](README.en.md) · [Español](README.es.md) · Deutsch
+[English](../README.md) · [Français](README.fr.md) · [Español](README.es.md) · Deutsch
 
-Ein Akkordeon-Container für Home-Assistant-Lovelace-Karten mit nativen Ansichts-Badges und einem kontextbezogenen visuellen Editor. Erste Veröffentlichung. Der Maintainer bestätigt erfolgreiche Tests mit Home Assistant und auf Mobilgeräten. Genaue HA-/Browser-/Geräteversionen sind noch nicht dokumentiert; eine Mindestversion oder allgemeine Kompatibilität wird nicht zugesichert. Die HACS-Verteilung ist noch unbestätigt.
+Ein Akkordeon-Container für Home-Assistant-Dashboards mit eingebetteten Lovelace-Karten, nativen Badges und einem kontextbezogenen visuellen Editor.
 
 ## Funktionen
 
-Gemeinsame oder getrennte Abschnitte, optionaler Kartenkopf und Hintergrund, vertikale Anordnung oder Raster, exklusiver Modus sowie Höhenanimation mit Ein-/Ausblenden. Kontextbezogener Editor mit Drag-and-drop, Verschieben und Kopieren zwischen Abschnitten sowie Duplizieren im aktuellen Abschnitt. Native Sichtbarkeitsbedingungen. Die Oberfläche folgt der HA-Profilsprache (fr/en/es/de einschließlich regionaler Varianten), sonst Englisch. Eigene Namen und Titel werden nicht übersetzt.
+- Gemeinsame Karte oder separate Abschnittskarten, mit optionalem Gesamthintergrund.
+- Optionale globale Kopfzeile mit Titel, Symbol, Badges und einstellbarer Titelgröße.
+- Anklickbare Abschnittsköpfe mit Symbolen und Badges vor dem Aufklapppfeil.
+- Native und benutzerdefinierte Lovelace-Karten, pro Abschnitt vertikal oder im Raster angeordnet.
+- Exklusiver Modus, immer geöffnete Abschnitte, Höhen- und Überblendanimationen sowie Unterstützung für reduzierte Bewegung.
+- Kontextbezogener Editor mit bleibender Navigation, Drag-and-drop, Sortier-, Verschiebe- und Kopierschaltflächen.
+- Native Entitäts- und Verknüpfungs-Badges mit Vorschau, Aktionen und individuellen Darstellungsoptionen.
+- Sichtbarkeitsbedingungen von Home Assistant für Abschnitte, Badges und eingebettete Karten.
+- Oberfläche auf Englisch, Französisch, Spanisch und Deutsch entsprechend der Sprache im Home-Assistant-Profil.
 
-## Manuelle Installation
+## Installation
 
-1. `dist/flex-accordion-card.js` nach `<config>/www/flex-accordion-card.js` kopieren.
-2. `/local/flex-accordion-card.js?v=0.7.0` als Dashboard-Ressource vom Typ **JavaScript-Modul** hinzufügen. Bei YAML-Ressourcen die bestehende Lovelace-Konfiguration ergänzen.
-3. Browser vollständig neu laden. HA einmal neu starten, falls `www` gerade erst erstellt wurde.
-4. Flex Accordion Card hinzufügen oder eine manuelle Karte mit folgendem Beispiel verwenden. Auf HA werden keine Build-Werkzeuge oder externen Laufzeitabhängigkeiten benötigt.
+1. Lade **flex-accordion-card.js** aus dem [neuesten GitHub-Release](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest) herunter.
+2. Kopiere die Datei nach `<config>/www/flex-accordion-card.js` in Home Assistant. Erstelle `www` bei Bedarf und starte Home Assistant danach einmal neu.
+3. Füge in den Dashboard-Ressourcen `/local/flex-accordion-card.js?v=0.11.0` als **JavaScript-Modul** hinzu. Aktiviere den erweiterten Modus im Profil, falls das Ressourcenmenü nicht sichtbar ist.
+4. Lade den Browser vollständig neu und füge **Flex Accordion Card** zum Dashboard hinzu. Alternativ kannst du die native Karte **Manuell** auswählen und das folgende YAML-Beispiel einfügen.
+
+Bei Ressourcenverwaltung über YAML ergänze die bestehende Konfiguration um die Ressource:
+
+```yaml
+lovelace:
+  resources:
+    - url: /local/flex-accordion-card.js?v=0.11.0
+      type: module
+```
+
+Zum Aktualisieren ersetze die JavaScript-Datei, ändere den Suffix `?v=` und lade den Browser neu. Registriere die Ressource nur einmal. Zum Deinstallieren entferne die Karten, die Ressource und die JavaScript-Datei.
+
+## Visuellen Editor verwenden
+
+Beginne mit **Allgemeine Einstellungen**, um Darstellung, Hintergrund, exklusiven Modus und Animationen festzulegen. Konfiguriere die optionale globale Kopfzeile und füge Abschnitte hinzu.
+
+Öffne einen Abschnitt, um Kopfzeile, Badges, Karten und Sichtbarkeit zu verwalten. Der Stift öffnet ein Element auf einer eigenen Seite; über die Navigation oben gelangst du zurück. Ziehgriffe oder Pfeiltasten ändern die Reihenfolge. Die Schaltflächen zum Verschieben und Kopieren bieten einen Zielabschnitt an; beim Kopieren steht auch **Aktueller Abschnitt** zur Auswahl.
+
+Wähle beim Hinzufügen eines Badges **Entität** oder **Verknüpfung**. Entitäts-Badges benötigen eine Entität; Verknüpfungen verwenden Text, Symbol und Aktionen ohne Entität. Lege **Inhalt**, **Interaktionen** und **Sichtbarkeit** fest, prüfe die Vorschau und wähle **Badge hinzufügen**. Unter Inhalt lassen sich **Rahmen ausblenden** und **Transparenter Hintergrund** für jedes Badge unabhängig aktivieren, auch für Badges der globalen Kopfzeile.
+
+Wechsle mit **Code-Editor** / **Visueller Editor** den Modus. Zum Hinzufügen einer Karte über ihre Konfiguration wähle **Manuell**, gib YAML ein und wähle **Karte hinzufügen**. Fehlt der native YAML-Editor, wird ein ausdrücklich gekennzeichneter JSON-Editor angeboten.
+
+Aktiviere **Immer geöffnet**, damit ein Abschnitt ohne Kopfzeile, Badges oder Pfeil aufgeklappt bleibt. An erster oder letzter Position eignet er sich als dauerhafter Kopf- oder Fußbereich innerhalb der Karte. Bei Bedarf kannst du darin eine native Überschrift-Karte verwenden. Sichtbarkeitsbedingungen gelten weiterhin.
+
+## YAML-Konfiguration
 
 ```yaml
 type: custom:flex-accordion-card
 layout: unified
+exclusive: true
 header:
-  title: Mein Zuhause
+  title: Home
   icon: mdi:home
 sections:
-  - id: wohnzimmer
-    title: Wohnzimmer
+  - id: living-room
+    title: Living room
+    icon: mdi:sofa
     default_open: true
+    layout: grid
+    columns: 2
+    cards:
+      - type: button
+        entity: light.living_room
+      - type: markdown
+        content: Welcome home
+    badges:
+      - type: entity
+        entity: sensor.living_room_temperature
+        show_name: true
+        show_state: true
+        hide_border: true
+      - type: shortcut
+        text: Home
+        icon: mdi:home
+        transparent_background: true
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/home
+  - id: footer
+    always_open: true
     cards:
       - type: markdown
-        content: Willkommen zu Hause
+        content: Home sweet home
 ```
 
-Die Standardübergangsdauer beträgt 750 ms. Ein vorhandener Wert für `animation_duration` bleibt erhalten. Der Kartenkopf erhält 5 px oberen Abstand. `header.text_size` ist eine optionale Zahl in Pixeln, etwa `19.5`. Ohne diesen Eintrag gelten 16 px und das Eingabefeld bleibt leer. Leeren entfernt die Anpassung. Alte Werte small/medium/large werden in 16/18/20 px umgewandelt.
+Ersetze die Entitäts-IDs und den Navigationspfad durch deine eigenen. Weitere Beispiele: [Einstieg](../examples/starter.yaml), [immer geöffnete Abschnitte](../examples/always-open.yaml).
 
-Globale Optionen: `layout` unified/separate, `background` false, `exclusive` false, `animation` true, `animation_duration` 750 (0–2000 ms), optionaler `header`, erforderliche Liste `sections`. Kartenkopf: `enabled`, `title`, `icon`, optionale positive Zahl `text_size`, `badges`. Abschnitt: stabile `id`, `title`, `icon`, `default_open`, `layout` vertical/grid, `columns` 1–12, `cards`, `badges`, native HA-`visibility`. Karten und Badges verwenden ihre üblichen HA-Schemata. Es handelt sich um Ansichts-Badges, nicht um die speziellen Badges der heading-Karte.
+## Konfigurationsreferenz
 
-## Grenzen und Tests
+### Globale Optionen
 
-Verwendete interne HA-Komponenten können sich ändern. Sichtbarkeit benötigt native Wrapper. Drittanbieterkarten benötigen ihre Ressourcen; geschlossene Karten bleiben eingebunden. Das interne Raster übernimmt keine `grid_options` der Kinder und reduziert Spalten auf Mobilgeräten nicht automatisch. Native Editoren behalten ihre Abstände. Technische Konfigurationsdiagnosen können weiterhin französisch sein.
+| Option | Standard | Beschreibung |
+| --- | --- | --- |
+| `type` | erforderlich | Erforderlich; `custom:flex-accordion-card` |
+| `layout` | `unified` | `unified` oder `separate` |
+| `background` | `false` | Hintergrund und Abstand um alle Abschnitte |
+| `exclusive` | `false` | Höchstens ein Akkordeon-Abschnitt geöffnet; alle dürfen geschlossen sein |
+| `animation` | `true` | Höhen- und Überblendanimationen |
+| `animation_duration` | `750` | Dauer in Millisekunden, Ganzzahl von 0 bis 2000 |
+| `header` | keine | Optionale globale Kopfzeile |
+| `sections` | erforderlich | Abschnittsliste; darf leer sein |
 
-53 lokale Tests mit DOM-/Komponentendoubles bestanden, ohne Layout-Engine. Der Maintainer bestätigt HA- und Mobiltests; automatisierte Browsertests stehen aus; eine minimale HA-Version wird noch nicht zugesichert. Entwicklung mit Node.js 20+: `node scripts/build.mjs`, dann `node --test test/core.test.mjs test/editor.test.mjs`.
+### Globale Kopfzeile: `header`
 
-[Vollständige Referenz auf Französisch](../README.md) · [HA-Prüfliste](VALIDATION.md) · [Veröffentlichung](PUBLISHING.md) · [Beiträge und Übersetzungen](../CONTRIBUTING.md) · [MIT-Lizenz](../LICENSE)
+| Option | Standard | Beschreibung |
+| --- | --- | --- |
+| `enabled` | `true` | Kopfzeile anzeigen; Deaktivieren behält die Einstellungen bei |
+| `title` | leerer Text | Titel der Kopfzeile |
+| `icon` | keine | Home-Assistant-Symbol |
+| `text_size` | `16` | Positive Pixelzahl; ein leeres Feld verwendet 16 px |
+| `badges` | `[]` | Konfigurationen nativer Ansichts-Badges |
 
-Für einen noch unbestätigten HACS-Installationstest https://github.com/PedroDelCargo/flex-accordion-card als benutzerdefiniertes Repository der Kategorie Dashboard hinzufügen. Die Ressource prüfen und doppelte manuelle Ressourcen entfernen. Noch nicht im HACS-Standardkatalog gelistet.
+### Jeder Eintrag in `sections`
 
-## Immer geöffnete Abschnitte
+| Option | Standard | Beschreibung |
+| --- | --- | --- |
+| `id` | `section-N` | Eindeutige Kennung; verwende stabile IDs in YAML |
+| `title` | `Section N` | Abschnittstitel |
+| `icon` | keine | Home-Assistant-Symbol |
+| `always_open` | `false` | Immer aufgeklappt, ohne Kopfzeile oder Badges; unabhängig vom exklusiven Modus |
+| `default_open` | `false` | Anfangszustand; bei immer geöffneten Abschnitten ignoriert |
+| `layout` | `vertical` | `vertical` oder `grid` |
+| `columns` | `2` | Gleich breite Spalten, Ganzzahl von 1 bis 12; nur im Raster verwendet |
+| `cards` | `[]` | Konfigurationen von Lovelace-Karten |
+| `badges` | `[]` | Konfigurationen nativer Ansichts-Badges |
+| `visibility` | keine | Home-Assistant-Bedingungen für den gesamten Abschnitt |
 
-Aktiviere „Immer geöffnet (ohne Kopfzeile)“ oder setze `always_open: true`. Der Inhalt bleibt unabhängig vom exklusiven Modus geöffnet, ohne Kopfzeile, Badges oder Chevron. Vorhandene Einstellungen bleiben für die Rückkehr zum Akkordeon erhalten. Eine native `heading`-Karte kann als Inhalt dienen. Diese Abschnitte lassen sich an den Anfang oder das Ende als dauerhafter Kartenkopf/-fuß setzen. HA-Sichtbarkeitsbedingungen gelten weiterhin; `default_open` wird in diesem Modus ignoriert. Siehe [Beispiel](../examples/always-open.yaml).
+### Darstellung der Badges
+
+| Option | Standard | Beschreibung |
+| --- | --- | --- |
+| `hide_border` | `false` | Rahmen und dekorativen Schatten des Badges entfernen |
+| `transparent_background` | `false` | Transparenter Hintergrund ohne Hintergrundunschärfe oder dekorativen Schatten |
+
+Die übrigen Karten- und Badge-Einstellungen entsprechen den üblichen Home-Assistant-Optionen. Entitäts-IDs können in `badges` auch als Zeichenketten angegeben werden. Verknüpfungs-Badges benötigen ein Home-Assistant-Frontend, das den nativen Badge-Typ unterstützt. Der Editor meldet, wenn er nicht verfügbar ist.
+
+## Hinweise zur Verwendung
+
+- Immer geöffnete Abschnitte bleiben im normalen Seitenfluss; sie werden nicht am Bildschirm fixiert. Kopfzeilen- und Badge-Einstellungen bleiben beim Wechsel zurück zum Akkordeon erhalten.
+- Im exklusiven Modus hat der erste anfangs geöffnete Abschnitt Vorrang. Der Öffnungszustand bleibt während der Lebensdauer der Karte erhalten, wird aber nicht über ein Neuladen der Seite hinaus gespeichert.
+- Badges klappen ihren Abschnitt nicht um. Explizite Aktionen haben Vorrang. Ohne explizite Aktion verwenden Entitäts-Badges und Schaltflächen-Karten passende Aktionen für übliche steuerbare Domänen, Tasten, Szenen und Skripte; Sensoren öffnen weitere Informationen.
+- Die Sichtbarkeit verwendet native Home-Assistant-Bedingungen. Für die gesamte Karte stehen die Sichtbarkeitsregler des Dashboards zur Verfügung. Verwendet werden native Ansichts-Badges, nicht die speziellen Badges der Überschrift-Karte.
+- Benutzerdefinierte Karten benötigen eigene Ressourcen. Karten in geschlossenen Abschnitten bleiben aktiv. Die Spaltenzahl verringert sich auf Mobilgeräten nicht automatisch; das Raster verwendet keine `grid_options` der eingebetteten Karten.
+- Verfügbare native Editoren und Badges hängen von der Home-Assistant-Frontend-Version ab. Badges von Drittanbietern können die Darstellungsoptionen ignorieren. Eigene Namen und Texte werden nicht übersetzt; native Komponenten nutzen die Übersetzungen von Home Assistant.
+
+[MIT License](../LICENSE)

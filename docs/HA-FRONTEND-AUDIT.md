@@ -110,3 +110,29 @@ Le [style de hui-heading-card](https://github.com/home-assistant/frontend/blob/d
 Le [sélecteur numérique HA](https://github.com/home-assistant/frontend/blob/dev/src/components/ha-selector/ha-selector-number.ts) conserve une chaîne vide pour une valeur undefined/null et émet undefined lorsque l’utilisateur efface le champ. Le mode box et step: any acceptent une valeur numérique libre sans proposer de taille par défaut dans le champ. Le conteneur supprime text_size absent/effacé et applique 16 px uniquement au rendu. Les anciennes tailles nommées sont migrées en valeurs numériques explicites.
 
 La localisation propre à Flex Accordion est embarquée dans le module et utilise la langue du profil HA. Aucun nom utilisateur ni clé YAML n’est modifié. Les composants HA gardent leur propre localisation ; les diagnostics techniques de configuration restent partiellement français. Les tests utilisent des doubles et ne confirment pas encore le rendu du sélecteur réel.
+
+## Vérification du 16 octobre 2026 — badge sans entité
+
+Le badge [hui-entity-badge](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/badges/hui-entity-badge.ts) renvoie un badge d’erreur sans état d’entité existant. Retirer entity ne fournit donc pas le comportement demandé.
+
+Le composant natif [hui-shortcut-badge](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/badges/hui-shortcut-badge.ts), type shortcut, utilise text/icon/color et les actions tap/hold/double-tap, sans lecture d’une entité. Sa méthode getConfigElement charge l’éditeur natif. La [fabrique de badges](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/create-element/create-badge-element.ts) contient bien shortcut dans ses types chargés à la demande. Sources consultées sur dev ; aucune disponibilité dans toutes les versions publiées n’est déduite de cette observation.
+
+L’ajout proposé provoque le chargement via la fabrique, attend l’enregistrement de hui-shortcut-badge (au maximum cinq secondes) puis seulement ajoute la configuration. Échec/absence : message explicite, aucune création. Le rendu et les actions restent délégués à HA. Contrats testés localement avec doubles ; essai natif sur l’instance utilisateur restant à effectuer.
+
+## Formulaire unifié 0.9.0
+
+L’adaptateur de formulaire contrôlé couvre entity et shortcut avec ha-form, sélecteurs natifs et conditions HA. Pour imposer le même ordre et les mêmes contours, les groupes Contenu/Interactions utilisent un champ local ha-form-flex-expandable suivant le contrat de champ ha-form : schema, data aplaties, hass, computeLabel et événement value-changed. Il possède ses propres details/form et conserve leur identité ; aucun DOM privé HA n’est modifié. Le badge affiché, les actions et le moteur de visibilité restent natifs.
+
+## Réutilisation des champs — 0.9.1
+
+Le champ local FlexCompactField arrêtait son setter schema dès qu’un contrôle existait. Lors de la réutilisation par position dans ha-form, le nouveau schéma pouvait ainsi garder un ancien sélecteur de contenu dans les interactions. Le setter met désormais à jour le contrat du sélecteur à chaque affectation et ne recrée le contrôle que pour un changement entre booléen et sélecteur. Le champ radio est un champ ha-form local scalaire, avec fieldset/legend et deux entrées HTML radio ; le rendu et les interactions des badges restent natifs HA.
+
+## Choix Manuel — 0.10.0
+
+Le [catalogue hui-card-picker](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/editor/card-editor/hui-card-picker.ts) construit le choix manual avec `{type: ""}` et transmet cette configuration via config-changed. Ce signal doit ouvrir une saisie manuelle, pas être traité comme une carte complète. Le conteneur ouvre désormais ha-yaml-editor lorsqu’il est disponible, sinon un repli JSON explicite. Seule une configuration avec un vrai type peut être ajoutée.
+
+L’aperçu de badge en création réutilise hui-badge si enregistré ou createBadgeElement, propage hass et preview, et ignore les résultats asynchrones d’une page quittée. Il reste local à l’éditeur et ne déclenche pas config-changed sur la carte globale.
+
+## Apparence des badges — 0.11.0
+
+Le [composant ha-badge](https://github.com/home-assistant/frontend/blob/dev/src/components/ha-badge.ts) utilise --ha-card-border-width, --ha-card-background, --ha-card-backdrop-filter et --ha-card-box-shadow. Les deux options locales les définissent sur le seul hôte du badge ; les composants natifs les héritent à travers leurs racines shadow. Aucune injection dans leur DOM privé. Une WeakMap mémorise les valeurs inline précédentes pour ne pas effacer des styles qui ne nous appartiennent pas. Le focus natif reste fourni par ha-badge. Les variables sont vérifiées dans le code dev consulté le 16 octobre 2026 ; leur rendu sur l’instance et les thèmes utilisateur reste à tester.

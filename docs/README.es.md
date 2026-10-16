@@ -1,49 +1,150 @@
-# Flex Accordion Card — 0.7.0
+# Flex Accordion Card
 
-[Français](../README.md) · [English](README.en.md) · Español · [Deutsch](README.de.md)
+[English](../README.md) · [Français](README.fr.md) · Español · [Deutsch](README.de.md)
 
-Contenedor de acordeón para tarjetas Lovelace de Home Assistant, con insignias nativas de vista y editor visual contextual. Primera publicación. El mantenedor ha confirmado pruebas correctas en Home Assistant y móvil. Las versiones HA/navegadores/dispositivos todavía no están registradas; no se garantiza compatibilidad universal ni una versión mínima. La distribución HACS sigue sin validar.
+Un contenedor de acordeón para paneles de Home Assistant, con tarjetas Lovelace anidadas, insignias nativas y un editor visual contextual.
 
 ## Funciones
 
-Secciones unificadas o separadas, cabecera y fondo globales opcionales, diseño vertical/cuadrícula, modo exclusivo y animaciones de altura con fundido. Editor contextual con arrastrar y soltar, traslado y copia entre secciones, incluida la duplicación en la sección actual. Condiciones de visibilidad nativas. Interfaz según el idioma del perfil HA (fr/en/es/de y variantes regionales), con inglés para otros idiomas. Los títulos y nombres del usuario se conservan.
+- Tarjeta unificada o tarjetas separadas por sección, con fondo global opcional.
+- Cabecera global opcional con título, icono, insignias y tamaño de título ajustable.
+- Cabeceras de sección pulsables con iconos e insignias antes de la flecha.
+- Tarjetas Lovelace nativas y personalizadas, en disposición vertical o cuadrícula por sección.
+- Modo exclusivo, secciones siempre abiertas, animaciones de altura y fundido y respeto del movimiento reducido.
+- Editor contextual con navegación persistente, arrastrar y soltar, botones de ordenación, movimiento y copia.
+- Insignias nativas de Entidad y Acceso directo con vista previa, acciones y opciones de apariencia individuales.
+- Condiciones de visibilidad de Home Assistant para secciones, insignias y tarjetas anidadas.
+- Interfaz en inglés, francés, español y alemán según el idioma del perfil de Home Assistant.
 
-## Instalación manual
+## Instalación
 
-1. Copia `dist/flex-accordion-card.js` en `<config>/www/flex-accordion-card.js`.
-2. Añade `/local/flex-accordion-card.js?v=0.7.0` como recurso de tipo **módulo JavaScript** del panel. Si gestionas recursos en YAML, usa la configuración Lovelace existente.
-3. Recarga completamente el navegador. Reinicia HA una vez si acabas de crear `www`.
-4. Añade Flex Accordion Card o una tarjeta manual con este ejemplo. HA no necesita herramientas de compilación ni dependencias externas.
+1. Descarga **flex-accordion-card.js** desde la [última versión de GitHub](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
+2. Cópialo a `<config>/www/flex-accordion-card.js` en Home Assistant. Crea `www` si es necesario y reinicia Home Assistant una vez después de crearlo.
+3. En los recursos del panel, añade `/local/flex-accordion-card.js?v=0.11.0` como **módulo JavaScript**. Activa el modo avanzado del perfil si el menú de recursos está oculto.
+4. Recarga completamente el navegador y añade **Flex Accordion Card** al panel. También puedes elegir la tarjeta nativa **Manual** y pegar el ejemplo YAML siguiente.
+
+Si gestionas los recursos en YAML, añade el recurso a la configuración existente:
+
+```yaml
+lovelace:
+  resources:
+    - url: /local/flex-accordion-card.js?v=0.11.0
+      type: module
+```
+
+Para actualizar, sustituye el archivo JavaScript, cambia el sufijo `?v=` y recarga el navegador. Registra el recurso una sola vez. Para desinstalar, elimina las tarjetas, el recurso y el archivo JavaScript.
+
+## Uso del editor visual
+
+Empieza por los **Ajustes generales** para elegir disposición, fondo, modo exclusivo y animaciones. Configura la cabecera global opcional y añade las secciones.
+
+Abre una sección para gestionar su cabecera, insignias, tarjetas y visibilidad. El lápiz abre cada elemento en su propia página; la navegación superior permite volver al nivel anterior. Usa los tiradores o flechas para ordenar. Los botones de mover y copiar ofrecen una sección de destino; copiar también incluye la **Sección actual**.
+
+Al añadir una insignia, elige **Entidad** o **Acceso directo**. Las insignias de entidad necesitan una entidad; los accesos directos usan texto, icono y acciones sin entidad. Configura **Contenido**, **Interacciones** y **Visibilidad**, comprueba la vista previa y pulsa **Añadir insignia**. En Contenido, **Ocultar borde** y **Fondo transparente** son independientes para cada insignia, incluidas las de la cabecera global.
+
+Usa **Editor de código** / **Editor visual** para cambiar de modo. Para añadir una tarjeta desde su configuración, elige **Manual**, introduce el YAML y pulsa **Añadir tarjeta**. Si falta el editor YAML nativo, se ofrece un editor JSON identificado como tal.
+
+Activa **Siempre abierta** para mantener una sección desplegada sin cabecera, insignias ni flecha. Colócala al principio o al final para crear una cabecera o pie permanente dentro de la tarjeta. Puedes incluir una tarjeta nativa de encabezado. Las condiciones de visibilidad siguen aplicándose.
+
+## Configuración YAML
 
 ```yaml
 type: custom:flex-accordion-card
 layout: unified
+exclusive: true
 header:
-  title: Mi casa
+  title: Home
   icon: mdi:home
 sections:
-  - id: salon
-    title: Salón
+  - id: living-room
+    title: Living room
+    icon: mdi:sofa
     default_open: true
+    layout: grid
+    columns: 2
+    cards:
+      - type: button
+        entity: light.living_room
+      - type: markdown
+        content: Welcome home
+    badges:
+      - type: entity
+        entity: sensor.living_room_temperature
+        show_name: true
+        show_state: true
+        hide_border: true
+      - type: shortcut
+        text: Home
+        icon: mdi:home
+        transparent_background: true
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/home
+  - id: footer
+    always_open: true
     cards:
       - type: markdown
-        content: Bienvenido a casa
+        content: Home sweet home
 ```
 
-La transición predeterminada dura 750 ms. Una duración `animation_duration` ya configurada se conserva. La cabecera tiene un margen superior de 5 px. `header.text_size` permite un tamaño numérico en píxeles, por ejemplo `19.5`. Si se omite, se usan 16 px y el campo aparece vacío. Borrar el campo elimina la personalización. Los valores antiguos small/medium/large se convierten a 16/18/20 px.
+Sustituye los identificadores de entidad y la ruta por los tuyos. Más ejemplos: [inicio](../examples/starter.yaml), [secciones siempre abiertas](../examples/always-open.yaml).
 
-Opciones globales: `layout` unified/separate, `background` false, `exclusive` false, `animation` true, `animation_duration` 750 (0–2000 ms), `header` opcional y lista `sections` obligatoria. Cabecera: `enabled`, `title`, `icon`, `text_size` numérico positivo opcional y `badges`. Sección: `id` estable, `title`, `icon`, `default_open`, `layout` vertical/grid, `columns` 1–12, `cards`, `badges` y `visibility` nativa de HA. Tarjetas e insignias usan sus esquemas HA habituales. Son insignias de vista, no las específicas de la tarjeta heading.
+## Referencia de configuración
 
-## Límites y pruebas
+### Opciones globales
 
-Se reutilizan componentes internos de HA que pueden cambiar. La visibilidad requiere contenedores nativos. Las tarjetas de terceros necesitan sus recursos; las cerradas siguen montadas. La cuadrícula interna no usa `grid_options` de las tarjetas ni reduce columnas automáticamente en móviles. Los editores nativos mantienen sus propios espacios. Algunos diagnósticos técnicos de configuración permanecen en francés.
+| Opción | Predeterminado | Descripción |
+| --- | --- | --- |
+| `type` | obligatorio | Obligatorio; `custom:flex-accordion-card` |
+| `layout` | `unified` | `unified` o `separate` |
+| `background` | `false` | Fondo y espacio alrededor de todas las secciones |
+| `exclusive` | `false` | Como máximo una sección de acordeón abierta; todas pueden cerrarse |
+| `animation` | `true` | Animaciones de altura y fundido |
+| `animation_duration` | `750` | Duración en milisegundos, entero de 0 a 2000 |
+| `header` | ninguno | Cabecera global opcional |
+| `sections` | obligatorio | Lista de secciones; puede estar vacía |
 
-53 pruebas locales superadas con componentes/DOM simulados y sin motor de renderizado. El mantenedor ha validado HA real y móvil; la suite de navegador automatizada sigue pendiente; todavía no se anuncia una versión mínima de HA. Desarrollo con Node.js 20+: `node scripts/build.mjs` y `node --test test/core.test.mjs test/editor.test.mjs`.
+### Cabecera global: `header`
 
-[Referencia completa en francés](../README.md) · [Validación HA](VALIDATION.md) · [Publicación](PUBLISHING.md) · [Contribuciones y traducciones](../CONTRIBUTING.md) · [Licencia MIT](../LICENSE)
+| Opción | Predeterminado | Descripción |
+| --- | --- | --- |
+| `enabled` | `true` | Mostrar la cabecera; desactivarla conserva los ajustes |
+| `title` | texto vacío | Título de cabecera |
+| `icon` | ninguno | Icono de Home Assistant |
+| `text_size` | `16` | Número positivo de píxeles; campo vacío utiliza 16 px |
+| `badges` | `[]` | Configuraciones de insignias nativas de vista |
 
-Para probar HACS (procedimiento todavía sin validar), añade https://github.com/PedroDelCargo/flex-accordion-card como repositorio personalizado, categoría Dashboard. Revisa el recurso y elimina cualquier duplicado de la instalación manual. Todavía no figura en el catálogo predeterminado de HACS.
+### Cada entrada de `sections`
 
-## Secciones siempre abiertas
+| Opción | Predeterminado | Descripción |
+| --- | --- | --- |
+| `id` | `section-N` | Identificador único; usa identificadores estables en YAML |
+| `title` | `Section N` | Título de sección |
+| `icon` | ninguno | Icono de Home Assistant |
+| `always_open` | `false` | Siempre desplegada, sin cabecera ni insignias; independiente del modo exclusivo |
+| `default_open` | `false` | Estado inicial; se ignora en secciones siempre abiertas |
+| `layout` | `vertical` | `vertical` o `grid` |
+| `columns` | `2` | Columnas iguales, entero de 1 a 12; solo se usa en cuadrícula |
+| `cards` | `[]` | Configuraciones de tarjetas Lovelace |
+| `badges` | `[]` | Configuraciones de insignias nativas de vista |
+| `visibility` | ninguno | Condiciones de Home Assistant para toda la sección |
 
-Activa «Siempre abierta (sin cabecera)» o define `always_open: true`. El contenido permanece abierto fuera del modo exclusivo, sin cabecera, insignias ni chevrón. Los ajustes anteriores se conservan al volver al modo acordeón. Puedes añadir una tarjeta nativa `heading` y situar estas secciones al principio/final para una cabecera o pie permanente. Las condiciones de visibilidad HA siguen aplicándose; `default_open` se ignora en este modo. Consulta [el ejemplo](../examples/always-open.yaml).
+### Apariencia de las insignias
+
+| Opción | Predeterminado | Descripción |
+| --- | --- | --- |
+| `hide_border` | `false` | Eliminar el borde y la sombra decorativa de la insignia |
+| `transparent_background` | `false` | Fondo transparente sin desenfoque ni sombra decorativa |
+
+Los demás ajustes de tarjetas e insignias usan sus opciones habituales de Home Assistant. También se pueden indicar entidades como cadenas en `badges`. Las insignias de acceso directo requieren un frontend de Home Assistant que admita la insignia nativa correspondiente. El editor avisa si no está disponible.
+
+## Notas de uso
+
+- Las secciones siempre abiertas permanecen en el flujo normal de la página; no se fijan a la pantalla. Sus ajustes de cabecera e insignias se conservan para volver al acordeón.
+- En modo exclusivo tiene prioridad la primera sección abierta al cargar. El estado abierto/cerrado se conserva mientras la tarjeta está montada, pero no después de recargar la página.
+- Las insignias no pliegan la sección. Las acciones explícitas tienen prioridad. Sin acción explícita, las insignias de entidad y tarjetas Botón usan acciones adecuadas para los dominios controlables habituales, botones, escenas y scripts; los sensores abren más información.
+- La visibilidad usa condiciones nativas de Home Assistant. La tarjeta global admite los controles de visibilidad del panel. Se usan insignias nativas de vista, distintas de las específicas de la tarjeta de encabezado.
+- Las tarjetas personalizadas requieren sus propios recursos. Las secciones cerradas mantienen las tarjetas activas. Las columnas no disminuyen automáticamente en móviles y la cuadrícula no utiliza los `grid_options` de las tarjetas anidadas.
+- Los editores e insignias nativos disponibles dependen de la versión del frontend de Home Assistant. Las insignias de terceros pueden ignorar las opciones de apariencia. Los nombres y textos del usuario no se traducen; los componentes nativos usan las traducciones de Home Assistant.
+
+[MIT License](../LICENSE)
