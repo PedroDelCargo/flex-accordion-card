@@ -1,4 +1,4 @@
-/* flex-accordion-card v0.7.0 | MIT | No runtime dependencies */
+/* flex-accordion-card v0.11.0 | MIT | No runtime dependencies */
 // UI messages only. User titles, names and configuration keys are never translated.
 const messages = {
   "fr": {
@@ -112,7 +112,6 @@ const messages = {
     "{cards} carte(s) · {badges} badge(s)": "{cards} carte(s) · {badges} badge(s)",
     "Chargement natif incomplet : {error}": "Chargement natif incomplet : {error}",
     "Éditeur natif indisponible : {error}": "Éditeur natif indisponible : {error}",
-    "Action par défaut : {action}. Une action personnalisée reste prioritaire.": "Action par défaut : {action}. Une action personnalisée reste prioritaire.",
     "Éditeur de conditions HA indisponible dans ce contexte. Les conditions peuvent être saisies en JSON ou dans le YAML de la carte.": "Éditeur de conditions HA indisponible dans ce contexte. Les conditions peuvent être saisies en JSON ou dans le YAML de la carte.",
     "Appliquer les conditions": "Appliquer les conditions",
     "Ajouter le badge": "Ajouter le badge",
@@ -128,7 +127,23 @@ const messages = {
     "Helper natif {kind} indisponible dans ce frontend HA.": "Helper natif {kind} indisponible dans ce frontend HA.",
     "Toujours ouverte (sans en-tête)": "Toujours ouverte (sans en-tête)",
     "Réglages de section": "Réglages de section",
-    "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.": "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables."
+    "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.": "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.",
+    "Section actuelle": "Section actuelle",
+    "Raccourci": "Raccourci",
+    "Badge raccourci (sans entité)": "Badge raccourci (sans entité)",
+    "Vérification du badge raccourci natif…": "Vérification du badge raccourci natif…",
+    "Badge raccourci natif indisponible sur cette version de HA. Aucun badge personnalisé n’a été créé.": "Badge raccourci natif indisponible sur cette version de HA. Aucun badge personnalisé n’a été créé.",
+    "Type de badge": "Type de badge",
+    "Texte": "Texte",
+    "Choisissez une entité pour ce type de badge.": "Choisissez une entité pour ce type de badge.",
+    "Formulaire HA indisponible : utilisez la configuration JSON.": "Formulaire HA indisponible : utilisez la configuration JSON.",
+    "Toujours ouverte": "Toujours ouverte",
+    "Cette section reste toujours ouverte. Elle n'a ni en-tête ni badge.": "Cette section reste toujours ouverte. Elle n'a ni en-tête ni badge.",
+    "Aperçu du badge": "Aperçu du badge",
+    "Ajouter la carte": "Ajouter la carte",
+    "Configuration de la carte": "Configuration de la carte",
+    "Masquer la bordure": "Masquer la bordure",
+    "Fond transparent": "Fond transparent"
   },
   "en": {
     "Taille du texte (px)": "Text size (px)",
@@ -241,7 +256,6 @@ const messages = {
     "{cards} carte(s) · {badges} badge(s)": "{cards} card(s) · {badges} badge(s)",
     "Chargement natif incomplet : {error}": "Native loading incomplete: {error}",
     "Éditeur natif indisponible : {error}": "Native editor unavailable: {error}",
-    "Action par défaut : {action}. Une action personnalisée reste prioritaire.": "Default action: {action}. A custom action takes priority.",
     "Éditeur de conditions HA indisponible dans ce contexte. Les conditions peuvent être saisies en JSON ou dans le YAML de la carte.": "HA condition editor unavailable here. Enter conditions as JSON or in the card YAML.",
     "Appliquer les conditions": "Apply conditions",
     "Ajouter le badge": "Add badge",
@@ -257,7 +271,23 @@ const messages = {
     "Helper natif {kind} indisponible dans ce frontend HA.": "Native {kind} helper unavailable in this HA frontend.",
     "Toujours ouverte (sans en-tête)": "Always open (no header)",
     "Réglages de section": "Section settings",
-    "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.": "This section stays open, outside exclusive mode. Its header and badges are hidden; their settings are preserved. Visibility conditions still apply."
+    "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.": "This section stays open, outside exclusive mode. Its header and badges are hidden; their settings are preserved. Visibility conditions still apply.",
+    "Section actuelle": "Current section",
+    "Raccourci": "Shortcut",
+    "Badge raccourci (sans entité)": "Shortcut badge (no entity)",
+    "Vérification du badge raccourci natif…": "Checking native shortcut badge…",
+    "Badge raccourci natif indisponible sur cette version de HA. Aucun badge personnalisé n’a été créé.": "Native shortcut badge unavailable in this HA version. No custom badge was created.",
+    "Type de badge": "Badge type",
+    "Texte": "Text",
+    "Choisissez une entité pour ce type de badge.": "Choose an entity for this badge type.",
+    "Formulaire HA indisponible : utilisez la configuration JSON.": "HA form unavailable: use JSON configuration.",
+    "Toujours ouverte": "Always open",
+    "Cette section reste toujours ouverte. Elle n'a ni en-tête ni badge.": "This section stays open. It has no header or badges.",
+    "Aperçu du badge": "Badge preview",
+    "Ajouter la carte": "Add card",
+    "Configuration de la carte": "Card configuration",
+    "Masquer la bordure": "Hide border",
+    "Fond transparent": "Transparent background"
   },
   "es": {
     "Taille du texte (px)": "Tamaño del texto (px)",
@@ -370,7 +400,6 @@ const messages = {
     "{cards} carte(s) · {badges} badge(s)": "{cards} tarjeta(s) · {badges} insignia(s)",
     "Chargement natif incomplet : {error}": "Carga nativa incompleta: {error}",
     "Éditeur natif indisponible : {error}": "Editor nativo no disponible: {error}",
-    "Action par défaut : {action}. Une action personnalisée reste prioritaire.": "Acción predeterminada: {action}. Una acción personalizada tiene prioridad.",
     "Éditeur de conditions HA indisponible dans ce contexte. Les conditions peuvent être saisies en JSON ou dans le YAML de la carte.": "Editor de condiciones HA no disponible aquí. Introduce las condiciones en JSON o en el YAML de la tarjeta.",
     "Appliquer les conditions": "Aplicar condiciones",
     "Ajouter le badge": "Añadir insignia",
@@ -386,7 +415,23 @@ const messages = {
     "Helper natif {kind} indisponible dans ce frontend HA.": "Helper nativo {kind} no disponible en este frontend de HA.",
     "Toujours ouverte (sans en-tête)": "Siempre abierta (sin cabecera)",
     "Réglages de section": "Ajustes de sección",
-    "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.": "Esta sección permanece abierta, fuera del modo exclusivo. La cabecera y las insignias se ocultan; sus ajustes se conservan. Las condiciones de visibilidad siguen aplicándose."
+    "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.": "Esta sección permanece abierta, fuera del modo exclusivo. La cabecera y las insignias se ocultan; sus ajustes se conservan. Las condiciones de visibilidad siguen aplicándose.",
+    "Section actuelle": "Sección actual",
+    "Raccourci": "Acceso directo",
+    "Badge raccourci (sans entité)": "Insignia de acceso directo (sin entidad)",
+    "Vérification du badge raccourci natif…": "Comprobando la insignia nativa de acceso directo…",
+    "Badge raccourci natif indisponible sur cette version de HA. Aucun badge personnalisé n’a été créé.": "La insignia nativa de acceso directo no está disponible en esta versión de HA. No se ha creado ninguna insignia personalizada.",
+    "Type de badge": "Tipo de insignia",
+    "Texte": "Texto",
+    "Choisissez une entité pour ce type de badge.": "Elige una entidad para este tipo de insignia.",
+    "Formulaire HA indisponible : utilisez la configuration JSON.": "Formulario HA no disponible: usa la configuración JSON.",
+    "Toujours ouverte": "Siempre abierta",
+    "Cette section reste toujours ouverte. Elle n'a ni en-tête ni badge.": "Esta sección permanece siempre abierta. No tiene cabecera ni insignias.",
+    "Aperçu du badge": "Vista previa de la insignia",
+    "Ajouter la carte": "Añadir tarjeta",
+    "Configuration de la carte": "Configuración de la tarjeta",
+    "Masquer la bordure": "Ocultar borde",
+    "Fond transparent": "Fondo transparente"
   },
   "de": {
     "Taille du texte (px)": "Textgröße (px)",
@@ -499,7 +544,6 @@ const messages = {
     "{cards} carte(s) · {badges} badge(s)": "{cards} Karte(n) · {badges} Badge(s)",
     "Chargement natif incomplet : {error}": "Natives Laden unvollständig: {error}",
     "Éditeur natif indisponible : {error}": "Nativer Editor nicht verfügbar: {error}",
-    "Action par défaut : {action}. Une action personnalisée reste prioritaire.": "Standardaktion: {action}. Eine benutzerdefinierte Aktion hat Vorrang.",
     "Éditeur de conditions HA indisponible dans ce contexte. Les conditions peuvent être saisies en JSON ou dans le YAML de la carte.": "HA-Bedingungseditor hier nicht verfügbar. Bedingungen als JSON oder im Karten-YAML eingeben.",
     "Appliquer les conditions": "Bedingungen anwenden",
     "Ajouter le badge": "Badge hinzufügen",
@@ -515,14 +559,30 @@ const messages = {
     "Helper natif {kind} indisponible dans ce frontend HA.": "Nativer {kind}-Helper in diesem HA-Frontend nicht verfügbar.",
     "Toujours ouverte (sans en-tête)": "Immer geöffnet (ohne Kopfzeile)",
     "Réglages de section": "Abschnittseinstellungen",
-    "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.": "Dieser Abschnitt bleibt unabhängig vom exklusiven Modus geöffnet. Kopfzeile und Badges werden ausgeblendet; ihre Einstellungen bleiben erhalten. Sichtbarkeitsbedingungen gelten weiterhin."
+    "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.": "Dieser Abschnitt bleibt unabhängig vom exklusiven Modus geöffnet. Kopfzeile und Badges werden ausgeblendet; ihre Einstellungen bleiben erhalten. Sichtbarkeitsbedingungen gelten weiterhin.",
+    "Section actuelle": "Aktueller Abschnitt",
+    "Raccourci": "Verknüpfung",
+    "Badge raccourci (sans entité)": "Verknüpfungs-Badge (ohne Entität)",
+    "Vérification du badge raccourci natif…": "Natives Verknüpfungs-Badge wird geprüft…",
+    "Badge raccourci natif indisponible sur cette version de HA. Aucun badge personnalisé n’a été créé.": "Natives Verknüpfungs-Badge in dieser HA-Version nicht verfügbar. Es wurde kein eigenes Badge erstellt.",
+    "Type de badge": "Badge-Typ",
+    "Texte": "Text",
+    "Choisissez une entité pour ce type de badge.": "Wähle eine Entität für diesen Badge-Typ.",
+    "Formulaire HA indisponible : utilisez la configuration JSON.": "HA-Formular nicht verfügbar: JSON-Konfiguration verwenden.",
+    "Toujours ouverte": "Immer geöffnet",
+    "Cette section reste toujours ouverte. Elle n'a ni en-tête ni badge.": "Dieser Abschnitt bleibt immer geöffnet. Er hat keine Kopfzeile und keine Badges.",
+    "Aperçu du badge": "Badge-Vorschau",
+    "Ajouter la carte": "Karte hinzufügen",
+    "Configuration de la carte": "Kartenkonfiguration",
+    "Masquer la bordure": "Rahmen ausblenden",
+    "Fond transparent": "Transparenter Hintergrund"
   }
 };
 function language(hass) { const code = (hass?.locale?.language || hass?.language || "fr").toLowerCase().split(/[-_]/)[0]; return messages[code] ? code : "en"; }
 function t(hass, key, params = {}) { return (messages[language(hass)][key] || messages.en[key] || key).replace(/\{(\w+)\}/g, (match, name) => Object.hasOwn(params,name) ? String(params[name]) : match); }
 function localizeSchema(schema, hass) { return schema.map(field => ({ ...field, ...(field.selector?.select ? { selector: { ...field.selector, select: { ...field.selector.select, options: field.selector.select.options.map(option => typeof option === "string" ? option : { ...option, label: t(hass,option.label) }) } } } : {}), ...(field.schema ? { schema: localizeSchema(field.schema,hass) } : {}) })); }
 
-const VERSION = "0.7.0";
+const VERSION = "0.11.0";
 const clone = (value) => JSON.parse(JSON.stringify(value));
 // HA may echo configuration objects with a different property order.
 const configKey = (value) => JSON.stringify(value, (_key, item) =>
@@ -530,20 +590,21 @@ const configKey = (value) => JSON.stringify(value, (_key, item) =>
     ? Object.fromEntries(Object.keys(item).sort().map((key) => [key, item[key]])) : item);
 const sameConfig = (a, b) => configKey(a) === configKey(b);
 function itemName(config, hass) {
+  if (config.type === "shortcut" && typeof config.text === "string" && config.text) return config.text;
   if (typeof config.title === "string" && config.title) return config.title;
   if (typeof config.name === "string" && config.name) return config.name;
   const state = hass?.states?.[config.entity];
   if (state && typeof hass?.formatEntityName === "function") {
     try { const name = hass.formatEntityName(state, config.name); if (name) return name; } catch { /* Older HA naming contract. */ }
   }
-  return state?.attributes?.friendly_name || config.entity || ({ markdown: "Markdown", button: "Bouton", tile: "Tuile", entities: "Entités", entity: "Entité" })[config.type] || config.type;
+  return state?.attributes?.friendly_name || config.entity || itemTypeName(config, hass);
 }
 function itemTypeName(config, hass, kind = "cards") {
   const type = config.type || "";
   if (type.startsWith("custom:")) return globalThis.window?.customCards?.find((item) => `custom:${item.type}` === type)?.name || type.slice(7);
   const key = `ui.panel.lovelace.editor.${kind === "badges" ? "badge" : "card"}.${type}.name`;
   const translation = hass?.localize?.(key); const localized = translation !== key ? translation : undefined;
-  return localized || t(hass, ({ button: "Bouton", "entity-button": "Bouton d’entité", entity: "Entité", entities: "Entités", tile: "Tuile", markdown: "Markdown", sensor: "Capteur", light: "Éclairage", gauge: "Jauge", heading: "En-tête", "history-graph": "Historique", "statistics-graph": "Statistiques", "weather-forecast": "Météo", "vertical-stack": "Pile verticale", "horizontal-stack": "Pile horizontale", grid: "Grille", conditional: "Conditionnelle", thermostat: "Thermostat", "media-control": "Lecteur multimédia", picture: "Image", map: "Carte géographique", calendar: "Calendrier" })[type] || type.replace(/-/g, " ").replace(/^./, (letter) => letter.toUpperCase()));
+  return localized || t(hass, ({ shortcut: "Raccourci", button: "Bouton", "entity-button": "Bouton d’entité", entity: "Entité", entities: "Entités", tile: "Tuile", markdown: "Markdown", sensor: "Capteur", light: "Éclairage", gauge: "Jauge", heading: "En-tête", "history-graph": "Historique", "statistics-graph": "Statistiques", "weather-forecast": "Météo", "vertical-stack": "Pile verticale", "horizontal-stack": "Pile horizontale", grid: "Grille", conditional: "Conditionnelle", thermostat: "Thermostat", "media-control": "Lecteur multimédia", picture: "Image", map: "Carte géographique", calendar: "Calendrier" })[type] || type.replace(/-/g, " ").replace(/^./, (letter) => letter.toUpperCase()));
 }
 function badgeShowsTime(config, hass) {
   if (config.show_state === false || !config.entity) return false;
@@ -580,6 +641,7 @@ function normalizeBadges(badges) {
   return badges.map((badge) => {
     if (typeof badge === "string") return { type: "entity", entity: badge };
     if (!object(badge)) fail("badge: objet ou identifiant d’entité attendu");
+    for(const key of ["hide_border", "transparent_background"]) if(badge[key] !== undefined && typeof badge[key] !== "boolean") fail(`${key}: booléen attendu`);
     badge.type ??= "entity";
     if (typeof badge.type !== "string" || !badge.type) fail("badge: type requis");
     return badge;
@@ -693,6 +755,19 @@ const button = (text, action, label = text) => {
   node.addEventListener("click", action);
   return node;
 };
+// Scoped HA theme variables inherited by the native badge; no shadow DOM edits.
+function badgeNativeConfig(config) { const { hide_border, transparent_background, ...native } = config; return native; }
+const badgeAppearanceOverrides = new WeakMap();
+function applyBadgeAppearance(node, config) {
+  const variables = {"--ha-card-border-width": config.hide_border ? "0px" : undefined, "--ha-card-background": config.transparent_background ? "transparent" : undefined, "--ha-card-backdrop-filter": config.transparent_background ? "none" : undefined, "--ha-card-box-shadow": config.hide_border || config.transparent_background ? "none" : undefined};
+  const previous = badgeAppearanceOverrides.get(node) || new Map();
+  for(const [name,value] of Object.entries(variables)) {
+    if(value === undefined) { if(previous.has(name)) { const original=previous.get(name);if(original.value)node.style.setProperty(name,original.value,original.priority);else node.style.removeProperty(name);previous.delete(name); } }
+    else { if(!previous.has(name)) previous.set(name,{value:node.style.getPropertyValue(name)||"",priority:node.style.getPropertyPriority?.(name)||""});node.style.setProperty(name,value); }
+  }
+  badgeAppearanceOverrides.set(node,previous);
+  return node;
+}
 function svgIcon(name) {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 24 24"); svg.setAttribute("aria-hidden", "true");
@@ -893,7 +968,9 @@ class FlexAccordionCard extends HTMLElement {
     }
   }
   _nativeElement(kind, config, helpers) {
+    const fullConfig = config;
     config = withDefaultInteraction(config, kind === "card" ? "cards" : "badges");
+    if(kind === "badge") config = badgeNativeConfig(config);
     let child;
     try {
       const tag = kind === "card" ? "hui-card" : "hui-badge";
@@ -916,13 +993,14 @@ class FlexAccordionCard extends HTMLElement {
         child = create(config);
         child.addEventListener("ll-rebuild", (event) => {
           event.stopPropagation();
-          const replacement = this._nativeElement(kind, config, helpers);
+          const replacement = this._nativeElement(kind, fullConfig, helpers);
           this._children = this._children.filter((item) => item !== child);
           child.replaceWith(replacement);
           this._propagate();
         }, { once: true });
         child.addEventListener("ll-upgrade", () => this._propagate());
       }
+      if(kind === "badge") applyBadgeAppearance(child,fullConfig);
       child.hass = this._hass;
       child.preview = this._preview;
       this._children.push(child);
@@ -968,15 +1046,20 @@ class FlexCompactField extends HTMLElement {
   constructor() { super(); this.attachShadow({ mode: "open" }); }
   set schema(value) {
     this._schema = value;
-    if (this._control) return;
+    const boolean = Boolean(value.compact_selector.boolean);
+    if (this._control && this._boolean !== boolean) { this.shadowRoot.replaceChildren(); this._control = null; this._labelNode = null; }
+    this._boolean = boolean;
+    if (!this._control) {
     const style = el("style"); style.textContent = ":host{display:block;margin-bottom:8px!important}.boolean{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}ha-switch{--ha-switch-min-touch-size:40px}";
     this.shadowRoot.append(style);
-    const boolean = Boolean(value.compact_selector.boolean);
     this._control = el(boolean ? (customElements.get("ha-switch") ? "ha-switch" : "input") : "ha-selector");
     if (this._control.localName === "input") this._control.type = "checkbox";
     if (boolean) { const row = el("label", "boolean"); this._labelNode = el("span"); row.append(this._labelNode, this._control); this.shadowRoot.append(row); }
     else { this._control.schema = { ...value, selector: value.compact_selector }; this._control.required = Boolean(value.required); this._control.selector = value.compact_selector; this._control.name = value.name; this.shadowRoot.append(this._control); }
     this._control.addEventListener(boolean ? "change" : "value-changed", (event) => { event.stopPropagation(); this._data = boolean ? Boolean(this._control.checked) : event.detail.value; this.dispatchEvent(new CustomEvent("value-changed", { detail: { value: this._data }, bubbles: true, composed: true })); });
+    }
+    // ha-form reuses fields by position: always refresh their selector contract.
+    if (!boolean) { this._control.schema = { ...value, selector:value.compact_selector }; this._control.selector=value.compact_selector; this._control.required=Boolean(value.required); this._control.name=value.name; }
     this._sync();
   }
   get schema() { return this._schema; }
@@ -989,9 +1072,53 @@ class FlexCompactField extends HTMLElement {
   reportValidity() { return this._control?.reportValidity?.() ?? true; }
 }
 if (!customElements.get("ha-form-flex-compact")) customElements.define("ha-form-flex-compact", FlexCompactField);
-function compactSchema(schema) { return schema.map((field) => { if (field.selector) { const { selector, ...rest } = field; return { ...rest, type: "flex-compact", compact_selector: selector }; } return field.schema ? { ...field, schema: compactSchema(field.schema) } : field; }); }
+class FlexBadgeTypeField extends HTMLElement {
+  constructor() {
+    super(); this.attachShadow({mode:"open"}); this._controls=[];
+    const style=el("style");style.textContent=":host{display:block;margin-bottom:8px!important}fieldset{border:0;padding:0;margin:0}legend{font:inherit;font-weight:500;margin-bottom:8px}.choices{display:flex;flex-wrap:wrap;gap:8px 24px}label{display:flex;align-items:center;gap:8px;min-height:40px;cursor:pointer}input{accent-color:var(--primary-color,#03a9f4);width:18px;height:18px;margin:0}";
+    const group=el("fieldset"); this.legend=el("legend"); const choices=el("div","choices");group.append(this.legend,choices);this.shadowRoot.append(style,group);
+    for(const [value,key] of [["entity","Entité"],["shortcut","Raccourci"]]) { const label=el("label"),input=el("input"),caption=el("span");input.type="radio";input.name="badge-type";input.value=value;input.dataset.key=key;label.append(input,caption);choices.append(label);this._controls.push({input,caption,key});input.addEventListener("change",event=>{event.stopPropagation();if(input.checked)this.dispatchEvent(new CustomEvent("value-changed",{detail:{value},bubbles:true,composed:true}));}); }
+    this.hass=undefined;
+  }
+  set schema(value){this._schema=value;}get schema(){return this._schema;}
+  set label(value){this.legend.textContent=value;}
+  set hass(value){for(const row of this._controls)row.caption.textContent=t(value,row.key);}
+  set data(value){this._data=value;for(const {input} of this._controls)input.checked=input.value===value;}get data(){return this._data;}
+  set disabled(value){for(const {input} of this._controls)input.disabled=Boolean(value);}
+  reportValidity(){return ["entity","shortcut"].includes(this._data);}
+}
+if(!customElements.get("ha-form-flex-badge-type"))customElements.define("ha-form-flex-badge-type",FlexBadgeTypeField);
+
+// Scoped expandable field: same neutral outline as the surrounding editor groups.
+class FlexBadgeExpandable extends HTMLElement {
+  constructor() {
+    super(); this.attachShadow({mode:"open"});
+    const style=el("style"); style.textContent=":host{display:block;margin-bottom:0!important}.group{border:2px solid var(--fac-editor-border,#8493a2);border-radius:10px;margin:12px 0;overflow:hidden}.group summary{display:flex;gap:10px;align-items:center;cursor:pointer;padding:12px;font-weight:600;background:var(--secondary-background-color,#f1f5f8);list-style:none}.group summary::-webkit-details-marker{display:none}.group summary::marker{content:''}.group summary svg{width:20px;height:20px;flex:none}.group[open]>summary svg{transform:rotate(180deg)}.group-body{padding:12px;border-top:1px solid var(--fac-editor-border,#8493a2)}";
+    this.details=el("details","group"); const summary=el("summary"); this.caption=el("span","label"); this.caption.style.setProperty("flex","1"); summary.append(this.caption,svgIcon("chevron")); const body=el("div","group-body"); this.form=el("ha-form"); body.append(this.form); this.details.append(summary,body); this.shadowRoot.append(style,this.details);
+    this.form.addEventListener("value-changed",event=>{event.stopPropagation();this.dispatchEvent(new CustomEvent("value-changed",{detail:{value:event.detail.value},bubbles:true,composed:true}));});
+  }
+  set schema(value){this._schema=value;this.form.schema=value.schema;} get schema(){return this._schema;}
+  set data(value){this.form.data=value;} get data(){return this.form.data;}
+  set hass(value){this.form.hass=value;}
+  set label(value){this.caption.textContent=value;}
+  set computeLabel(value){this.form.computeLabel=value;}
+  set disabled(value){this.form.disabled=value;}
+  set context(value){this.form.context=value;}
+  reportValidity(){return this.form.reportValidity?.()??true;}
+}
+if(!customElements.get("ha-form-flex-expandable"))customElements.define("ha-form-flex-expandable",FlexBadgeExpandable);
+function badgeConfigForType(config,type){
+ const next=clone(config); if(type===config.type)return next;
+ next.type=type;
+ if(type==="shortcut") {next.text=typeof config.name==="string"?config.name:next.text||""; for(const key of ["entity","name","show_name","show_state","show_icon","show_entity_picture","state_content","time_format","display_type"])delete next[key];}
+ else if(type==="entity"){next.name=config.text||next.name||"";delete next.text;}
+ return next;
+}
+
+function compactSchema(schema) { return schema.map((field) => { if (field.selector) { const { selector, ...rest } = field; return { ...rest, type: "flex-compact", compact_selector: selector }; } return field.schema ? { ...field, ...(field.type === "expandable" ? {type:"flex-expandable"} : {}), schema: compactSchema(field.schema) } : field; }); }
 
 function entityBadgeSchema(config, hass) {
+  const shortcut = config.type === "shortcut";
   const content = [
     { name: "name", selector: { entity_name: {} }, context: { entity: "entity" } },
     { name: "icon", selector: { icon: {} }, context: { icon_entity: "entity" } },
@@ -1000,20 +1127,25 @@ function entityBadgeSchema(config, hass) {
     { name: "state_content", selector: { ui_state_content: { allow_name: true } }, context: { filter_entity: "entity" } },
   ];
   if (badgeShowsTime(config, hass)) content.push({ name: "time_format", selector: { ui_time_format: {} } });
+  const appearance = [{name:"hide_border",selector:{boolean:{}}},{name:"transparent_background",selector:{boolean:{}}}];
+  content.push(...appearance);
+  const type = { name:"type", type:"flex-badge-type", required:true };
+  const shortcutContent = [{name:"text",selector:{text:{}}},{name:"icon",selector:{icon:{}}},{name:"color",selector:{ui_color:{}}},...appearance];
   return [
-    { name: "entity", selector: { entity: {} } },
-    { name: "content", type: "expandable", flatten: true, schema: content },
-    { name: "interactions", type: "expandable", flatten: true, schema: ["tap_action", "hold_action", "double_tap_action"].map((name) => ({ name, selector: { ui_action: { default_action: name === "tap_action" ? "more-info" : "none" } }, context: { entity_id: "entity", area_id: "area" } })) },
+    type,
+    ...(!shortcut ? [{ name: "entity", required:true, selector: { entity: {} } }] : []),
+    { name: "content", type: "expandable", flatten: true, schema: shortcut ? shortcutContent : content },
+    { name: "interactions", type: "expandable", flatten: true, schema: ["tap_action", "hold_action", "double_tap_action"].map((name) => ({ name, selector: { ui_action: { default_action: !shortcut && name === "tap_action" ? "more-info" : "none" } }, context: { entity_id: "entity", area_id: "area" } })) },
   ];
 }
 
 // Own controller, native HA form/selectors and native YAML component. No global
 // monkey-patches and no traversal of another component's private shadow DOM.
-function createEntityBadgeEditor() {
-  const node = el("div", "entity-badge-editor");
+function createBadgeEditor() {
+  const node = el("div", "entity-badge-editor"); node.unifiedBadgeEditor = true;
   const form = el("ha-form"); const code = el("div", "badge-code"); code.hidden = true; node.append(form, code);
   let hass; let gui = true; let yaml; let lastCode; let raw = {};
-  const fieldLabels = { entity: "Entité", name: "Nom", icon: "Icône", color: "Couleur", content: "Contenu", interactions: "Interactions", show_name: "Afficher le nom", show_state: "Afficher l’état", show_icon: "Afficher l’icône", show_entity_picture: "Afficher l’image de l’entité", state_content: "Contenu de l’état", time_format: "Format de l’heure", tap_action: "Au toucher", hold_action: "Appui long", double_tap_action: "Double toucher" };
+  const fieldLabels = { hide_border:"Masquer la bordure", transparent_background:"Fond transparent", type:"Type de badge", text:"Texte", entity: "Entité", name: "Nom", icon: "Icône", color: "Couleur", content: "Contenu", interactions: "Interactions", show_name: "Afficher le nom", show_state: "Afficher l’état", show_icon: "Afficher l’icône", show_entity_picture: "Afficher l’image de l’entité", state_content: "Contenu de l’état", time_format: "Format de l’heure", tap_action: "Au toucher", hold_action: "Appui long", double_tap_action: "Double toucher" };
   form.computeLabel = ({ name }) => t(hass, fieldLabels[name] || name);
   const refreshSchema = () => { const schema = compactSchema(localizeSchema(entityBadgeSchema(raw, hass), hass)); if (!sameConfig(schema, form.schema)) form.schema = schema; };
   const emit = (value) => node.dispatchEvent(new CustomEvent("config-changed", { detail: { config: value }, bubbles: true, composed: true }));
@@ -1037,15 +1169,18 @@ function createEntityBadgeEditor() {
   } });
   node.setConfig = (value) => {
     raw = clone(value); node.config = raw;
-    form.data = { show_name: false, show_state: true, show_icon: true, ...raw }; refreshSchema();
+    form.data = raw.type === "shortcut" ? clone(raw) : { show_name: false, show_state: true, show_icon: true, ...raw }; refreshSchema();
     if (!gui && yaml && !sameConfig(lastCode, raw)) { if (yaml.localName === "textarea") yaml.value = JSON.stringify(raw, null, 2); else yaml.defaultValue = clone(raw); }
   };
-  form.addEventListener("value-changed", (event) => { event.stopPropagation(); emit(clone(event.detail.value)); });
+  form.addEventListener("value-changed", (event) => { event.stopPropagation(); const value = event.detail.value; emit(value.type && value.type !== raw.type ? badgeConfigForType({ ...value, type:raw.type }, value.type) : clone(value)); });
   return node;
 }
 
+// Compatibility name retained for existing component-contract tests.
+const createEntityBadgeEditor = createBadgeEditor;
 
-const labels = { always_open: "Toujours ouverte (sans en-tête)", text_size: "Taille du texte (px)", enabled: "Afficher l’en-tête de la carte", layout: "Présentation", background: "Fond global autour des sections", exclusive: "Une seule section ouverte", animation: "Animations", animation_duration: "Durée (ms)", title: "Titre", icon: "Icône", columns: "Colonnes", default_open: "Ouverte au chargement", entity: "Entité" };
+
+const labels = { always_open: "Toujours ouverte", text_size: "Taille du texte (px)", enabled: "Afficher l’en-tête de la carte", layout: "Présentation", background: "Fond global autour des sections", exclusive: "Une seule section ouverte", animation: "Animations", animation_duration: "Durée (ms)", title: "Titre", icon: "Icône", columns: "Colonnes", default_open: "Ouverte au chargement", entity: "Entité" };
 const selectSchema = (name, options) => ({ name, selector: { select: { mode: "dropdown", options: options.map(([value, label]) => ({ value, label })) } } });
 const globalSchema = [selectSchema("layout", [["unified", "Carte unique"], ["separate", "Cartes séparées"]]), { name: "background", selector: { boolean: {} } }, { name: "exclusive", selector: { boolean: {} } }, { name: "animation", selector: { boolean: {} } }, { name: "animation_duration", selector: { number: { min: 0, max: 2000, mode: "box", step: 10 } } }];
 const headerSchema = [{ name: "title", selector: { text: {} } }, { name: "icon", selector: { icon: {} } }, { name: "default_open", selector: { boolean: {} } }];
@@ -1206,6 +1341,7 @@ class FlexAccordionCardEditor extends HTMLElement {
     update(native.GUImode !== false);
     native.addEventListener("GUImode-changed", (event) => { event.stopPropagation(); update(event.detail.guiMode); mode.disabled = !event.detail.guiMode && event.detail.guiModeAvailable === false; }); return mode;
   }
+  _modeToolbar(native,pane) { const actions=el("div","toolbar editor-actions");actions.append(this._modeButton(native));pane.append(actions);return actions; }
   _render() {
     if (!this._config) return;
     for (const group of this.shadowRoot.querySelectorAll(".group")) this._expanded.set(group.dataset.group, group.open);
@@ -1214,13 +1350,13 @@ class FlexAccordionCardEditor extends HTMLElement {
       :host{display:block;color:var(--primary-text-color,#20252b);font:14px var(--paper-font-body1_-_font-family,system-ui);--fac-editor-border:color-mix(in srgb,var(--primary-text-color,#20252b) 40%,transparent)}
       *{box-sizing:border-box}button,select,input,textarea{font:inherit;color:inherit}button{border:1px solid var(--fac-editor-border,#8493a2);border-radius:8px;background:var(--card-background-color,#fff);cursor:pointer;padding:8px 10px;min-height:36px}
       button:hover{background:var(--secondary-background-color,#eef3f7)}button:disabled{opacity:.4;cursor:default}button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--primary-color,#03a9f4);outline-offset:2px}
-      .toolbar,.row,.section-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.toolbar{margin:10px 0}.label{flex:1;min-width:70px;overflow-wrap:anywhere}.title-button{border:0;background:transparent;text-align:start;font-weight:600;flex:1;min-width:70px;padding:4px}
+      .toolbar,.row,.section-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.toolbar{margin:10px 0}.editor-actions{align-items:stretch}.editor-actions>button{display:inline-flex;align-items:center;justify-content:center;min-height:40px}.label{flex:1;min-width:70px;overflow-wrap:anywhere}.title-button{border:0;background:transparent;text-align:start;font-weight:600;flex:1;min-width:70px;padding:4px}
       .section-editor,.pane{border:2px solid var(--fac-editor-border,#8493a2);border-radius:12px;margin:12px 0;padding:12px;background:var(--card-background-color,#fff)}
       .section-head{font-weight:600}.counts,.type-label,.hint,.breadcrumb{font-size:12px;color:var(--secondary-text-color,#606973);line-height:1.5}.counts{margin:6px 0 0 44px}.type-label{display:block}.breadcrumb{margin-bottom:10px;overflow-wrap:anywhere}.breadcrumb button{font:inherit;border:0;padding:4px;background:transparent;color:var(--primary-color,#028ca8)}
-      h3{margin:10px 0}h4{margin:8px 0}.group{border:2px solid var(--fac-editor-border,#8493a2);border-inline-start:4px solid var(--primary-color,#028ca8);border-radius:10px;margin:12px 0;overflow:hidden}.group summary{display:flex;gap:10px;align-items:center;cursor:pointer;padding:12px;font-weight:600;background:var(--secondary-background-color,#f1f5f8);list-style:none}.group summary::-webkit-details-marker{display:none}.group summary::marker{content:""}.group summary svg{width:20px;height:20px;flex:none}.group[open]>summary svg{transform:rotate(180deg)}.group-body{padding:12px;border-top:1px solid var(--fac-editor-border,#8493a2)}
+      h3{margin:10px 0}h4{margin:8px 0}.group{border:2px solid var(--fac-editor-border,#8493a2);border-radius:10px;margin:12px 0;overflow:hidden}.group summary{display:flex;gap:10px;align-items:center;cursor:pointer;padding:12px;font-weight:600;background:var(--secondary-background-color,#f1f5f8);list-style:none}.group summary::-webkit-details-marker{display:none}.group summary::marker{content:""}.group summary svg{width:20px;height:20px;flex:none}.group[open]>summary svg{transform:rotate(180deg)}.group-body{padding:12px;border-top:1px solid var(--fac-editor-border,#8493a2)}
       .row{padding:10px 0;border-bottom:1px solid var(--fac-editor-border,#8493a2)}.icon-button{display:inline-flex;align-items:center;justify-content:center;width:38px;padding:6px;flex:none}.drag{cursor:grab}.drop-over{outline:3px dashed var(--primary-color,#03a9f4);outline-offset:-3px}.dropzone{min-height:22px;border-radius:6px}.destinations{margin:10px 0;font-size:12px}.transfer-target{border:1px dashed var(--fac-editor-border,#8493a2);padding:10px;margin-top:6px}.hint{margin:10px 0}.error{color:var(--error-color,#b71c1c);white-space:pre-wrap}.error:empty{display:none}
       .fallback-form{display:grid;gap:8px}.fallback-form label{min-height:40px}.fallback-form label{display:flex;gap:10px;align-items:center;justify-content:space-between}.fallback-form input:not([type=checkbox]),.fallback-form select{width:55%}input,select,textarea{border:1px solid var(--fac-editor-border,#8493a2);border-radius:6px;background:var(--card-background-color,#fff);padding:8px;max-width:100%}textarea{width:100%;min-height:180px;font-family:monospace}select{max-width:160px}.pane:empty{display:none}.item-page>.pane{margin-top:8px}.back{margin:4px 0 12px}.item-page .context-title{font-size:18px;overflow-wrap:anywhere}.manual{margin-top:16px}.manual summary{cursor:pointer;font-weight:500;padding:8px 0}
-      .nav-header{position:sticky;top:var(--flex-accordion-editor-sticky-top,0px);z-index:20;background:var(--card-background-color,var(--ha-card-background,#fff));padding:8px 0;border-bottom:2px solid var(--fac-editor-border,#8493a2);margin-bottom:12px}.nav-header .back{margin:0}.back,.mode-button{display:inline-flex;gap:8px;align-items:center}.back svg,.mode-button svg{flex:none}.transfer-panel{padding:12px;border:2px solid var(--primary-color,#028ca8);border-radius:8px;margin:8px 0}.transfer-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.transfer-options button{display:inline-flex;gap:8px;align-items:center}.badge-code[hidden],ha-form[hidden]{display:none!important}
+      .nav-header{position:sticky;top:var(--flex-accordion-editor-sticky-top,0px);z-index:20;background:var(--card-background-color,var(--ha-card-background,#fff));padding:8px 0;border-bottom:2px solid var(--fac-editor-border,#8493a2);margin-bottom:12px}.nav-header .back{margin:0}.section-title,.context-title{border-inline-start:4px solid var(--primary-color,#028ca8);padding-inline-start:10px}.back,.mode-button{display:inline-flex;gap:8px;align-items:center}.back svg,.mode-button svg{flex:none}.transfer-panel{padding:12px;border:2px solid var(--primary-color,#028ca8);border-radius:8px;margin:8px 0}.transfer-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.transfer-options button{display:inline-flex;gap:8px;align-items:center}.badge-code[hidden],ha-form[hidden]{display:none!important}
     `;
     const root = el("div", `editor ${this._selection ? "item-page" : this._sectionId ? "section-page" : "overview-page"}`);
     if (this._selection) this._renderItemPage(root);
@@ -1284,16 +1420,16 @@ class FlexAccordionCardEditor extends HTMLElement {
     const section = this._currentSection(); const s = this._sectionIndex();
     const nav = el("div", "nav-header"); nav.append(this._backButton(t(this._hass, "Toutes les sections"), () => { this._sectionId = null; this._transfer = null; this._render(); }, t(this._hass, "Retour à toutes les sections")), el("h3", "section-title", `${t(this._hass, "Section")} · ${section.title}`)); root.append(nav);
     const header = this._group(t(this._hass, section.always_open ? "Réglages de section" : "En-tête de section"), `${section.id}:header`, true); header.details.dataset.kind = "header";
-    const schema = [{ name: "always_open", selector: { boolean: {} } }, ...headerSchema.filter(field => !section.always_open || field.name === "title")];
-    header.body.append(this._form(section, schema, (value) => { const current = this._currentSection(); const modeChanged = value.always_open !== undefined && current.always_open !== value.always_open; Object.assign(current, value); return this._emit(modeChanged); }));
-    if (section.always_open) header.body.append(el("p", "hint", t(this._hass, "Cette section reste ouverte, hors mode exclusif. L’en-tête et les badges sont masqués ; leurs réglages sont conservés. Les conditions de visibilité restent applicables.")));
+    header.body.append(this._form(section,[{name:"always_open",selector:{boolean:{}}}],value=>{const current=this._currentSection();const changed=current.always_open!==value.always_open;Object.assign(current,value);return this._emit(changed);}));
+    if(section.always_open) header.body.append(el("p","hint",t(this._hass,"Cette section reste toujours ouverte. Elle n'a ni en-tête ni badge.")));
+    header.body.append(this._form(section,headerSchema.filter(field=>!section.always_open||field.name==="title"),value=>{Object.assign(this._currentSection(),value);return this._emit(false);}));
     root.append(header.details);
     const visibility = this._group(t(this._hass, "Visibilité de la section"), `${section.id}:visibility`); visibility.details.dataset.kind = "visibility";
     visibility.body.append(this._visibilityEditor(() => this._currentSection(), (config) => { const current = this._currentSection(); if (config.visibility?.length) current.visibility = config.visibility; else delete current.visibility; this._emit(false); }));
     for (const kind of ["badges", "cards"]) {
       if (kind === "badges" && section.always_open) continue;
       const group = this._group(`${kind === "badges" ? t(this._hass, "Badges") : t(this._hass, "Cartes")} (${section[kind].length})`, `${section.id}:${kind}`); group.details.dataset.kind = kind;
-      if (kind === "cards") group.body.append(this._form(section, contentSchema, (value) => { Object.assign(this._config.sections[this._sectionIndex()], value); return this._emit(false); }));
+      if (kind === "cards") group.body.append(this._form(section, contentSchema.filter(field => field.name !== "columns" || section.layout === "grid"), (value) => { const current = this._currentSection(); const layoutChanged = value.layout !== undefined && current.layout !== value.layout; Object.assign(current, value); return this._emit(layoutChanged); }));
       const list = el("div", "list"); list.dataset.kind = kind;
       section[kind].forEach((item, i) => {
         const row = el("div", "row"); row.dataset.index = String(i); row.dataset.kind = kind;
@@ -1355,9 +1491,9 @@ class FlexAccordionCardEditor extends HTMLElement {
   _transferPanel(transfer) {
     const panel = el("div", "transfer-panel"); panel.append(el("strong", "", transfer.mode === "copy" ? t(this._hass, "Copier dans une section") : t(this._hass, "Déplacer dans une autre section")));
     const choices = el("div", "transfer-options");
-    this._config.sections.forEach((section, destination) => {
+    this._config.sections.map((section, destination) => ({ section, destination })).sort((a, b) => transfer.mode === "copy" ? Number(b.destination === transfer.s) - Number(a.destination === transfer.s) : 0).forEach(({ section, destination }) => {
       if (destination === transfer.s && transfer.mode !== "copy" || transfer.kind === "badges" && section.always_open) return;
-      const target = button(section.title, () => {
+      const target = button(transfer.mode === "copy" && destination === transfer.s ? t(this._hass, "Section actuelle") : section.title, () => {
         if (transfer.mode === "copy") { this._config = copyNested(this._config, transfer.kind, transfer.s, transfer.i, destination); this._transfer = null; this._emit(); }
         else this._moveNested(transfer, destination, section[transfer.kind].length);
       }); target.dataset.destination = section.id;
@@ -1410,6 +1546,11 @@ class FlexAccordionCardEditor extends HTMLElement {
     node.addEventListener("config-changed", (event) => {
       event.stopPropagation(); if (this._active !== active || epoch !== this._epoch || event.detail.error) return;
       // Accept the complete native configuration, including deliberate field removals.
+      const changeId = active.changeId = (active.changeId || 0) + 1;
+      if (node.unifiedBadgeEditor && event.detail.config?.type === "shortcut" && !customElements.get("hui-shortcut-badge")) {
+        const previous = clone(active.lastSent || this._editingContainer()[this._selection.kind][this._selection.i]);
+        this._addShortcut(pane, value => { if (this._active === active && active.changeId === changeId) this._saveItem(value, true); }, epoch, event.detail.config).then(ok => { if (!ok && this._active === active && active.changeId === changeId) node.setConfig(previous); }); return;
+      }
       this._saveItem(event.detail.config, true);
     });
     this._native(node); this._syncActive(); pane.append(node);
@@ -1419,9 +1560,17 @@ class FlexAccordionCardEditor extends HTMLElement {
     const epoch = this._epoch; const { kind, i } = this._selection;
     const save = (config) => { if (epoch === this._epoch) this._saveItem(config); };
     if (i === null) {
+      if (kind === "badges") {
+        if (!customElements.get("ha-form")) {
+          try { const helpers=this._helpers || await cardHelpers(); const entity=helpers.createBadgeElement({type:"entity",entity:""}); if(entity.constructor.getConfigElement) await bounded(entity.constructor.getConfigElement()); } catch { /* Explicit JSON fallback below. */ }
+          if(epoch !== this._epoch) return;
+        }
+        if(!customElements.get("ha-form")) { pane.append(el("p","hint",t(this._hass,"Formulaire HA indisponible : utilisez la configuration JSON."))); this._jsonEditor(pane,()=>({type:"entity"}),save,t(this._hass,"Ajout manuel (JSON)")); return; }
+        this._renderBadgeDraft(pane, epoch); return;
+      }
       const tag = kind === "cards" ? "hui-card-picker" : "hui-badge-picker";
       if (customElements.get(tag)) {
-        const picker = this._native(el(tag)); picker.addEventListener("config-changed", (event) => { event.stopPropagation(); save(event.detail.config); }); pane.append(picker);
+        const picker = this._native(el(tag)); picker.addEventListener("config-changed", (event) => { event.stopPropagation(); if(kind==="cards" && (event.detail.config?.type === "" || event.detail.config?.type === "manual")) this._renderManualCardDraft(pane,epoch); else save(event.detail.config); }); pane.append(picker);
       } else if (kind === "badges") {
         pane.append(el("p", "hint", t(this._hass, "Choisissez une entité. Son éditeur Home Assistant s’ouvrira ensuite."))); const data = { entity: "" };
         pane.append(this._form(data, [{ name: "entity", selector: { entity: {} } }], (value) => Object.assign(data, value)), button(t(this._hass, "Ajouter le badge"), () => { if (data.entity) save({ type: "entity", entity: data.entity }); }));
@@ -1429,9 +1578,7 @@ class FlexAccordionCardEditor extends HTMLElement {
       this._jsonEditor(pane, () => kind === "cards" ? { type: "markdown", content: t(this._hass, "Nouvelle carte") } : { type: "entity", entity: "" }, save, t(this._hass, "Ajout manuel (JSON)")); return;
     }
     const config = this._editingContainer()?.[kind]?.[i]; if (!config) return;
-    const interaction = defaultInteraction(config, kind);
-    if (interaction && !Object.hasOwn(config, "tap_action")) pane.append(el("p", "hint", t(this._hass, "Action par défaut : {action}. Une action personnalisée reste prioritaire.", { action: interaction.action === "toggle" ? t(this._hass, "Basculer") : interaction.action === "perform-action" ? interaction.perform_action : t(this._hass, "Plus d’informations") })));
-    if (kind === "badges" && config.type === "entity") {
+    if (kind === "badges" && ["entity", "shortcut"].includes(config.type)) {
       if (!customElements.get("ha-form")) {
         try {
           const helpers = this._helpers || await cardHelpers(); const entity = helpers.createBadgeElement(config);
@@ -1440,27 +1587,70 @@ class FlexAccordionCardEditor extends HTMLElement {
         if (epoch !== this._epoch) return;
       }
       if (customElements.get("ha-form")) {
-        const native = createEntityBadgeEditor(); pane.append(this._modeButton(native)); this._bindEditor(native, false, pane, epoch); this._badgeVisibility(pane); return;
+        const native = createBadgeEditor(); this._bindEditor(native, false, pane, epoch); this._badgeVisibility(pane); this._modeToolbar(native,pane); return;
       }
     }
     const tag = kind === "cards" ? "hui-card-element-editor" : "hui-badge-element-editor";
     if (customElements.get(tag)) {
-      const native = el(tag); pane.append(this._modeButton(native));
+      const native = el(tag);
       if (kind === "cards") native.showVisibilityTab = Boolean(customElements.get("hui-card"));
-      this._bindEditor(native, true, pane, epoch); return;
+      this._bindEditor(native, true, pane, epoch); this._modeToolbar(native,pane); return;
     }
-    const loading = el("p", "hint", t(this._hass, "Chargement de l’éditeur natif…")); pane.append(loading);
+    let fallbackEditor; const loading = el("p", "hint", t(this._hass, "Chargement de l’éditeur natif…")); pane.append(loading);
     try {
       const helpers = this._helpers || await cardHelpers(); const factory = kind === "cards" ? helpers.createCardElement : helpers.createBadgeElement;
       if (typeof factory !== "function") throw new Error("Helper natif absent");
       const element = factory(withDefaultInteraction(config, kind));
       const native = element.constructor.getConfigElement ? await bounded(element.constructor.getConfigElement()) : undefined;
       if (epoch !== this._epoch) return; loading.remove();
-      if (native?.setConfig) this._bindEditor(native, false, pane, epoch);
+      if (native?.setConfig) {this._bindEditor(native, false, pane, epoch);fallbackEditor=native;}
       else pane.append(el("p", "hint", t(this._hass, "Aucun éditeur visuel disponible pour cet élément. Utilisez JSON ou le YAML de la carte principale.")));
     } catch (error) { if (epoch !== this._epoch) return; loading.textContent = t(this._hass, "Éditeur natif indisponible : {error}", { error: error.message }); }
     if (epoch === this._epoch && kind === "badges") this._badgeVisibility(pane);
     if (epoch === this._epoch) this._jsonEditor(pane, () => this._editingContainer()[kind][this._selection.i], save, t(this._hass, "Configuration manuelle (JSON)"));
+    if(epoch === this._epoch && fallbackEditor)this._modeToolbar(fallbackEditor,pane);
+  }
+  _renderManualCardDraft(pane,epoch) {
+    pane.replaceChildren();let draft={type:""}; const error=el("p","error");let code;
+    if(customElements.get("ha-yaml-editor")){code=this._native(el("ha-yaml-editor"));code.defaultValue=clone(draft);code.addEventListener("value-changed",event=>{event.stopPropagation();draft=event.detail.isValid?clone(event.detail.value):null;});}
+    else {pane.append(el("p","hint",t(this._hass,"Éditeur YAML HA indisponible : saisie JSON.")));code=el("textarea");code.value=JSON.stringify(draft,null,2);code.addEventListener("input",()=>{try{draft=JSON.parse(code.value);}catch{draft=null;}});}
+    code.setAttribute("aria-label",t(this._hass,"Configuration de la carte"));pane.append(code);
+    const actions=el("div","toolbar editor-actions");actions.append(button(t(this._hass,"Ajouter la carte"),()=>{if(epoch!==this._epoch)return;if(!draft||typeof draft!=="object"||Array.isArray(draft)||typeof draft.type!=="string"||!draft.type||draft.type==="manual"){error.textContent=t(this._hass,"Objet avec type requis");return;}this._saveItem(draft);}));pane.append(actions,error);
+  }
+  _badgeDraftPreview(pane,getDraft,epoch) {
+    const preview=el("div","badge-draft-preview");preview.append(el("h4","",t(this._hass,"Aperçu du badge")));const body=el("div","badge-preview-content");preview.append(body);pane.append(preview);let child;let childType;let generation=0;let hass=this._hass;
+    const update=async()=>{const current=++generation;const config=clone(getDraft());if(config.type==="entity"&&!config.entity){body.replaceChildren(el("p","hint",t(hass,"Choisissez une entité pour ce type de badge.")));child=null;return;}
+      try{const helpers=this._helpers||await cardHelpers();if(current!==generation||epoch!==this._epoch)return;
+        if(!child||childType!==config.type){child=customElements.get("hui-badge")?el("hui-badge"):helpers.createBadgeElement(badgeNativeConfig(withDefaultInteraction(config,"badges")));childType=config.type;child.addEventListener("ll-rebuild",event=>{event.stopPropagation();child=null;update();});body.replaceChildren(child);}
+        const nativeConfig=badgeNativeConfig(withDefaultInteraction(config,"badges"));if(child.setConfig)child.setConfig(nativeConfig);else child.config=nativeConfig;applyBadgeAppearance(child,config);child.hass=hass;child.preview=true;
+      }catch(error){if(current===generation&&epoch===this._epoch)body.replaceChildren(el("p","error",error.message));}
+    };
+    Object.defineProperty(preview,"hass",{get:()=>hass,set:value=>{hass=value;if(child)child.hass=value;}});this._native(preview);update();return update;
+  }
+  _renderBadgeDraft(pane, epoch) {
+    let updatePreview=()=>{}; let draft = {type:"entity"}; const node = this._native(createBadgeEditor()); node.setConfig(draft); pane.append(node);
+    node.addEventListener("config-changed", event => { event.stopPropagation(); draft = clone(event.detail.config); node.setConfig(draft); this._syncVisibility(); node.updateComplete=updatePreview(); });
+    const visibility = this._group(t(this._hass,"Visibilité du badge"), "draft-badge:visibility"); visibility.body.append(this._visibilityEditor(() => draft, value => { draft = value; node.setConfig(draft); node.updateComplete=updatePreview(); })); pane.append(visibility.details);
+    updatePreview=this._badgeDraftPreview(pane,()=>draft,epoch);
+    const error=el("p","error"); const actions=el("div","toolbar editor-actions badge-actions"); actions.append(this._modeButton(node), button(t(this._hass,"Ajouter le badge"), () => {
+      if(epoch !== this._epoch) return; error.textContent="";
+      if(draft.type === "entity" && !draft.entity) { error.textContent=t(this._hass,"Choisissez une entité pour ce type de badge."); return; }
+      if(draft.type === "shortcut") { const value=clone(draft); this._addShortcut(pane, config => this._saveItem(config), epoch, value); } else this._saveItem(draft);
+    })); pane.append(actions,error);
+  }
+  async _addShortcut(pane, save, epoch, config) {
+    const notice = el("p", "hint", t(this._hass, "Vérification du badge raccourci natif…")); pane.append(notice);
+    try {
+      if (!customElements.get("hui-shortcut-badge")) {
+        const helpers = this._helpers || await cardHelpers();
+        helpers.createBadgeElement({ type: "shortcut", text: t(this._hass, "Raccourci"), tap_action: { action: "none" } });
+        await bounded(customElements.whenDefined("hui-shortcut-badge"), 5000);
+      }
+      if (epoch !== this._epoch) return;
+      save(config || { type: "shortcut", text: t(this._hass, "Raccourci"), icon: "mdi:gesture-tap", tap_action: { action: "none" } }); return true;
+    } catch {
+      if (epoch === this._epoch) notice.textContent = t(this._hass, "Badge raccourci natif indisponible sur cette version de HA. Aucun badge personnalisé n’a été créé."); return false;
+    }
   }
   _jsonEditor(pane, getConfig, save, title) {
     const details = el("details", "manual"); details.append(el("summary", "", title));
