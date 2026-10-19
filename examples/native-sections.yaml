@@ -1,0 +1,40 @@
+type: custom:flex-accordion-card
+layout: unified
+exclusive: true
+sections:
+  - id: native-grid
+    layout: sections
+    title: Native sections
+    icon: mdi:view-dashboard
+    default_open: true
+    cards:
+      - type: markdown
+        content: "## Full width"
+        grid_options:
+          columns: full
+          rows: auto
+      - type: button
+        name: First half
+        icon: mdi:home
+        tap_action:
+          action: none
+        grid_options:
+          columns: 6
+          rows: 2
+      - type: button
+        name: Second half
+        icon: mdi:sofa
+        tap_action:
+          action: none
+        grid_options:
+          columns: 6
+          rows: 2
+  - id: fixed-footer
+    layout: sections
+    always_open: true
+    cards:
+      - type: markdown
+        content: Always-open footer
+        grid_options:
+          columns: full
+          rows: auto

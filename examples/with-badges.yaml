@@ -4,11 +4,10 @@ layout: separate
 exclusive: false
 sections:
   - id: salon
+    layout: sections
     title: Salon
     icon: mdi:sofa
     default_open: true
-    layout: grid
-    columns: 2
     badges:
       - type: entity
         entity: sensor.temperature_salon
@@ -24,9 +23,9 @@ sections:
         entities:
           - sensor.temperature_salon
   - id: energie
+    layout: sections
     title: Énergie
     icon: mdi:lightning-bolt
-    layout: vertical
     cards:
       - type: history-graph
         entities:

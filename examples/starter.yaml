@@ -5,11 +5,10 @@ animation: true
 animation_duration: 750
 sections:
   - id: salon
+    layout: sections
     title: Salon
     icon: mdi:sofa
     default_open: true
-    layout: grid
-    columns: 2
     badges: []
     cards:
       - type: markdown
@@ -17,9 +16,9 @@ sections:
       - type: markdown
         content: "Ajoutez vos cartes depuis l’éditeur visuel."
   - id: confort
+    layout: sections
     title: Confort
     icon: mdi:thermometer
-    layout: vertical
     default_open: false
     cards:
       - type: markdown

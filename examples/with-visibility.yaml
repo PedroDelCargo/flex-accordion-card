@@ -4,6 +4,7 @@ layout: separate
 background: true
 sections:
   - id: salon
+    layout: sections
     title: Salon
     icon: mdi:sofa
     default_open: true

@@ -3,6 +3,7 @@ layout: unified
 exclusive: true
 sections:
   - id: fixed-header
+    layout: sections
     title: En-tête permanent
     always_open: true
     cards:
@@ -10,6 +11,7 @@ sections:
         heading: Ma maison
         icon: mdi:home
   - id: living
+    layout: sections
     title: Salon
     icon: mdi:sofa
     default_open: true
@@ -17,6 +19,7 @@ sections:
       - type: markdown
         content: Contenu de la section accordéon
   - id: fixed-footer
+    layout: sections
     title: Pied permanent
     always_open: true
     cards:
