@@ -5,6 +5,42 @@ const input = () => ({ type: "custom:flex-accordion-card", sections: [
   { id: "a", title: "A", default_open: true, cards: [{ type: "markdown", content: "A" }], badges: ["sensor.a"] },
   { id: "b", title: "B", default_open: true, cards: [], badges: [] },
 ] });
+
+test("présentation Sections unique : conversion compatible et options natives conservées", () => {
+ const source=input(); source.sections[0].layout="sections"; source.sections[0].cards[0].grid_options={columns:6,rows:2};
+ const config=normalizeConfig(source); assert.equal(config.sections[0].layout,"sections"); assert.equal(config.sections[1].layout,"sections");
+ const copy=copyNested(config,"cards",0,0,1); assert.deepEqual(copy.sections[1].cards[0].grid_options,{columns:6,rows:2});
+ copy.sections[1].cards[0].grid_options.columns=12; assert.equal(config.sections[0].cards[0].grid_options.columns,6);
+ for(const layout of ["vertical","grid"]) {source.sections[0].layout=layout; assert.deepEqual(normalizeConfig(source).sections[0].cards[0].grid_options,{columns:6,rows:2});}
+ source.sections[0].layout="invalid"; assert.throws(()=>normalizeConfig(source));
+});
+
+test("migration de toutes les grilles de 1 à 12 : rangées complètes et conversion idempotente", () => {
+ for(let columns=1;columns<=12;columns++) {
+  const source=input(); source.sections[0].layout="grid"; source.sections[0].columns=columns;
+  source.sections[0].cards=Array.from({length:columns*2+1},(_,i)=>({type:"markdown",content:String(i),visibility:[{condition:"state",entity:"light.a",state:"on"}]}));
+  const config=normalizeConfig(source);const section=config.sections[0];
+  const widths=section.cards.map(card=>card.grid_options.columns);
+  assert.equal(widths.slice(0,columns).reduce((a,b)=>a+b,0),12);
+  assert.deepEqual(widths.slice(0,columns),widths.slice(columns,columns*2));
+  assert.ok(widths.every(w=>Number.isInteger(w)&&w>=1&&w<=12));
+  assert.ok(Math.max(...widths)-Math.min(...widths)<=1);
+  assert.ok(section.cards.every(card=>card.grid_options.rows==="auto"));
+  assert.deepEqual(section.cards[0].visibility,source.sections[0].cards[0].visibility);
+  assert.equal(source.sections[0].cards[0].grid_options,undefined);assert.equal(section.columns,undefined);
+  assert.deepEqual(config.layout_migration,{version:1,reviewed:false}); assert.deepEqual(normalizeConfig(config),config);
+  config.layout_migration.reviewed=true;assert.equal(normalizeConfig(config).layout_migration.reviewed,true);
+ }
+});
+
+test("migration verticale implicite : pleine largeur, priorité aux dimensions existantes et absence d’alerte sur les nouvelles sections", () => {
+ const source=input(); source.sections[0].cards.push({type:"button",tap_action:{action:"none"},grid_options:{columns:6,rows:2}});
+ const config=normalizeConfig(source);assert.deepEqual(config.sections[0].cards[0].grid_options,{columns:12,rows:"auto"});
+ assert.deepEqual(config.sections[0].cards[1].grid_options,{columns:6,rows:2}); assert.deepEqual(config.sections[0].cards[1].tap_action,{action:"none"});
+ const native=input();native.sections.forEach(section=>section.layout="sections");assert.equal(normalizeConfig(native).layout_migration,undefined);
+ const empty={type:"custom:flex-accordion-card",sections:[{}]};assert.equal(normalizeConfig(empty).layout_migration,undefined);
+ for(const bad of [null,{version:2,reviewed:false},{version:1,reviewed:"yes"}]) {native.layout_migration=bad;assert.throws(()=>normalizeConfig(native));}
+});
 test("normalisation immuable et conservation des options natives inconnues", () => {
   const source = input(); source.sections[0].cards[0].future_option = { x: true };
   const config = normalizeConfig(source);

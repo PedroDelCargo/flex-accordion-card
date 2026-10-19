@@ -70,6 +70,8 @@ export class NativeContent extends TestElement {
 }
 export class NativeStack extends NativeContent {}
 customElements.define("hui-vertical-stack-card", NativeStack);
+customElements.define("hui-section", class extends TestElement {});
+customElements.define("hui-grid-section", class extends TestElement {});
 window.loadCardHelpers = async () => ({
   createCardElement: (config) => { const node = config.type === "vertical-stack" ? new NativeStack() : new NativeContent(); node.setConfig(config); return node; },
   createBadgeElement: (config) => { const node = new NativeContent(); node.setConfig(config); return node; },

@@ -10,6 +10,7 @@ const source = () => ({ type: "custom:flex-accordion-card", sections: [
   { id: "living", title: "Salon", default_open: true, cards: [{ type: "button", entity: "light.salon" }], badges: [{ type: "entity", entity: "sensor.temperature", name: "Nom initial", show_state: true, show_name: false }] },
   { id: "energy", title: "Énergie", cards: [], badges: [] },
 ] });
+
 function setup() {
   const editor = new FlexAccordionCardEditor(); editor.setConfig(source());
   editor.hass = { states: { "light.salon": { attributes: { friendly_name: "Lampe du salon" } }, "sensor.temperature": { attributes: { friendly_name: "Température du salon" } } } };
@@ -101,7 +102,7 @@ test("rendu : ordre titre/badges/chevron épais et actions contextualisées", as
   const header = card.shadowRoot.querySelector(".header");
   assert.deepEqual(header.children.map((child) => child.className), ["toggle", "badges", "chevron"]);
   assert.equal(header.querySelector(".chevron svg").getAttribute("stroke-width"), "2.3");
-  assert.equal(card.shadowRoot.querySelector(".cards").children[0].config.tap_action.action, "toggle");
+  assert.equal(card.shadowRoot.querySelector(".cards").children[0].config.cards[0].tap_action.action, "toggle");
   assert.equal(Object.hasOwn(card._config.sections[0].cards[0], "tap_action"), false);
 });
 test("formulaire HA contrôlé : données renvoyées et identité conservée", () => {
@@ -356,14 +357,12 @@ test("section fixe : conditions HA conservées et contenu ouvert au réaffichage
  const fixed=card._sectionNodes[0]; card.hass={sectionVisible:true}; assert.equal(wrapper.hidden,false); assert.equal(fixed.querySelector(".panel").inert,false); assert.equal(fixed.querySelector(".toggle"),null);
 });
 
-test("colonnes conditionnelles : grille/vertical réversibles sans perte du nombre", () => {
- const editor=setup(); const content=()=>editor.shadowRoot.querySelector('.group[data-kind="cards"]').querySelector('ha-form');
- assert.equal(content().schema.some(f=>f.name==="columns"),false);
- content().dispatchEvent(new CustomEvent("value-changed",{detail:{value:{layout:"grid"}}})); assert.equal(content().schema.some(f=>f.name==="columns"),true);
- content().dispatchEvent(new CustomEvent("value-changed",{detail:{value:{columns:4}}}));
- content().dispatchEvent(new CustomEvent("value-changed",{detail:{value:{layout:"vertical"}}})); assert.equal(content().schema.some(f=>f.name==="columns"),false); assert.equal(editor._currentSection().columns,4);
- content().dispatchEvent(new CustomEvent("value-changed",{detail:{value:{layout:"grid"}}})); assert.equal(content().data.columns,4);
+test("présentation unique : aucun sélecteur de disposition ou nombre de colonnes", () => {
+ const editor=setup(); const content=editor.shadowRoot.querySelector('.group[data-kind="cards"]');
+ assert.equal(content.querySelector('ha-form'),null); assert.equal(editor._currentSection().layout,"sections");
+ assert.equal(editor._currentSection().columns,undefined);
 });
+
 test("copie : section actuelle en tête même si elle n’est pas la première", () => {
  const editor=setup(); editor._config.sections[1].cards=[{type:"markdown",content:"Original"}]; editor._openSection("energy"); editor._transfer={kind:"cards",s:1,i:0,mode:"copy"}; editor._render();
  const choices=editor.shadowRoot.querySelector('.transfer-options').querySelectorAll('button'); assert.equal(choices[0].textContent,"Section actuelle"); assert.equal(choices[0].dataset.destination,"energy"); assert.equal(choices[1].dataset.destination,"living");
@@ -404,7 +403,7 @@ test("accordéons de badge : ouverture et instance conservées aux changements d
 test("bordures neutres des accordéons et accent uniquement sur les titres contextuels", () => {
  const editor=setup(); const css=editor.shadowRoot.querySelector('style').textContent; const field=new FlexBadgeExpandable(); const badgeCss=field.shadowRoot.querySelector('style').textContent;
  assert.match(css,/section-title,\.context-title\{border-inline-start:4px/); assert.match(badgeCss,/border:2px solid var\(--fac-editor-border/); assert.equal(badgeCss.includes('border-inline-start'),false);
- assert.equal(css.match(/border-inline-start/g).length,1);
+ assert.equal(css.match(/border-inline-start/g).length,2); assert.match(css,/migration-notice\{[^}]*warning-color/);
 });
 test("changement de type : nom/texte et actions conservés, champs entité retirés du raccourci", () => {
  const source={type:'entity',entity:'sensor.temperature',name:'Maison',icon:'mdi:home',show_state:true,time_format:'relative',tap_action:{action:'navigate',navigation_path:'/home'},visibility:[{condition:'screen',media_query:'(min-width: 400px)'}]};
@@ -475,4 +474,65 @@ test("apparence : champs Contenu pour les deux types et aperçu du brouillon act
  for(const type of ['entity','shortcut']) {const fields=entityBadgeSchema({type}).find(f=>f.name==='content').schema;assert.ok(fields.some(f=>f.name==='hide_border'));assert.ok(fields.some(f=>f.name==='transparent_background'));}
  const editor=setup();editor._select({kind:'badges',s:0,i:null});await editor.updateComplete;const pane=editor.shadowRoot.querySelector('.pane'),controller=pane.querySelector('.entity-badge-editor'),form=controller.querySelector('ha-form');form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,entity:'sensor.temperature',hide_border:true,transparent_background:true}}}));await controller.updateComplete;const native=pane.querySelector('.badge-preview-content').children[0];assert.equal(native.style.getPropertyValue('--ha-card-background'),'transparent');assert.equal(native.style.getPropertyValue('--ha-card-border-width'),'0px');assert.equal(native.config.transparent_background,undefined);
  form.dispatchEvent(new CustomEvent('value-changed',{detail:{value:{...form.data,hide_border:false,transparent_background:false}}}));await controller.updateComplete;assert.equal(native.style.getPropertyValue('--ha-card-background'),undefined);assert.equal(native.style.getPropertyValue('--ha-card-border-width'),undefined);
+});
+
+test("Sections indisponibles : erreur explicite, badges et configuration conservés", async () => {
+ const ctor=customElements.get("hui-section"); customElements.define("hui-section",undefined);
+ try {
+  const card=new FlexAccordionCard(); card.setConfig(source()); card.hass={language:"en"}; await card.updateComplete;
+  assert.match(card.shadowRoot.querySelector(".native-section-error").textContent,/Native sections unavailable/);
+  assert.ok(card._children.some(child=>child.config?.type==="entity"));
+  assert.equal(card._config.sections[0].layout,"sections");
+ } finally {customElements.define("hui-section",ctor);}
+});
+
+test("Sections natives : délégation au wrapper HA sans accès en écriture au tableau de bord", async () => {
+ customElements.define("hui-section",class extends TestElement {});
+ customElements.define("hui-grid-section",class extends TestElement {});
+ // A real hui-card is registered by HA alongside hui-section.
+ const card=new FlexAccordionCard(); const config=source(); config.sections[0].layout="sections"; config.sections[0].always_open=true;
+ config.sections[0].cards[0].grid_options={columns:6,rows:2};
+ card.setConfig(config); card.hass={language:"en"}; card.preview=true; await card.updateComplete;
+ // The test suite registers hui-card later; exercise the missing-wrapper path too.
+ if(!customElements.get("hui-card")) customElements.define("hui-card",class extends NativeContent {});
+ card.setConfig(config); await card.updateComplete;
+ const native=card.shadowRoot.querySelector("hui-section"); assert.ok(native);
+ assert.equal(native.config.type,"grid"); assert.deepEqual(native.config.cards[0].grid_options,{columns:6,rows:2});
+ assert.deepEqual(native.config.cards[0].tap_action,{action:"toggle"}); assert.equal(config.sections[0].cards[0].tap_action,undefined);
+ assert.equal(native.insideStrategy,true); assert.equal(native.lovelace,undefined); assert.equal(native.path,undefined);
+ assert.equal(native.preview,true); const updated={language:"fr"}; card.hass=updated; assert.equal(native.hass,updated);
+ assert.equal(card.shadowRoot.querySelector(".always-open .toggle"),null);
+});
+
+test("avertissement de conversion : confirmation enregistrée et absence de nouvelle alerte après écho", () => {
+ const editor=setup(); assert.ok(editor.shadowRoot.querySelector(".migration-notice")); let saved;
+ editor.addEventListener("config-changed",event=>{saved=event.detail.config;editor.setConfig(saved);});
+ editor.shadowRoot.querySelector(".migration-notice button").dispatchEvent(new Event("click"));
+ assert.equal(saved.layout_migration.reviewed,true); assert.equal(editor.shadowRoot.querySelector(".migration-notice"),null);
+ editor.setConfig(structuredClone(saved));assert.equal(editor.shadowRoot.querySelector(".migration-notice"),null);
+ assert.equal(saved.sections[0].layout,"sections");
+});
+
+test("avertissement affiché et traduit sur la carte, puis retiré seulement après confirmation enregistrée", async () => {
+ const card=new FlexAccordionCard();card.setConfig(source());card.hass={language:"de"};await card.updateComplete;
+ assert.match(card.shadowRoot.querySelector(".migration-notice").textContent,/umgewandelt/);
+ const config=structuredClone(card._config);config.layout_migration.reviewed=true;card.setConfig(config);await card.updateComplete;
+ assert.equal(card.shadowRoot.querySelector(".migration-notice"),null);
+ const fresh=FlexAccordionCard.getStubConfig({language:"en"});card.setConfig(fresh);await card.updateComplete;
+ assert.equal(card.shadowRoot.querySelector(".migration-notice"),null);
+});
+
+test("éditeur de carte Sections : contexte natif Disposition et aller-retour des dimensions", async () => {
+ customElements.define("hui-card-element-editor",class extends TestElement {});
+ const editor=setup(); editor._currentSection().layout="sections"; editor._render();
+ editor._select({kind:"cards",s:0,i:0}); await editor.updateComplete;
+ const native=editor._active.node; assert.equal(native.sectionConfig.type,"grid");
+ const config={...native.value,grid_options:{columns:6,rows:3}};
+ native.dispatchEvent(new CustomEvent("config-changed",{detail:{config}}));
+ assert.deepEqual(editor._currentSection().cards[0].grid_options,{columns:6,rows:3});
+ editor.setConfig(structuredClone(editor._config)); assert.equal(editor._active.node,native);
+ assert.deepEqual(native.value.grid_options,{columns:6,rows:3});
+ editor._backToSection(); editor._render();
+ editor._select({kind:"cards",s:0,i:0}); await editor.updateComplete;
+ assert.equal(editor._active.node.sectionConfig.type,"grid");
 });

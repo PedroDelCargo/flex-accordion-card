@@ -7,7 +7,7 @@
   .notice{background:#e0f3f5;padding:14px;border-radius:10px;line-height:1.5;margin:20px 0}pre{white-space:pre-wrap;font-size:11px}ha-icon{display:inline-block;font-size:20px}
   @media(max-width:800px){body{padding:14px}.columns{grid-template-columns:1fr}.preview{position:static}}
 </style>
-<main><small>VERSION 0.11.0 · BANC DE TEST</small><h1>Flex Accordion Card</h1>
+<main><small>VERSION 0.13.0 · BANC DE TEST</small><h1>Flex Accordion Card</h1>
 <div class="notice">Cette démo utilise des composants HA simulés. Elle teste le conteneur et les événements ; elle ne valide pas les éditeurs ni les badges réels de Home Assistant.</div>
 <div class="columns"><div class="preview"><h2>Aperçu</h2><flex-accordion-card id="card"></flex-accordion-card></div><div><h2>Éditeur</h2><flex-accordion-card-editor id="editor"></flex-accordion-card-editor></div></div>
 <details><summary>Configuration enregistrée</summary><pre id="saved"></pre></details></main>
@@ -31,6 +31,12 @@ class MockConfigEditor extends HTMLElement {
   get hass(){return this._hass;}
 }
 customElements.define('mock-card',MockCard);customElements.define('hui-vertical-stack-card',MockStack);customElements.define('mock-badge',MockBadge);customElements.define('mock-config-editor',MockConfigEditor);
+// Contract double only: no reproduction or validation of HA's grid engine.
+class MockSection extends HTMLElement {
+ set config(value){this._config=value;this.replaceChildren(...value.cards.map(config=>{const card=document.createElement('mock-card');card.setConfig(config);return card;}));}
+ get config(){return this._config;}
+}
+customElements.define('hui-section',MockSection);customElements.define('hui-grid-section',class extends HTMLElement{});
 window.loadCardHelpers=async()=>({createCardElement:(config)=>{const node=document.createElement(config.type==='vertical-stack'?'hui-vertical-stack-card':'mock-card');node.setConfig(config);return node;},createBadgeElement:(config)=>{const node=document.createElement('mock-badge');node.setConfig(config);return node;}});
 window.config={type:'custom:flex-accordion-card',layout:'unified',exclusive:true,sections:[{id:'living',title:'Salon',icon:'mdi:sofa',default_open:true,layout:'grid',columns:2,badges:[{type:'entity',entity:'sensor.temperature',name:'21,4 °C'}],cards:[{type:'markdown',title:'Ambiance',content:'Lumières et confort du salon'},{type:'tile',title:'Éclairage',entity:'light.salon'}]},{id:'energy',title:'Énergie',icon:'mdi:lightning-bolt',cards:[{type:'markdown',title:'Consommation',content:'Suivi de la maison'}],badges:[{type:'entity',entity:'sensor.power',name:'420 W'}]}]};
 </script>

@@ -20,7 +20,7 @@ try {
   await reset();
   await check("Badges avant chevron SVG épais ; grille initiale", async () => {
     assert.deepEqual(await page.evaluate(() => [...card._open]), ["living"]);
-    assert.equal(await page.locator("#card .cards.grid").count(), 1);
+    assert.equal(await page.locator("#card .cards.sections").count(), 2);
     assert.deepEqual(await page.locator("#card .header").first().evaluate((node) => [...node.children].map((child) => child.className)), ["toggle", "badges", "chevron"]);
     assert.equal(await page.locator("#card .chevron svg").first().getAttribute("stroke-width"), "2.3");
     const boxes = await page.locator("#card .header").first().evaluate((node) => { const a = node.querySelector(".badges").getBoundingClientRect(), b = node.querySelector(".chevron").getBoundingClientRect(); return a.right <= b.left; }); assert.equal(boxes, true);
