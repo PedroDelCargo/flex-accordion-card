@@ -1,5 +1,25 @@
 # Historique
 
+## 0.13.0 — 19 octobre 2026 — présentation Sections unique
+
+**Après mise à jour : contrôler les largeurs, hauteurs et positions des cartes converties, sur ordinateur et mobile.**
+
+- Conversion automatique des dispositions Verticale/Grille vers Sections, y compris lorsque l’ancien mode Verticale était implicite.
+- Verticale : largeur 12 et hauteur automatique. Grille : répartition entière de chaque rangée sur 12 unités, avec une différence maximale d’une unité entre largeurs calculées. Les dimensions `grid_options` existantes restent prioritaires.
+- Suppression du sélecteur de présentation et du nombre de colonnes par section. Les colonnes natives vont de 1 à 12.
+- Avertissement traduit sur la carte et dans l’éditeur jusqu’à confirmation « Disposition vérifiée » et enregistrement. Aucune modification serveur n’est écrite par le rendu seul ; l’éditeur transmet la configuration convertie à la sauvegarde HA habituelle.
+- 84 tests locaux réussis ; contrôles supplémentaires pour chaque nombre de colonnes de 1 à 12, conversion idempotente et confirmation persistée. Conversion validée par le mainteneur sur ses cartes ; rendu Sections et comportement mobile également validés.
+
+## 0.12.0 — 19 octobre 2026 — version locale expérimentale
+
+- Présentation `sections` facultative par section, sans migration des modes Verticale/Grille.
+- Rendu délégué au wrapper natif HA `hui-section` et à sa grille `hui-grid-section`, avec dimensions `grid_options` et conditions natives des cartes.
+- Contexte de section transmis à l’éditeur natif de carte pour son onglet Disposition ; réorganisation conservée dans la liste Flex Accordion.
+- Aucun chemin ni accès de sauvegarde du tableau de bord transmis au rendu natif. Pas de déplacement direct ni de poignées de redimensionnement dans le rendu de l’accordéon.
+- Message local avec réessai si les composants Sections ne sont pas chargés, sans bloquer les autres sections.
+- Traductions fr/en/es/de, exemple sans entité et documentation utilisateur mis à jour.
+- 81 tests locaux avec doubles DOM/composants réussis ; rendu HA et tactile à valider. Non publié sur GitHub/HACS.
+
 ## 0.11.0 — 16 octobre 2026
 
 - Options indépendantes par badge Entité/Raccourci : Masquer la bordure et Fond transparent, dans Contenu.

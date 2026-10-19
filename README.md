@@ -9,7 +9,7 @@ An accordion container for Home Assistant dashboards, with nested Lovelace cards
 - Unified card or separate section cards, with an optional global background.
 - Optional global header with title, icon, badges and adjustable title size.
 - Clickable section headers with icons and badges placed before the chevron.
-- Native and custom Lovelace cards, arranged vertically or in a grid in each section.
+- Native and custom Lovelace cards with individual widths and heights in the native Sections grid.
 - Exclusive mode, always-open sections, height and fade animations, and reduced-motion support.
 - Contextual editor with sticky navigation, drag-and-drop, reorder buttons, and move/copy controls.
 - Native Entity and Shortcut badges, with live preview, configurable actions and individual appearance options.
@@ -20,7 +20,7 @@ An accordion container for Home Assistant dashboards, with nested Lovelace cards
 
 1. Download **flex-accordion-card.js** from the [latest GitHub release](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Copy it to `<config>/www/flex-accordion-card.js` on your Home Assistant installation. Create `www` if necessary; restart Home Assistant once after creating it.
-3. In your dashboard resources, add `/local/flex-accordion-card.js?v=0.11.0` with type **JavaScript module**. Enable advanced mode in your profile if the resources menu is hidden.
+3. In your dashboard resources, add `/local/flex-accordion-card.js?v=0.13.0` with type **JavaScript module**. Enable advanced mode in your profile if the resources menu is hidden.
 4. Reload the browser completely, then add **Flex Accordion Card** to a dashboard. Alternatively, choose the native **Manual** card and paste the YAML example below.
 
 For dashboards with resources managed in YAML, add the resource to your existing configuration:
@@ -28,7 +28,7 @@ For dashboards with resources managed in YAML, add the resource to your existing
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=0.11.0
+    - url: /local/flex-accordion-card.js?v=0.13.0
       type: module
 ```
 
@@ -60,8 +60,7 @@ sections:
     title: Living room
     icon: mdi:sofa
     default_open: true
-    layout: grid
-    columns: 2
+    layout: sections
     cards:
       - type: button
         entity: light.living_room
@@ -81,6 +80,7 @@ sections:
           action: navigate
           navigation_path: /lovelace/home
   - id: footer
+    layout: sections
     always_open: true
     cards:
       - type: markdown
@@ -123,8 +123,7 @@ Replace the entity IDs and navigation path with your own. More examples: [starte
 | `icon` | none | Home Assistant icon |
 | `always_open` | `false` | Always expanded, without header or badges; independent of exclusive mode |
 | `default_open` | `false` | Initial open state; ignored for always-open sections |
-| `layout` | `vertical` | `vertical` or `grid` |
-| `columns` | `2` | Equal-width grid columns, integer from 1 to 12; used only in grid mode |
+| `layout` | `sections` | `sections` |
 | `cards` | `[]` | Lovelace card configurations |
 | `badges` | `[]` | Native view badge configurations |
 | `visibility` | none | Home Assistant conditions for the entire section |
@@ -144,7 +143,17 @@ Card and badge configurations otherwise use their usual Home Assistant options. 
 - In exclusive mode, the first section marked initially open takes priority. Open/closed state is retained while the card is mounted and is not saved across page reloads.
 - Badges do not toggle their parent section. Explicit actions take priority. Without an explicit action, entity badges and Button cards use suitable actions for common controllable domains, buttons, scenes and scripts; sensors use more information.
 - Visibility uses native Home Assistant conditions. The global card can use the dashboard’s visibility controls. Native view badges are used, rather than the badges specific to Heading cards.
-- Custom cards need their own resources. Closed sections keep their child cards active. Grid columns do not automatically collapse on mobile and do not use nested cards’ `grid_options`.
+- Custom cards need their own resources. Closed sections keep their child cards active. Card sizing follows native Sections behavior.
 - Native editors and badge support depend on your Home Assistant frontend version. Third-party badges may ignore the appearance options. User-provided names and text are never translated; native components use Home Assistant’s own translations.
 
 [MIT License](LICENSE)
+
+## Sections layout and upgrading
+
+All sections use Home Assistant’s native 12-column grid. Choose each card’s width and height in its native Layout tab, if available, or set `grid_options` in code. Use the list handles, arrows and move/copy controls to reorder cards. Native dashboard drag-and-drop and resize handles are not enabled inside the accordion.
+
+**After upgrading from Vertical or Grid, check your cards’ widths, heights and placement on desktop and mobile.** Conversion is automatic. Vertical becomes full-width cards with automatic height. Grid divides each old row over the native 12 columns; when the column count does not divide 12, neighbouring widths differ by one unit (five cards: 3, 3, 2, 2, 2). A partial final row keeps the same widths. Explicit `grid_options` take priority. The old section-level `columns` option is removed.
+
+A notice appears on converted cards and in their editor. After checking the result, select **Layout checked** in the editor and save the card to store the conversion and dismiss the notice. New sections created in the visual editor do not show this notice.
+
+The native section components must be loaded by your frontend. If unavailable, open a native HA Sections view, return and select Retry. The complete native Sections dashboard view is not embedded.
