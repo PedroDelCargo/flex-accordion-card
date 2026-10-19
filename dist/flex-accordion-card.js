@@ -1,4 +1,4 @@
-/* flex-accordion-card v0.11.0 | MIT | No runtime dependencies */
+/* flex-accordion-card v0.13.0 | MIT | No runtime dependencies */
 // UI messages only. User titles, names and configuration keys are never translated.
 const messages = {
   "fr": {
@@ -143,7 +143,13 @@ const messages = {
     "Ajouter la carte": "Ajouter la carte",
     "Configuration de la carte": "Configuration de la carte",
     "Masquer la bordure": "Masquer la bordure",
-    "Fond transparent": "Fond transparent"
+    "Fond transparent": "Fond transparent",
+    "Sections (expérimental)": "Sections (expérimental)",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.": "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.",
+    "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.": "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.",
+    "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.": "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.",
+    "Disposition vérifiée": "Disposition vérifiée",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez.": "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez."
   },
   "en": {
     "Taille du texte (px)": "Text size (px)",
@@ -287,7 +293,13 @@ const messages = {
     "Ajouter la carte": "Add card",
     "Configuration de la carte": "Card configuration",
     "Masquer la bordure": "Hide border",
-    "Fond transparent": "Transparent background"
+    "Fond transparent": "Transparent background",
+    "Sections (expérimental)": "Sections (experimental)",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.": "Native sections unavailable. Open a HA Sections view, then retry. Otherwise, use Vertical or Grid.",
+    "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.": "Native HA 12-column grid. Adjust sizes in each card’s Layout tab, if available, or with grid_options in code. Reorder cards in this list.",
+    "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.": "Your previous layouts have been converted to Sections. Check card widths, heights and placement, then confirm the review in the editor.",
+    "Disposition vérifiée": "Layout checked",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez.": "Native sections unavailable. Open a HA Sections view, then retry."
   },
   "es": {
     "Taille du texte (px)": "Tamaño del texto (px)",
@@ -431,7 +443,13 @@ const messages = {
     "Ajouter la carte": "Añadir tarjeta",
     "Configuration de la carte": "Configuración de la tarjeta",
     "Masquer la bordure": "Ocultar borde",
-    "Fond transparent": "Fondo transparente"
+    "Fond transparent": "Fondo transparente",
+    "Sections (expérimental)": "Secciones (experimental)",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.": "Secciones nativas no disponibles. Abre una vista Secciones de HA y vuelve a intentarlo. Si no, usa Vertical o Cuadrícula.",
+    "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.": "Cuadrícula nativa de HA de 12 columnas. Ajusta el tamaño en la pestaña Disposición de cada tarjeta, si está disponible, o con grid_options en código. Ordena las tarjetas en esta lista.",
+    "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.": "Las disposiciones anteriores se han convertido a Secciones. Comprueba el ancho, la altura y la posición de las tarjetas y confirma la revisión en el editor.",
+    "Disposition vérifiée": "Disposición verificada",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez.": "Secciones nativas no disponibles. Abre una vista Secciones de HA y vuelve a intentarlo."
   },
   "de": {
     "Taille du texte (px)": "Textgröße (px)",
@@ -575,14 +593,20 @@ const messages = {
     "Ajouter la carte": "Karte hinzufügen",
     "Configuration de la carte": "Kartenkonfiguration",
     "Masquer la bordure": "Rahmen ausblenden",
-    "Fond transparent": "Transparenter Hintergrund"
+    "Fond transparent": "Transparenter Hintergrund",
+    "Sections (expérimental)": "Abschnitte (experimentell)",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.": "Native Abschnitte nicht verfügbar. Öffne eine HA-Abschnittsansicht und versuche es erneut. Verwende andernfalls Vertikal oder Raster.",
+    "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.": "Natives HA-Raster mit 12 Spalten. Stelle die Größe im Layout-Tab jeder Karte ein, falls verfügbar, oder mit grid_options im Code. Ändere die Reihenfolge in dieser Liste.",
+    "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.": "Deine bisherigen Layouts wurden in Abschnitte umgewandelt. Prüfe Breite, Höhe und Anordnung der Karten und bestätige die Prüfung im Editor.",
+    "Disposition vérifiée": "Layout geprüft",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez.": "Native Abschnitte nicht verfügbar. Öffne eine HA-Abschnittsansicht und versuche es erneut."
   }
 };
 function language(hass) { const code = (hass?.locale?.language || hass?.language || "fr").toLowerCase().split(/[-_]/)[0]; return messages[code] ? code : "en"; }
 function t(hass, key, params = {}) { return (messages[language(hass)][key] || messages.en[key] || key).replace(/\{(\w+)\}/g, (match, name) => Object.hasOwn(params,name) ? String(params[name]) : match); }
 function localizeSchema(schema, hass) { return schema.map(field => ({ ...field, ...(field.selector?.select ? { selector: { ...field.selector, select: { ...field.selector.select, options: field.selector.select.options.map(option => typeof option === "string" ? option : { ...option, label: t(hass,option.label) }) } } } : {}), ...(field.schema ? { schema: localizeSchema(field.schema,hass) } : {}) })); }
 
-const VERSION = "0.11.0";
+const VERSION = "0.13.0";
 const clone = (value) => JSON.parse(JSON.stringify(value));
 // HA may echo configuration objects with a different property order.
 const configKey = (value) => JSON.stringify(value, (_key, item) =>
@@ -670,6 +694,8 @@ function normalizeConfig(input) {
     config.header.badges = normalizeBadges(config.header.badges);
   }
   if (!Array.isArray(config.sections)) fail("sections: liste attendue");
+  if (config.layout_migration !== undefined && (!object(config.layout_migration) || config.layout_migration.version !== 1 || typeof config.layout_migration.reviewed !== "boolean")) fail("layout_migration: version 1 et reviewed booléen attendus");
+  let migrated = false;
   const ids = new Set();
   config.sections = config.sections.map((section, index) => {
     if (!object(section)) fail(`section ${index + 1}: objet attendu`);
@@ -683,7 +709,7 @@ function normalizeConfig(input) {
     section.columns ??= 2;
     section.default_open ??= false;
     section.always_open ??= false;
-    if (!["vertical", "grid"].includes(section.layout)) fail("layout de section: vertical ou grid attendu");
+    if (!["vertical", "grid", "sections"].includes(section.layout)) fail("layout de section: vertical, grid ou sections attendu");
     integer(section.columns, 1, 12, "columns");
     if (typeof section.always_open !== "boolean") fail("always_open: booléen attendu");
     if (typeof section.default_open !== "boolean") fail("default_open: booléen attendu");
@@ -692,9 +718,22 @@ function normalizeConfig(input) {
     if (!Array.isArray(section.cards) || !Array.isArray(section.badges)) fail("cards et badges: listes attendues");
     if (section.visibility !== undefined && !Array.isArray(section.visibility)) fail("visibility de section: liste de conditions HA attendue");
     section.cards.forEach((card) => { if (!object(card) || typeof card.type !== "string" || !card.type) fail("carte imbriquée: type requis"); });
+    if (section.layout !== "sections") {
+      const count = section.layout === "grid" ? section.columns : 1;
+      section.cards = section.cards.map((card, i) => {
+        // Divide each old row into twelve integer units. Non-divisors get
+        // balanced neighbouring widths; explicit native sizing takes priority.
+        const width = Math.floor(12 / count) + (i % count < 12 % count ? 1 : 0);
+        return { ...card, grid_options: { columns: width, rows: "auto", ...card.grid_options } };
+      });
+      if (section.cards.length) migrated = true;
+      section.layout = "sections";
+    }
+    delete section.columns;
     section.badges = normalizeBadges(section.badges);
     return section;
   });
+  if (migrated) config.layout_migration = { version: 1, reviewed: false };
   return config;
 }
 function initialOpen(config, previous) {
@@ -816,7 +855,7 @@ class FlexAccordionCard extends HTMLElement {
   static async getConfigElement() { return document.createElement("flex-accordion-card-editor"); }
   static getStubConfig(hass) {
     return { type: "custom:flex-accordion-card", layout: "unified", exclusive: false, sections: [
-      { id: "welcome", title: t(hass, "Ma première section"), icon: "mdi:home", default_open: true, cards: [{ type: "markdown", content: t(hass, "Bienvenue dans **Flex Accordion Card** !") }], badges: [] },
+      { id: "welcome", layout: "sections", title: t(hass, "Ma première section"), icon: "mdi:home", default_open: true, cards: [{ type: "markdown", content: t(hass, "Bienvenue dans **Flex Accordion Card** !") }], badges: [] },
     ] };
   }
   setConfig(input) {
@@ -828,6 +867,7 @@ class FlexAccordionCard extends HTMLElement {
   set hass(value) {
     this._hass = value;
     const empty = this.shadowRoot.querySelector(".empty"); if (empty) empty.textContent = t(value, "Ajoutez une section dans l’éditeur.");
+    const migration=this.shadowRoot.querySelector(".migration-notice"); if(migration) migration.textContent=t(value, "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.");
     this._propagate();
   }
   get hass() { return this._hass; }
@@ -890,13 +930,19 @@ class FlexAccordionCard extends HTMLElement {
       .open .panel{grid-template-rows:1fr;visibility:visible;transition-delay:0s}.panel-inner{min-height:0;overflow:hidden;opacity:0;transition:opacity var(--fac-duration) ease}.open .panel-inner{opacity:1}
       .cards{display:grid;gap:var(--fac-gap);padding:4px 12px 12px;grid-template-columns:minmax(0,1fr)}
       .always-open .panel{display:block;visibility:visible;transition:none}.always-open .panel-inner{opacity:1;transition:none}.always-open .cards{padding-top:12px}
-      .cards.grid{grid-template-columns:repeat(var(--fac-columns),minmax(0,1fr))}.cards>*{min-width:0}
+      .cards>*{min-width:0}
+      .cards.sections{display:block}.native-section{display:block;--column-span:1}
+      .migration-notice{padding:12px;margin:8px;border-inline-start:4px solid var(--warning-color,#ffa600);font-size:14px;line-height:1.5}
       .error{font-size:13px;color:var(--error-color,#b71c1c);padding:10px;overflow-wrap:anywhere}.empty{padding:12px;color:var(--secondary-text-color,#666)}
       .load-error button{padding:8px;cursor:pointer}
       .card-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);align-items:center;gap:8px;padding:6px 10px;margin-top:5px}.card-heading{display:flex;align-items:center;gap:8px;min-width:0;--mdc-icon-size:18px}.card-heading h2{font:inherit;font-size:var(--fac-heading-size,16px);font-weight:var(--ha-heading-card-title-font-weight,400);line-height:1.3;margin:0;overflow-wrap:anywhere}.unified>.card-header{border-bottom:1px solid var(--divider-color,#ddd)}.separate>.card-header{background:var(--ha-card-background,var(--card-background-color,#fff));border:var(--ha-card-border-width,1px) solid var(--ha-card-border-color,var(--divider-color,#ddd));border-radius:var(--ha-card-border-radius,12px)}
       @media(prefers-reduced-motion:reduce){.panel,.panel-inner,.chevron{transition:none}}
     `;
     const root = el("div", `root ${config.layout}${config.background ? " with-background" : ""}`);
+    if(config.layout_migration?.reviewed === false) {
+      const notice=el("div", "migration-notice", t(this._hass, "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur."));
+      notice.setAttribute("role", "status"); root.append(notice);
+    }
     root.style.setProperty("--fac-duration", `${config.animation ? config.animation_duration : 0}ms`);
     const slots = [];
     let globalBadges;
@@ -934,7 +980,6 @@ class FlexAccordionCard extends HTMLElement {
       else panel.setAttribute("aria-labelledby", `header-${index}`);
       const inner = el("div", "panel-inner");
       const cards = el("div", `cards ${section.layout}`);
-      cards.style.setProperty("--fac-columns", String(section.columns));
       inner.append(cards); panel.append(inner); shell.append(panel);
       if (section.visibility?.length) {
         const placeholder = el("div", "section-slot"); root.append(placeholder);
@@ -952,7 +997,7 @@ class FlexAccordionCard extends HTMLElement {
       if (generation !== this._generation) return;
       if (globalBadges) this._config.header.badges.forEach((config) => globalBadges.append(this._nativeElement("badge", config, helpers)));
       for (const { section, cards, badges, placeholder, host } of slots) {
-        section.cards.forEach((config) => cards.append(this._nativeElement("card", config, helpers)));
+        cards.append(this._nativeSection(section));
         if (badges) section.badges.forEach((config) => badges.append(this._nativeElement("badge", config, helpers)));
         if (placeholder) {
           const wrapper = this._nativeElement("card", { type: "custom:flex-accordion-section-host", host, visibility: section.visibility }, helpers);
@@ -965,6 +1010,27 @@ class FlexAccordionCard extends HTMLElement {
       const notice = el("div", "error load-error", error.message);
       notice.append(button(t(this._hass, "Réessayer"), () => this._render()));
       this.shadowRoot.querySelector(".root").append(notice);
+    }
+  }
+  _nativeSection(section) {
+    // hui-section owns card loading/rebuilds, sizing and visibility. Never pass
+    // the real dashboard's lovelace/path: native editing would save outside us.
+    const unavailable = () => {
+      const notice = el("div", "error native-section-error", t(this._hass, "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez."));
+      notice.append(button(t(this._hass, "Réessayer"), () => this._render()));
+      return notice;
+    };
+    if (!["hui-section", "hui-grid-section"].every(tag => customElements.get(tag))) return unavailable();
+    try {
+      const native = el("hui-section", "native-section");
+      native.insideStrategy = true; // No dashboard edit handles or cross-view DnD.
+      native.hass = this._hass;
+      native.preview = this._preview;
+      native.config = { type: "grid", cards: section.cards.map(config => withDefaultInteraction(config, "cards")) };
+      this._children.push(native);
+      return native;
+    } catch (error) {
+      const notice = unavailable(); notice.append(el("p", "", error.message)); return notice;
     }
   }
   _nativeElement(kind, config, helpers) {
@@ -1184,7 +1250,6 @@ const labels = { always_open: "Toujours ouverte", text_size: "Taille du texte (p
 const selectSchema = (name, options) => ({ name, selector: { select: { mode: "dropdown", options: options.map(([value, label]) => ({ value, label })) } } });
 const globalSchema = [selectSchema("layout", [["unified", "Carte unique"], ["separate", "Cartes séparées"]]), { name: "background", selector: { boolean: {} } }, { name: "exclusive", selector: { boolean: {} } }, { name: "animation", selector: { boolean: {} } }, { name: "animation_duration", selector: { number: { min: 0, max: 2000, mode: "box", step: 10 } } }];
 const headerSchema = [{ name: "title", selector: { text: {} } }, { name: "icon", selector: { icon: {} } }, { name: "default_open", selector: { boolean: {} } }];
-const contentSchema = [selectSchema("layout", [["vertical", "Verticale"], ["grid", "Grille"]]), { name: "columns", selector: { number: { min: 1, max: 12, mode: "box", step: 1 } } }];
 
 class FlexAccordionCardEditor extends HTMLElement {
   constructor() {
@@ -1354,11 +1419,16 @@ class FlexAccordionCardEditor extends HTMLElement {
       .section-editor,.pane{border:2px solid var(--fac-editor-border,#8493a2);border-radius:12px;margin:12px 0;padding:12px;background:var(--card-background-color,#fff)}
       .section-head{font-weight:600}.counts,.type-label,.hint,.breadcrumb{font-size:12px;color:var(--secondary-text-color,#606973);line-height:1.5}.counts{margin:6px 0 0 44px}.type-label{display:block}.breadcrumb{margin-bottom:10px;overflow-wrap:anywhere}.breadcrumb button{font:inherit;border:0;padding:4px;background:transparent;color:var(--primary-color,#028ca8)}
       h3{margin:10px 0}h4{margin:8px 0}.group{border:2px solid var(--fac-editor-border,#8493a2);border-radius:10px;margin:12px 0;overflow:hidden}.group summary{display:flex;gap:10px;align-items:center;cursor:pointer;padding:12px;font-weight:600;background:var(--secondary-background-color,#f1f5f8);list-style:none}.group summary::-webkit-details-marker{display:none}.group summary::marker{content:""}.group summary svg{width:20px;height:20px;flex:none}.group[open]>summary svg{transform:rotate(180deg)}.group-body{padding:12px;border-top:1px solid var(--fac-editor-border,#8493a2)}
-      .row{padding:10px 0;border-bottom:1px solid var(--fac-editor-border,#8493a2)}.icon-button{display:inline-flex;align-items:center;justify-content:center;width:38px;padding:6px;flex:none}.drag{cursor:grab}.drop-over{outline:3px dashed var(--primary-color,#03a9f4);outline-offset:-3px}.dropzone{min-height:22px;border-radius:6px}.destinations{margin:10px 0;font-size:12px}.transfer-target{border:1px dashed var(--fac-editor-border,#8493a2);padding:10px;margin-top:6px}.hint{margin:10px 0}.error{color:var(--error-color,#b71c1c);white-space:pre-wrap}.error:empty{display:none}
+      .row{padding:10px 0;border-bottom:1px solid var(--fac-editor-border,#8493a2)}.icon-button{display:inline-flex;align-items:center;justify-content:center;width:38px;padding:6px;flex:none}.drag{cursor:grab}.drop-over{outline:3px dashed var(--primary-color,#03a9f4);outline-offset:-3px}.dropzone{min-height:22px;border-radius:6px}.destinations{margin:10px 0;font-size:12px}.transfer-target{border:1px dashed var(--fac-editor-border,#8493a2);padding:10px;margin-top:6px}.hint{margin:10px 0}.error{color:var(--error-color,#b71c1c);white-space:pre-wrap}.error:empty{display:none}.migration-notice{padding:12px;border-inline-start:4px solid var(--warning-color,#ffa600);margin:8px 0;background:var(--secondary-background-color,#f1f5f8);line-height:1.5}
       .fallback-form{display:grid;gap:8px}.fallback-form label{min-height:40px}.fallback-form label{display:flex;gap:10px;align-items:center;justify-content:space-between}.fallback-form input:not([type=checkbox]),.fallback-form select{width:55%}input,select,textarea{border:1px solid var(--fac-editor-border,#8493a2);border-radius:6px;background:var(--card-background-color,#fff);padding:8px;max-width:100%}textarea{width:100%;min-height:180px;font-family:monospace}select{max-width:160px}.pane:empty{display:none}.item-page>.pane{margin-top:8px}.back{margin:4px 0 12px}.item-page .context-title{font-size:18px;overflow-wrap:anywhere}.manual{margin-top:16px}.manual summary{cursor:pointer;font-weight:500;padding:8px 0}
       .nav-header{position:sticky;top:var(--flex-accordion-editor-sticky-top,0px);z-index:20;background:var(--card-background-color,var(--ha-card-background,#fff));padding:8px 0;border-bottom:2px solid var(--fac-editor-border,#8493a2);margin-bottom:12px}.nav-header .back{margin:0}.section-title,.context-title{border-inline-start:4px solid var(--primary-color,#028ca8);padding-inline-start:10px}.back,.mode-button{display:inline-flex;gap:8px;align-items:center}.back svg,.mode-button svg{flex:none}.transfer-panel{padding:12px;border:2px solid var(--primary-color,#028ca8);border-radius:8px;margin:8px 0}.transfer-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.transfer-options button{display:inline-flex;gap:8px;align-items:center}.badge-code[hidden],ha-form[hidden]{display:none!important}
     `;
     const root = el("div", `editor ${this._selection ? "item-page" : this._sectionId ? "section-page" : "overview-page"}`);
+    if(this._config.layout_migration?.reviewed === false) {
+      const notice=el("div", "migration-notice"); notice.setAttribute("role", "status");
+      notice.append(el("p", "", t(this._hass, "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.")),button(t(this._hass, "Disposition vérifiée"), () => { this._config.layout_migration.reviewed=true; this._emit(); }));
+      root.append(notice);
+    }
     if (this._selection) this._renderItemPage(root);
     else if (this._currentSection()) this._renderSectionPage(root);
     else this._renderOverview(root);
@@ -1384,7 +1454,7 @@ class FlexAccordionCardEditor extends HTMLElement {
     const end = el("div", "dropzone"); this._dropTarget(end, (drag) => this._moveSection(drag.s, this._config.sections.length), (drag) => drag.kind === "sections");
     root.append(end, button(t(this._hass, "+ Section"), () => {
       const id = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
-      this._config.sections.push({ id: `section-${id}`, title: t(this._hass, "Nouvelle section"), cards: [], badges: [] });
+      this._config.sections.push({ id: `section-${id}`, layout: "sections", title: t(this._hass, "Nouvelle section"), cards: [], badges: [] });
       this._sectionId = `section-${id}`; this._selection = null; this._emit();
     }));
   }
@@ -1429,7 +1499,9 @@ class FlexAccordionCardEditor extends HTMLElement {
     for (const kind of ["badges", "cards"]) {
       if (kind === "badges" && section.always_open) continue;
       const group = this._group(`${kind === "badges" ? t(this._hass, "Badges") : t(this._hass, "Cartes")} (${section[kind].length})`, `${section.id}:${kind}`); group.details.dataset.kind = kind;
-      if (kind === "cards") group.body.append(this._form(section, contentSchema.filter(field => field.name !== "columns" || section.layout === "grid"), (value) => { const current = this._currentSection(); const layoutChanged = value.layout !== undefined && current.layout !== value.layout; Object.assign(current, value); return this._emit(layoutChanged); }));
+      if (kind === "cards") {
+        group.body.append(el("p", "hint", t(this._hass, "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.")));
+      }
       const list = el("div", "list"); list.dataset.kind = kind;
       section[kind].forEach((item, i) => {
         const row = el("div", "row"); row.dataset.index = String(i); row.dataset.kind = kind;
@@ -1593,7 +1665,10 @@ class FlexAccordionCardEditor extends HTMLElement {
     const tag = kind === "cards" ? "hui-card-element-editor" : "hui-badge-element-editor";
     if (customElements.get(tag)) {
       const native = el(tag);
-      if (kind === "cards") native.showVisibilityTab = Boolean(customElements.get("hui-card"));
+      if (kind === "cards") {
+        native.showVisibilityTab = Boolean(customElements.get("hui-card"));
+        if(this._currentSection()?.layout === "sections") native.sectionConfig = { type: "grid", cards: this._currentSection().cards };
+      }
       this._bindEditor(native, true, pane, epoch); this._modeToolbar(native,pane); return;
     }
     let fallbackEditor; const loading = el("p", "hint", t(this._hass, "Chargement de l’éditeur natif…")); pane.append(loading);
