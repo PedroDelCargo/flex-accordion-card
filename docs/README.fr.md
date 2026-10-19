@@ -9,7 +9,7 @@ Un conteneur accordéon pour les tableaux de bord Home Assistant, avec cartes Lo
 - Carte unique ou cartes séparées par section, avec fond global facultatif.
 - En-tête global facultatif avec titre, icône, badges et taille du titre réglable.
 - En-têtes de section cliquables avec icônes et badges placés avant le chevron.
-- Cartes Lovelace natives et personnalisées, en disposition verticale ou grille par section.
+- Cartes Lovelace natives et personnalisées avec largeur et hauteur individuelles dans la grille native Sections.
 - Mode exclusif, sections toujours ouvertes, animations de hauteur et fondu, respect du mouvement réduit.
 - Éditeur contextuel avec navigation persistante, glisser-déposer, boutons de réorganisation, déplacement et copie.
 - Badges natifs Entité et Raccourci avec aperçu, actions et options d’apparence individuelles.
@@ -20,7 +20,7 @@ Un conteneur accordéon pour les tableaux de bord Home Assistant, avec cartes Lo
 
 1. Télécharger **flex-accordion-card.js** depuis la [dernière version GitHub](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Le copier dans `<config>/www/flex-accordion-card.js` sur votre installation Home Assistant. Créer `www` si nécessaire ; redémarrer Home Assistant une fois après sa création.
-3. Dans les ressources du tableau de bord, ajouter `/local/flex-accordion-card.js?v=0.11.0`, type **module JavaScript**. Activer le mode avancé du profil si le menu Ressources est masqué.
+3. Dans les ressources du tableau de bord, ajouter `/local/flex-accordion-card.js?v=0.13.0`, type **module JavaScript**. Activer le mode avancé du profil si le menu Ressources est masqué.
 4. Recharger complètement le navigateur, puis ajouter **Flex Accordion Card** au tableau de bord. Vous pouvez aussi choisir la carte native **Manuel** et coller l’exemple YAML ci-dessous.
 
 Pour les tableaux de bord dont les ressources sont gérées en YAML, ajouter la ressource à la configuration existante :
@@ -28,7 +28,7 @@ Pour les tableaux de bord dont les ressources sont gérées en YAML, ajouter la 
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=0.11.0
+    - url: /local/flex-accordion-card.js?v=0.13.0
       type: module
 ```
 
@@ -60,8 +60,7 @@ sections:
     title: Living room
     icon: mdi:sofa
     default_open: true
-    layout: grid
-    columns: 2
+    layout: sections
     cards:
       - type: button
         entity: light.living_room
@@ -81,6 +80,7 @@ sections:
           action: navigate
           navigation_path: /lovelace/home
   - id: footer
+    layout: sections
     always_open: true
     cards:
       - type: markdown
@@ -123,8 +123,7 @@ Remplacer les identifiants d’entité et le chemin de navigation par les vôtre
 | `icon` | aucun | Icône Home Assistant |
 | `always_open` | `false` | Toujours dépliée, sans en-tête ni badges ; indépendante du mode exclusif |
 | `default_open` | `false` | État initial ; ignoré pour les sections toujours ouvertes |
-| `layout` | `vertical` | `vertical` ou `grid` |
-| `columns` | `2` | Colonnes égales, entier de 1 à 12 ; utilisé uniquement en grille |
+| `layout` | `sections` | `sections` |
 | `cards` | `[]` | Configurations de cartes Lovelace |
 | `badges` | `[]` | Configurations de badges de vue natifs |
 | `visibility` | aucun | Conditions Home Assistant pour la section entière |
@@ -144,7 +143,17 @@ Les autres réglages des cartes et badges suivent leurs options habituelles Home
 - En mode exclusif, la première section ouverte au chargement a priorité. L’état ouvert/fermé est conservé pendant la présence de la carte, sans persistance après rechargement de la page.
 - Les badges ne replient pas leur section. Les actions explicites sont prioritaires. Sans action explicite, les badges Entité et cartes Bouton utilisent une action adaptée aux domaines commandables usuels, boutons, scènes et scripts ; les capteurs ouvrent les informations.
 - La visibilité utilise les conditions natives Home Assistant. La carte globale dispose des contrôles de visibilité du tableau de bord. Les badges sont des badges de vue natifs, distincts de ceux spécifiques à la carte En-tête.
-- Les cartes personnalisées nécessitent leurs propres ressources. Les sections fermées gardent leurs cartes actives. Le nombre de colonnes ne diminue pas automatiquement sur mobile et la grille ignore les `grid_options` des cartes intégrées.
+- Les cartes personnalisées nécessitent leurs propres ressources. Les sections fermées gardent leurs cartes actives. Les dimensions des cartes suivent le comportement natif Sections.
 - Les éditeurs natifs et les badges disponibles dépendent de la version du frontend Home Assistant. Les badges tiers peuvent ignorer les options d’apparence. Les noms et textes saisis ne sont jamais traduits ; les composants natifs utilisent les traductions Home Assistant.
 
 [MIT License](../LICENSE)
+
+## Présentation Sections et mise à jour
+
+Toutes les sections utilisent la grille native Home Assistant de 12 colonnes. Régler la largeur et la hauteur de chaque carte dans son onglet natif Disposition, si disponible, ou avec `grid_options` en code. Les poignées de liste, flèches et boutons de déplacement/copie réorganisent les cartes. Le glisser-déposer et les poignées de redimensionnement du tableau de bord natif ne sont pas activés dans l’accordéon.
+
+**Après une mise à jour depuis Verticale ou Grille, vérifier les largeurs, hauteurs et positions des cartes sur ordinateur et mobile.** La conversion est automatique. Verticale devient une succession de cartes pleine largeur à hauteur automatique. Grille répartit chaque ancienne rangée sur les 12 colonnes natives ; si le nombre de colonnes ne divise pas 12, les largeurs voisines diffèrent d’une unité (cinq cartes : 3, 3, 2, 2, 2). La dernière rangée incomplète garde les mêmes largeurs. Les `grid_options` explicites sont prioritaires. L’ancienne option `columns` de section est supprimée.
+
+Un avertissement apparaît sur les cartes converties et dans leur éditeur. Après contrôle, cliquer sur **Disposition vérifiée** dans l’éditeur puis enregistrer la carte pour mémoriser la conversion et retirer l’avertissement. Les nouvelles sections créées dans l’éditeur visuel ne présentent pas cet avertissement.
+
+Les composants natifs de section doivent être chargés par le frontend. S’ils sont indisponibles, ouvrir une vue Sections HA native, revenir à la carte puis cliquer sur Réessayer. La vue de tableau de bord Sections complète n’est pas intégrée.

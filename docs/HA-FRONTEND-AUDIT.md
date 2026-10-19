@@ -1,5 +1,28 @@
 # Audit des possibilités réelles du frontend Home Assistant
 
+## Migration locale 0.13.0
+
+La présentation Sections validée par le mainteneur dans la 0.12.0 devient unique. Les anciens modes sont acceptés en entrée par le normaliseur puis convertis en `layout: sections`. Verticale implicite ou explicite reçoit `grid_options: {columns: 12, rows: auto}` ; Grille répartit les 12 unités entre les cartes de chaque ancienne rangée. Les options natives existantes restent prioritaires. Le nombre de colonnes historique reste validé entre 1 et 12 avant conversion, puis `section.columns` est retiré.
+
+La migration ne modifie pas le serveur depuis le rendu. Le normaliseur conserve une métadonnée `layout_migration: {version: 1, reviewed: false}` lorsqu’il convertit une section non vide. L’éditeur affiche la même alerte et permet de passer `reviewed` à `true` après contrôle. L’enregistrement habituel HA persiste les dimensions et cette confirmation ; les normalisations suivantes sont idempotentes. Les sections créées par l’éditeur ou le catalogue utilisent directement Sections.
+
+Les 84 tests locaux couvrent les rangées de 1 à 12 cartes, les rangées incomplètes, l’absence de mutation des entrées, les dimensions/actions/conditions préservées et la confirmation. Le mainteneur a confirmé la réussite de la conversion sur ses cartes. Le rendu Sections et son comportement mobile ont également été validés. Les versions précises de HA et appareils ne sont pas renseignées.
+
+## Présentation Sections expérimentale — vérification du 19 octobre 2026
+
+Sources `dev` inspectées ; elles ne constituent pas une garantie pour toutes les versions HA installées :
+
+- [hui-section](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/sections/hui-section.ts) : reçoit une configuration de section et crée les wrappers de cartes. Il gère chargement, reconstruction, visibilité et propagation `hass`/`preview`.
+- [hui-grid-section](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/sections/hui-grid-section.ts) : grille de base de 12 colonnes, dimensions issues de `getGridOptions()`, tailles numériques ou pleine largeur. L’édition dépend de `lovelace`, `path` et de la sauvegarde du tableau de bord.
+- [hui-card-element-editor](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/editor/card-editor/hui-card-element-editor.ts) : la propriété `sectionConfig` de type `grid` permet l’onglet Disposition et l’éditeur natif des dimensions.
+- [custom-card-helpers](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/custom-card-helpers.ts) : ne fournit pas de fabrique de section. Aucune URL de module interne, aucun import de bundle haché ni copie du moteur de grille n’est utilisé.
+
+La 0.12.0 utilise `hui-section` uniquement si les composants natifs requis sont déjà enregistrés. Elle transmet `type: grid` et les configurations des cartes, sans ajouter de second en-tête ni badges de section. Les badges et la visibilité de l’accordéon restent gérés par les mécanismes existants. Le contexte de dimensionnement est transmis séparément à l’éditeur de carte.
+
+Le rendu ne reçoit ni `lovelace` ni chemin du vrai tableau de bord, et `insideStrategy` désactive les commandes d’édition natives : aucun déplacement natif ne peut enregistrer une modification en dehors de la configuration de Flex Accordion. Les commandes de réorganisation existantes sont conservées. Le redimensionnement direct dans le rendu n’est pas annoncé.
+
+Un message traduit et un bouton de réessai sont affichés par section si ces composants ne sont pas chargés. Ouvrir une vue Sections native peut les rendre disponibles ; cela reste à vérifier sur l’instance cible. Aucun chargement automatique universel n’est promis. Les 81 tests avec doubles contrôlent les contrats et la non-régression ; ils ne valident pas le rendu des composants Lit natifs.
+
 ## Périmètre de vérification
 
 Lecture du dépôt officiel `home-assistant/frontend`, branche `dev` figée au commit **`a2ad5c4b14665be671b18ed496df3e22b8e23aeb`**, récupéré le 14 octobre 2026. Les liens ci-dessous sont immuables. Cette lecture établit des signatures et des chemins de chargement ; elle ne remplace pas une exécution sur une version publiée de HA.

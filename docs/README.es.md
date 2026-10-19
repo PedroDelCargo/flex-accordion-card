@@ -9,7 +9,7 @@ Un contenedor de acordeón para paneles de Home Assistant, con tarjetas Lovelace
 - Tarjeta unificada o tarjetas separadas por sección, con fondo global opcional.
 - Cabecera global opcional con título, icono, insignias y tamaño de título ajustable.
 - Cabeceras de sección pulsables con iconos e insignias antes de la flecha.
-- Tarjetas Lovelace nativas y personalizadas, en disposición vertical o cuadrícula por sección.
+- Tarjetas Lovelace nativas y personalizadas con ancho y alto individuales en la cuadrícula nativa Secciones.
 - Modo exclusivo, secciones siempre abiertas, animaciones de altura y fundido y respeto del movimiento reducido.
 - Editor contextual con navegación persistente, arrastrar y soltar, botones de ordenación, movimiento y copia.
 - Insignias nativas de Entidad y Acceso directo con vista previa, acciones y opciones de apariencia individuales.
@@ -20,7 +20,7 @@ Un contenedor de acordeón para paneles de Home Assistant, con tarjetas Lovelace
 
 1. Descarga **flex-accordion-card.js** desde la [última versión de GitHub](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Cópialo a `<config>/www/flex-accordion-card.js` en Home Assistant. Crea `www` si es necesario y reinicia Home Assistant una vez después de crearlo.
-3. En los recursos del panel, añade `/local/flex-accordion-card.js?v=0.11.0` como **módulo JavaScript**. Activa el modo avanzado del perfil si el menú de recursos está oculto.
+3. En los recursos del panel, añade `/local/flex-accordion-card.js?v=0.13.0` como **módulo JavaScript**. Activa el modo avanzado del perfil si el menú de recursos está oculto.
 4. Recarga completamente el navegador y añade **Flex Accordion Card** al panel. También puedes elegir la tarjeta nativa **Manual** y pegar el ejemplo YAML siguiente.
 
 Si gestionas los recursos en YAML, añade el recurso a la configuración existente:
@@ -28,7 +28,7 @@ Si gestionas los recursos en YAML, añade el recurso a la configuración existen
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=0.11.0
+    - url: /local/flex-accordion-card.js?v=0.13.0
       type: module
 ```
 
@@ -60,8 +60,7 @@ sections:
     title: Living room
     icon: mdi:sofa
     default_open: true
-    layout: grid
-    columns: 2
+    layout: sections
     cards:
       - type: button
         entity: light.living_room
@@ -81,6 +80,7 @@ sections:
           action: navigate
           navigation_path: /lovelace/home
   - id: footer
+    layout: sections
     always_open: true
     cards:
       - type: markdown
@@ -123,8 +123,7 @@ Sustituye los identificadores de entidad y la ruta por los tuyos. Más ejemplos:
 | `icon` | ninguno | Icono de Home Assistant |
 | `always_open` | `false` | Siempre desplegada, sin cabecera ni insignias; independiente del modo exclusivo |
 | `default_open` | `false` | Estado inicial; se ignora en secciones siempre abiertas |
-| `layout` | `vertical` | `vertical` o `grid` |
-| `columns` | `2` | Columnas iguales, entero de 1 a 12; solo se usa en cuadrícula |
+| `layout` | `sections` | `sections` |
 | `cards` | `[]` | Configuraciones de tarjetas Lovelace |
 | `badges` | `[]` | Configuraciones de insignias nativas de vista |
 | `visibility` | ninguno | Condiciones de Home Assistant para toda la sección |
@@ -144,7 +143,17 @@ Los demás ajustes de tarjetas e insignias usan sus opciones habituales de Home 
 - En modo exclusivo tiene prioridad la primera sección abierta al cargar. El estado abierto/cerrado se conserva mientras la tarjeta está montada, pero no después de recargar la página.
 - Las insignias no pliegan la sección. Las acciones explícitas tienen prioridad. Sin acción explícita, las insignias de entidad y tarjetas Botón usan acciones adecuadas para los dominios controlables habituales, botones, escenas y scripts; los sensores abren más información.
 - La visibilidad usa condiciones nativas de Home Assistant. La tarjeta global admite los controles de visibilidad del panel. Se usan insignias nativas de vista, distintas de las específicas de la tarjeta de encabezado.
-- Las tarjetas personalizadas requieren sus propios recursos. Las secciones cerradas mantienen las tarjetas activas. Las columnas no disminuyen automáticamente en móviles y la cuadrícula no utiliza los `grid_options` de las tarjetas anidadas.
+- Las tarjetas personalizadas requieren sus propios recursos. Las secciones cerradas mantienen las tarjetas activas. El tamaño de las tarjetas sigue el comportamiento nativo Secciones.
 - Los editores e insignias nativos disponibles dependen de la versión del frontend de Home Assistant. Las insignias de terceros pueden ignorar las opciones de apariencia. Los nombres y textos del usuario no se traducen; los componentes nativos usan las traducciones de Home Assistant.
 
 [MIT License](../LICENSE)
+
+## Disposición Secciones y actualización
+
+Todas las secciones usan la cuadrícula nativa de Home Assistant de 12 columnas. Ajusta el ancho y alto de cada tarjeta en su pestaña nativa Disposición, si está disponible, o con `grid_options` en código. Usa los tiradores de lista, flechas y botones de mover/copiar para ordenar. No se activan el arrastre directo ni los tiradores de tamaño del panel nativo dentro del acordeón.
+
+**Después de actualizar desde Vertical o Cuadrícula, comprueba el ancho, alto y posición de las tarjetas en ordenador y móvil.** La conversión es automática. Vertical pasa a tarjetas de ancho completo y altura automática. Cuadrícula distribuye cada fila anterior entre las 12 columnas nativas; si el número de columnas no divide 12, los anchos vecinos difieren en una unidad (cinco tarjetas: 3, 3, 2, 2, 2). La última fila incompleta conserva esos anchos. Los `grid_options` explícitos tienen prioridad. Se elimina la antigua opción `columns` de sección.
+
+Las tarjetas convertidas y su editor muestran un aviso. Tras comprobar el resultado, pulsa **Disposición verificada** en el editor y guarda la tarjeta para conservar la conversión y retirar el aviso. Las secciones nuevas creadas en el editor visual no muestran este aviso.
+
+El frontend debe haber cargado los componentes nativos de sección. Si no están disponibles, abre una vista Secciones nativa de HA, vuelve y pulsa Reintentar. No se integra la vista Secciones completa del panel.

@@ -9,7 +9,7 @@ Ein Akkordeon-Container für Home-Assistant-Dashboards mit eingebetteten Lovelac
 - Gemeinsame Karte oder separate Abschnittskarten, mit optionalem Gesamthintergrund.
 - Optionale globale Kopfzeile mit Titel, Symbol, Badges und einstellbarer Titelgröße.
 - Anklickbare Abschnittsköpfe mit Symbolen und Badges vor dem Aufklapppfeil.
-- Native und benutzerdefinierte Lovelace-Karten, pro Abschnitt vertikal oder im Raster angeordnet.
+- Native und benutzerdefinierte Lovelace-Karten mit individuellen Breiten und Höhen im nativen Abschnittsraster.
 - Exklusiver Modus, immer geöffnete Abschnitte, Höhen- und Überblendanimationen sowie Unterstützung für reduzierte Bewegung.
 - Kontextbezogener Editor mit bleibender Navigation, Drag-and-drop, Sortier-, Verschiebe- und Kopierschaltflächen.
 - Native Entitäts- und Verknüpfungs-Badges mit Vorschau, Aktionen und individuellen Darstellungsoptionen.
@@ -20,7 +20,7 @@ Ein Akkordeon-Container für Home-Assistant-Dashboards mit eingebetteten Lovelac
 
 1. Lade **flex-accordion-card.js** aus dem [neuesten GitHub-Release](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest) herunter.
 2. Kopiere die Datei nach `<config>/www/flex-accordion-card.js` in Home Assistant. Erstelle `www` bei Bedarf und starte Home Assistant danach einmal neu.
-3. Füge in den Dashboard-Ressourcen `/local/flex-accordion-card.js?v=0.11.0` als **JavaScript-Modul** hinzu. Aktiviere den erweiterten Modus im Profil, falls das Ressourcenmenü nicht sichtbar ist.
+3. Füge in den Dashboard-Ressourcen `/local/flex-accordion-card.js?v=0.13.0` als **JavaScript-Modul** hinzu. Aktiviere den erweiterten Modus im Profil, falls das Ressourcenmenü nicht sichtbar ist.
 4. Lade den Browser vollständig neu und füge **Flex Accordion Card** zum Dashboard hinzu. Alternativ kannst du die native Karte **Manuell** auswählen und das folgende YAML-Beispiel einfügen.
 
 Bei Ressourcenverwaltung über YAML ergänze die bestehende Konfiguration um die Ressource:
@@ -28,7 +28,7 @@ Bei Ressourcenverwaltung über YAML ergänze die bestehende Konfiguration um die
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=0.11.0
+    - url: /local/flex-accordion-card.js?v=0.13.0
       type: module
 ```
 
@@ -60,8 +60,7 @@ sections:
     title: Living room
     icon: mdi:sofa
     default_open: true
-    layout: grid
-    columns: 2
+    layout: sections
     cards:
       - type: button
         entity: light.living_room
@@ -81,6 +80,7 @@ sections:
           action: navigate
           navigation_path: /lovelace/home
   - id: footer
+    layout: sections
     always_open: true
     cards:
       - type: markdown
@@ -123,8 +123,7 @@ Ersetze die Entitäts-IDs und den Navigationspfad durch deine eigenen. Weitere B
 | `icon` | keine | Home-Assistant-Symbol |
 | `always_open` | `false` | Immer aufgeklappt, ohne Kopfzeile oder Badges; unabhängig vom exklusiven Modus |
 | `default_open` | `false` | Anfangszustand; bei immer geöffneten Abschnitten ignoriert |
-| `layout` | `vertical` | `vertical` oder `grid` |
-| `columns` | `2` | Gleich breite Spalten, Ganzzahl von 1 bis 12; nur im Raster verwendet |
+| `layout` | `sections` | `sections` |
 | `cards` | `[]` | Konfigurationen von Lovelace-Karten |
 | `badges` | `[]` | Konfigurationen nativer Ansichts-Badges |
 | `visibility` | keine | Home-Assistant-Bedingungen für den gesamten Abschnitt |
@@ -144,7 +143,17 @@ Die übrigen Karten- und Badge-Einstellungen entsprechen den üblichen Home-Assi
 - Im exklusiven Modus hat der erste anfangs geöffnete Abschnitt Vorrang. Der Öffnungszustand bleibt während der Lebensdauer der Karte erhalten, wird aber nicht über ein Neuladen der Seite hinaus gespeichert.
 - Badges klappen ihren Abschnitt nicht um. Explizite Aktionen haben Vorrang. Ohne explizite Aktion verwenden Entitäts-Badges und Schaltflächen-Karten passende Aktionen für übliche steuerbare Domänen, Tasten, Szenen und Skripte; Sensoren öffnen weitere Informationen.
 - Die Sichtbarkeit verwendet native Home-Assistant-Bedingungen. Für die gesamte Karte stehen die Sichtbarkeitsregler des Dashboards zur Verfügung. Verwendet werden native Ansichts-Badges, nicht die speziellen Badges der Überschrift-Karte.
-- Benutzerdefinierte Karten benötigen eigene Ressourcen. Karten in geschlossenen Abschnitten bleiben aktiv. Die Spaltenzahl verringert sich auf Mobilgeräten nicht automatisch; das Raster verwendet keine `grid_options` der eingebetteten Karten.
+- Benutzerdefinierte Karten benötigen eigene Ressourcen. Karten in geschlossenen Abschnitten bleiben aktiv. Die Kartengrößen folgen dem nativen Abschnittsverhalten.
 - Verfügbare native Editoren und Badges hängen von der Home-Assistant-Frontend-Version ab. Badges von Drittanbietern können die Darstellungsoptionen ignorieren. Eigene Namen und Texte werden nicht übersetzt; native Komponenten nutzen die Übersetzungen von Home Assistant.
 
 [MIT License](../LICENSE)
+
+## Abschnittslayout und Aktualisierung
+
+Alle Abschnitte verwenden das native Home-Assistant-Raster mit 12 Spalten. Stelle Breite und Höhe jeder Karte im nativen Layout-Tab ein, falls verfügbar, oder mit `grid_options` im Code. Ziehgriffe der Liste, Pfeile und Verschiebe-/Kopierschaltflächen ändern die Reihenfolge. Direktes Drag-and-drop und Größenänderungsgriffe des nativen Dashboards sind im Akkordeon nicht aktiviert.
+
+**Prüfe nach einer Aktualisierung von Vertikal oder Raster Breite, Höhe und Anordnung der Karten auf Computer und Mobilgeräten.** Die Umwandlung erfolgt automatisch. Vertikal wird zu Karten mit voller Breite und automatischer Höhe. Raster verteilt jede bisherige Reihe auf die 12 nativen Spalten; wenn die Spaltenzahl 12 nicht teilt, unterscheiden sich benachbarte Breiten um eine Einheit (fünf Karten: 3, 3, 2, 2, 2). Eine unvollständige letzte Reihe behält diese Breiten bei. Explizite `grid_options` haben Vorrang. Die bisherige Abschnittsoption `columns` entfällt.
+
+Umgewandelte Karten und ihr Editor zeigen einen Hinweis. Wähle nach der Kontrolle **Layout geprüft** im Editor und speichere die Karte, um die Umwandlung zu speichern und den Hinweis auszublenden. Neue Abschnitte aus dem visuellen Editor zeigen diesen Hinweis nicht.
+
+Die nativen Abschnittskomponenten müssen vom Frontend geladen sein. Falls sie fehlen, öffne eine native HA-Abschnittsansicht, kehre zurück und wähle Erneut versuchen. Die vollständige native Dashboard-Abschnittsansicht wird nicht eingebettet.
