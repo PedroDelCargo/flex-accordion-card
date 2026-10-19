@@ -1,5 +1,5 @@
 import { t } from "./i18n.js";
-export const VERSION = "0.11.0";
+export const VERSION = "0.13.0";
 export const clone = (value) => JSON.parse(JSON.stringify(value));
 // HA may echo configuration objects with a different property order.
 export const configKey = (value) => JSON.stringify(value, (_key, item) =>
@@ -87,6 +87,8 @@ export function normalizeConfig(input) {
     config.header.badges = normalizeBadges(config.header.badges);
   }
   if (!Array.isArray(config.sections)) fail("sections: liste attendue");
+  if (config.layout_migration !== undefined && (!object(config.layout_migration) || config.layout_migration.version !== 1 || typeof config.layout_migration.reviewed !== "boolean")) fail("layout_migration: version 1 et reviewed booléen attendus");
+  let migrated = false;
   const ids = new Set();
   config.sections = config.sections.map((section, index) => {
     if (!object(section)) fail(`section ${index + 1}: objet attendu`);
@@ -100,7 +102,7 @@ export function normalizeConfig(input) {
     section.columns ??= 2;
     section.default_open ??= false;
     section.always_open ??= false;
-    if (!["vertical", "grid"].includes(section.layout)) fail("layout de section: vertical ou grid attendu");
+    if (!["vertical", "grid", "sections"].includes(section.layout)) fail("layout de section: vertical, grid ou sections attendu");
     integer(section.columns, 1, 12, "columns");
     if (typeof section.always_open !== "boolean") fail("always_open: booléen attendu");
     if (typeof section.default_open !== "boolean") fail("default_open: booléen attendu");
@@ -109,9 +111,22 @@ export function normalizeConfig(input) {
     if (!Array.isArray(section.cards) || !Array.isArray(section.badges)) fail("cards et badges: listes attendues");
     if (section.visibility !== undefined && !Array.isArray(section.visibility)) fail("visibility de section: liste de conditions HA attendue");
     section.cards.forEach((card) => { if (!object(card) || typeof card.type !== "string" || !card.type) fail("carte imbriquée: type requis"); });
+    if (section.layout !== "sections") {
+      const count = section.layout === "grid" ? section.columns : 1;
+      section.cards = section.cards.map((card, i) => {
+        // Divide each old row into twelve integer units. Non-divisors get
+        // balanced neighbouring widths; explicit native sizing takes priority.
+        const width = Math.floor(12 / count) + (i % count < 12 % count ? 1 : 0);
+        return { ...card, grid_options: { columns: width, rows: "auto", ...card.grid_options } };
+      });
+      if (section.cards.length) migrated = true;
+      section.layout = "sections";
+    }
+    delete section.columns;
     section.badges = normalizeBadges(section.badges);
     return section;
   });
+  if (migrated) config.layout_migration = { version: 1, reviewed: false };
   return config;
 }
 export function initialOpen(config, previous) {

@@ -142,7 +142,13 @@ export const messages = {
     "Ajouter la carte": "Ajouter la carte",
     "Configuration de la carte": "Configuration de la carte",
     "Masquer la bordure": "Masquer la bordure",
-    "Fond transparent": "Fond transparent"
+    "Fond transparent": "Fond transparent",
+    "Sections (expérimental)": "Sections (expérimental)",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.": "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.",
+    "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.": "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.",
+    "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.": "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.",
+    "Disposition vérifiée": "Disposition vérifiée",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez.": "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez."
   },
   "en": {
     "Taille du texte (px)": "Text size (px)",
@@ -286,7 +292,13 @@ export const messages = {
     "Ajouter la carte": "Add card",
     "Configuration de la carte": "Card configuration",
     "Masquer la bordure": "Hide border",
-    "Fond transparent": "Transparent background"
+    "Fond transparent": "Transparent background",
+    "Sections (expérimental)": "Sections (experimental)",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.": "Native sections unavailable. Open a HA Sections view, then retry. Otherwise, use Vertical or Grid.",
+    "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.": "Native HA 12-column grid. Adjust sizes in each card’s Layout tab, if available, or with grid_options in code. Reorder cards in this list.",
+    "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.": "Your previous layouts have been converted to Sections. Check card widths, heights and placement, then confirm the review in the editor.",
+    "Disposition vérifiée": "Layout checked",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez.": "Native sections unavailable. Open a HA Sections view, then retry."
   },
   "es": {
     "Taille du texte (px)": "Tamaño del texto (px)",
@@ -430,7 +442,13 @@ export const messages = {
     "Ajouter la carte": "Añadir tarjeta",
     "Configuration de la carte": "Configuración de la tarjeta",
     "Masquer la bordure": "Ocultar borde",
-    "Fond transparent": "Fondo transparente"
+    "Fond transparent": "Fondo transparente",
+    "Sections (expérimental)": "Secciones (experimental)",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.": "Secciones nativas no disponibles. Abre una vista Secciones de HA y vuelve a intentarlo. Si no, usa Vertical o Cuadrícula.",
+    "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.": "Cuadrícula nativa de HA de 12 columnas. Ajusta el tamaño en la pestaña Disposición de cada tarjeta, si está disponible, o con grid_options en código. Ordena las tarjetas en esta lista.",
+    "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.": "Las disposiciones anteriores se han convertido a Secciones. Comprueba el ancho, la altura y la posición de las tarjetas y confirma la revisión en el editor.",
+    "Disposition vérifiée": "Disposición verificada",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez.": "Secciones nativas no disponibles. Abre una vista Secciones de HA y vuelve a intentarlo."
   },
   "de": {
     "Taille du texte (px)": "Textgröße (px)",
@@ -574,7 +592,13 @@ export const messages = {
     "Ajouter la carte": "Karte hinzufügen",
     "Configuration de la carte": "Kartenkonfiguration",
     "Masquer la bordure": "Rahmen ausblenden",
-    "Fond transparent": "Transparenter Hintergrund"
+    "Fond transparent": "Transparenter Hintergrund",
+    "Sections (expérimental)": "Abschnitte (experimentell)",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez. Sinon, utilisez Verticale ou Grille.": "Native Abschnitte nicht verfügbar. Öffne eine HA-Abschnittsansicht und versuche es erneut. Verwende andernfalls Vertikal oder Raster.",
+    "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.": "Natives HA-Raster mit 12 Spalten. Stelle die Größe im Layout-Tab jeder Karte ein, falls verfügbar, oder mit grid_options im Code. Ändere die Reihenfolge in dieser Liste.",
+    "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.": "Deine bisherigen Layouts wurden in Abschnitte umgewandelt. Prüfe Breite, Höhe und Anordnung der Karten und bestätige die Prüfung im Editor.",
+    "Disposition vérifiée": "Layout geprüft",
+    "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez.": "Native Abschnitte nicht verfügbar. Öffne eine HA-Abschnittsansicht und versuche es erneut."
   }
 };
 export function language(hass) { const code = (hass?.locale?.language || hass?.language || "fr").toLowerCase().split(/[-_]/)[0]; return messages[code] ? code : "en"; }

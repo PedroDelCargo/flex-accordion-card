@@ -7,7 +7,6 @@ const labels = { always_open: "Toujours ouverte", text_size: "Taille du texte (p
 const selectSchema = (name, options) => ({ name, selector: { select: { mode: "dropdown", options: options.map(([value, label]) => ({ value, label })) } } });
 const globalSchema = [selectSchema("layout", [["unified", "Carte unique"], ["separate", "Cartes séparées"]]), { name: "background", selector: { boolean: {} } }, { name: "exclusive", selector: { boolean: {} } }, { name: "animation", selector: { boolean: {} } }, { name: "animation_duration", selector: { number: { min: 0, max: 2000, mode: "box", step: 10 } } }];
 const headerSchema = [{ name: "title", selector: { text: {} } }, { name: "icon", selector: { icon: {} } }, { name: "default_open", selector: { boolean: {} } }];
-const contentSchema = [selectSchema("layout", [["vertical", "Verticale"], ["grid", "Grille"]]), { name: "columns", selector: { number: { min: 1, max: 12, mode: "box", step: 1 } } }];
 
 export class FlexAccordionCardEditor extends HTMLElement {
   constructor() {
@@ -177,11 +176,16 @@ export class FlexAccordionCardEditor extends HTMLElement {
       .section-editor,.pane{border:2px solid var(--fac-editor-border,#8493a2);border-radius:12px;margin:12px 0;padding:12px;background:var(--card-background-color,#fff)}
       .section-head{font-weight:600}.counts,.type-label,.hint,.breadcrumb{font-size:12px;color:var(--secondary-text-color,#606973);line-height:1.5}.counts{margin:6px 0 0 44px}.type-label{display:block}.breadcrumb{margin-bottom:10px;overflow-wrap:anywhere}.breadcrumb button{font:inherit;border:0;padding:4px;background:transparent;color:var(--primary-color,#028ca8)}
       h3{margin:10px 0}h4{margin:8px 0}.group{border:2px solid var(--fac-editor-border,#8493a2);border-radius:10px;margin:12px 0;overflow:hidden}.group summary{display:flex;gap:10px;align-items:center;cursor:pointer;padding:12px;font-weight:600;background:var(--secondary-background-color,#f1f5f8);list-style:none}.group summary::-webkit-details-marker{display:none}.group summary::marker{content:""}.group summary svg{width:20px;height:20px;flex:none}.group[open]>summary svg{transform:rotate(180deg)}.group-body{padding:12px;border-top:1px solid var(--fac-editor-border,#8493a2)}
-      .row{padding:10px 0;border-bottom:1px solid var(--fac-editor-border,#8493a2)}.icon-button{display:inline-flex;align-items:center;justify-content:center;width:38px;padding:6px;flex:none}.drag{cursor:grab}.drop-over{outline:3px dashed var(--primary-color,#03a9f4);outline-offset:-3px}.dropzone{min-height:22px;border-radius:6px}.destinations{margin:10px 0;font-size:12px}.transfer-target{border:1px dashed var(--fac-editor-border,#8493a2);padding:10px;margin-top:6px}.hint{margin:10px 0}.error{color:var(--error-color,#b71c1c);white-space:pre-wrap}.error:empty{display:none}
+      .row{padding:10px 0;border-bottom:1px solid var(--fac-editor-border,#8493a2)}.icon-button{display:inline-flex;align-items:center;justify-content:center;width:38px;padding:6px;flex:none}.drag{cursor:grab}.drop-over{outline:3px dashed var(--primary-color,#03a9f4);outline-offset:-3px}.dropzone{min-height:22px;border-radius:6px}.destinations{margin:10px 0;font-size:12px}.transfer-target{border:1px dashed var(--fac-editor-border,#8493a2);padding:10px;margin-top:6px}.hint{margin:10px 0}.error{color:var(--error-color,#b71c1c);white-space:pre-wrap}.error:empty{display:none}.migration-notice{padding:12px;border-inline-start:4px solid var(--warning-color,#ffa600);margin:8px 0;background:var(--secondary-background-color,#f1f5f8);line-height:1.5}
       .fallback-form{display:grid;gap:8px}.fallback-form label{min-height:40px}.fallback-form label{display:flex;gap:10px;align-items:center;justify-content:space-between}.fallback-form input:not([type=checkbox]),.fallback-form select{width:55%}input,select,textarea{border:1px solid var(--fac-editor-border,#8493a2);border-radius:6px;background:var(--card-background-color,#fff);padding:8px;max-width:100%}textarea{width:100%;min-height:180px;font-family:monospace}select{max-width:160px}.pane:empty{display:none}.item-page>.pane{margin-top:8px}.back{margin:4px 0 12px}.item-page .context-title{font-size:18px;overflow-wrap:anywhere}.manual{margin-top:16px}.manual summary{cursor:pointer;font-weight:500;padding:8px 0}
       .nav-header{position:sticky;top:var(--flex-accordion-editor-sticky-top,0px);z-index:20;background:var(--card-background-color,var(--ha-card-background,#fff));padding:8px 0;border-bottom:2px solid var(--fac-editor-border,#8493a2);margin-bottom:12px}.nav-header .back{margin:0}.section-title,.context-title{border-inline-start:4px solid var(--primary-color,#028ca8);padding-inline-start:10px}.back,.mode-button{display:inline-flex;gap:8px;align-items:center}.back svg,.mode-button svg{flex:none}.transfer-panel{padding:12px;border:2px solid var(--primary-color,#028ca8);border-radius:8px;margin:8px 0}.transfer-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.transfer-options button{display:inline-flex;gap:8px;align-items:center}.badge-code[hidden],ha-form[hidden]{display:none!important}
     `;
     const root = el("div", `editor ${this._selection ? "item-page" : this._sectionId ? "section-page" : "overview-page"}`);
+    if(this._config.layout_migration?.reviewed === false) {
+      const notice=el("div", "migration-notice"); notice.setAttribute("role", "status");
+      notice.append(el("p", "", t(this._hass, "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.")),button(t(this._hass, "Disposition vérifiée"), () => { this._config.layout_migration.reviewed=true; this._emit(); }));
+      root.append(notice);
+    }
     if (this._selection) this._renderItemPage(root);
     else if (this._currentSection()) this._renderSectionPage(root);
     else this._renderOverview(root);
@@ -207,7 +211,7 @@ export class FlexAccordionCardEditor extends HTMLElement {
     const end = el("div", "dropzone"); this._dropTarget(end, (drag) => this._moveSection(drag.s, this._config.sections.length), (drag) => drag.kind === "sections");
     root.append(end, button(t(this._hass, "+ Section"), () => {
       const id = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
-      this._config.sections.push({ id: `section-${id}`, title: t(this._hass, "Nouvelle section"), cards: [], badges: [] });
+      this._config.sections.push({ id: `section-${id}`, layout: "sections", title: t(this._hass, "Nouvelle section"), cards: [], badges: [] });
       this._sectionId = `section-${id}`; this._selection = null; this._emit();
     }));
   }
@@ -252,7 +256,9 @@ export class FlexAccordionCardEditor extends HTMLElement {
     for (const kind of ["badges", "cards"]) {
       if (kind === "badges" && section.always_open) continue;
       const group = this._group(`${kind === "badges" ? t(this._hass, "Badges") : t(this._hass, "Cartes")} (${section[kind].length})`, `${section.id}:${kind}`); group.details.dataset.kind = kind;
-      if (kind === "cards") group.body.append(this._form(section, contentSchema.filter(field => field.name !== "columns" || section.layout === "grid"), (value) => { const current = this._currentSection(); const layoutChanged = value.layout !== undefined && current.layout !== value.layout; Object.assign(current, value); return this._emit(layoutChanged); }));
+      if (kind === "cards") {
+        group.body.append(el("p", "hint", t(this._hass, "Grille native HA de 12 colonnes. Réglez les dimensions dans l’onglet Disposition de chaque carte, si disponible, ou avec grid_options en code. Réorganisez les cartes dans cette liste.")));
+      }
       const list = el("div", "list"); list.dataset.kind = kind;
       section[kind].forEach((item, i) => {
         const row = el("div", "row"); row.dataset.index = String(i); row.dataset.kind = kind;
@@ -416,7 +422,10 @@ export class FlexAccordionCardEditor extends HTMLElement {
     const tag = kind === "cards" ? "hui-card-element-editor" : "hui-badge-element-editor";
     if (customElements.get(tag)) {
       const native = el(tag);
-      if (kind === "cards") native.showVisibilityTab = Boolean(customElements.get("hui-card"));
+      if (kind === "cards") {
+        native.showVisibilityTab = Boolean(customElements.get("hui-card"));
+        if(this._currentSection()?.layout === "sections") native.sectionConfig = { type: "grid", cards: this._currentSection().cards };
+      }
       this._bindEditor(native, true, pane, epoch); this._modeToolbar(native,pane); return;
     }
     let fallbackEditor; const loading = el("p", "hint", t(this._hass, "Chargement de l’éditeur natif…")); pane.append(loading);

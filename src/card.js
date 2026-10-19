@@ -76,7 +76,7 @@ export class FlexAccordionCard extends HTMLElement {
   static async getConfigElement() { return document.createElement("flex-accordion-card-editor"); }
   static getStubConfig(hass) {
     return { type: "custom:flex-accordion-card", layout: "unified", exclusive: false, sections: [
-      { id: "welcome", title: t(hass, "Ma première section"), icon: "mdi:home", default_open: true, cards: [{ type: "markdown", content: t(hass, "Bienvenue dans **Flex Accordion Card** !") }], badges: [] },
+      { id: "welcome", layout: "sections", title: t(hass, "Ma première section"), icon: "mdi:home", default_open: true, cards: [{ type: "markdown", content: t(hass, "Bienvenue dans **Flex Accordion Card** !") }], badges: [] },
     ] };
   }
   setConfig(input) {
@@ -88,6 +88,7 @@ export class FlexAccordionCard extends HTMLElement {
   set hass(value) {
     this._hass = value;
     const empty = this.shadowRoot.querySelector(".empty"); if (empty) empty.textContent = t(value, "Ajoutez une section dans l’éditeur.");
+    const migration=this.shadowRoot.querySelector(".migration-notice"); if(migration) migration.textContent=t(value, "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur.");
     this._propagate();
   }
   get hass() { return this._hass; }
@@ -150,13 +151,19 @@ export class FlexAccordionCard extends HTMLElement {
       .open .panel{grid-template-rows:1fr;visibility:visible;transition-delay:0s}.panel-inner{min-height:0;overflow:hidden;opacity:0;transition:opacity var(--fac-duration) ease}.open .panel-inner{opacity:1}
       .cards{display:grid;gap:var(--fac-gap);padding:4px 12px 12px;grid-template-columns:minmax(0,1fr)}
       .always-open .panel{display:block;visibility:visible;transition:none}.always-open .panel-inner{opacity:1;transition:none}.always-open .cards{padding-top:12px}
-      .cards.grid{grid-template-columns:repeat(var(--fac-columns),minmax(0,1fr))}.cards>*{min-width:0}
+      .cards>*{min-width:0}
+      .cards.sections{display:block}.native-section{display:block;--column-span:1}
+      .migration-notice{padding:12px;margin:8px;border-inline-start:4px solid var(--warning-color,#ffa600);font-size:14px;line-height:1.5}
       .error{font-size:13px;color:var(--error-color,#b71c1c);padding:10px;overflow-wrap:anywhere}.empty{padding:12px;color:var(--secondary-text-color,#666)}
       .load-error button{padding:8px;cursor:pointer}
       .card-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);align-items:center;gap:8px;padding:6px 10px;margin-top:5px}.card-heading{display:flex;align-items:center;gap:8px;min-width:0;--mdc-icon-size:18px}.card-heading h2{font:inherit;font-size:var(--fac-heading-size,16px);font-weight:var(--ha-heading-card-title-font-weight,400);line-height:1.3;margin:0;overflow-wrap:anywhere}.unified>.card-header{border-bottom:1px solid var(--divider-color,#ddd)}.separate>.card-header{background:var(--ha-card-background,var(--card-background-color,#fff));border:var(--ha-card-border-width,1px) solid var(--ha-card-border-color,var(--divider-color,#ddd));border-radius:var(--ha-card-border-radius,12px)}
       @media(prefers-reduced-motion:reduce){.panel,.panel-inner,.chevron{transition:none}}
     `;
     const root = el("div", `root ${config.layout}${config.background ? " with-background" : ""}`);
+    if(config.layout_migration?.reviewed === false) {
+      const notice=el("div", "migration-notice", t(this._hass, "Vos anciennes dispositions ont été converties en Sections. Vérifiez la largeur, la hauteur et le positionnement des cartes, puis confirmez la vérification dans l’éditeur."));
+      notice.setAttribute("role", "status"); root.append(notice);
+    }
     root.style.setProperty("--fac-duration", `${config.animation ? config.animation_duration : 0}ms`);
     const slots = [];
     let globalBadges;
@@ -194,7 +201,6 @@ export class FlexAccordionCard extends HTMLElement {
       else panel.setAttribute("aria-labelledby", `header-${index}`);
       const inner = el("div", "panel-inner");
       const cards = el("div", `cards ${section.layout}`);
-      cards.style.setProperty("--fac-columns", String(section.columns));
       inner.append(cards); panel.append(inner); shell.append(panel);
       if (section.visibility?.length) {
         const placeholder = el("div", "section-slot"); root.append(placeholder);
@@ -212,7 +218,7 @@ export class FlexAccordionCard extends HTMLElement {
       if (generation !== this._generation) return;
       if (globalBadges) this._config.header.badges.forEach((config) => globalBadges.append(this._nativeElement("badge", config, helpers)));
       for (const { section, cards, badges, placeholder, host } of slots) {
-        section.cards.forEach((config) => cards.append(this._nativeElement("card", config, helpers)));
+        cards.append(this._nativeSection(section));
         if (badges) section.badges.forEach((config) => badges.append(this._nativeElement("badge", config, helpers)));
         if (placeholder) {
           const wrapper = this._nativeElement("card", { type: "custom:flex-accordion-section-host", host, visibility: section.visibility }, helpers);
@@ -225,6 +231,27 @@ export class FlexAccordionCard extends HTMLElement {
       const notice = el("div", "error load-error", error.message);
       notice.append(button(t(this._hass, "Réessayer"), () => this._render()));
       this.shadowRoot.querySelector(".root").append(notice);
+    }
+  }
+  _nativeSection(section) {
+    // hui-section owns card loading/rebuilds, sizing and visibility. Never pass
+    // the real dashboard's lovelace/path: native editing would save outside us.
+    const unavailable = () => {
+      const notice = el("div", "error native-section-error", t(this._hass, "Sections natives indisponibles. Ouvrez une vue Sections HA, puis réessayez."));
+      notice.append(button(t(this._hass, "Réessayer"), () => this._render()));
+      return notice;
+    };
+    if (!["hui-section", "hui-grid-section"].every(tag => customElements.get(tag))) return unavailable();
+    try {
+      const native = el("hui-section", "native-section");
+      native.insideStrategy = true; // No dashboard edit handles or cross-view DnD.
+      native.hass = this._hass;
+      native.preview = this._preview;
+      native.config = { type: "grid", cards: section.cards.map(config => withDefaultInteraction(config, "cards")) };
+      this._children.push(native);
+      return native;
+    } catch (error) {
+      const notice = unavailable(); notice.append(el("p", "", error.message)); return notice;
     }
   }
   _nativeElement(kind, config, helpers) {
