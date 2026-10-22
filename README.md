@@ -30,7 +30,7 @@ The card is available as a custom repository while default-catalog inclusion is 
 
 1. Download **flex-accordion-card.js** from the [latest GitHub release](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Copy it to `<config>/www/flex-accordion-card.js` on your Home Assistant installation. Create `www` if necessary; restart Home Assistant once after creating it.
-3. In your dashboard resources, add `/local/flex-accordion-card.js?v=0.13.0` with type **JavaScript module**. Enable advanced mode in your profile if the resources menu is hidden.
+3. In your dashboard resources, add `/local/flex-accordion-card.js?v=1.0.0` with type **JavaScript module**. Enable advanced mode in your profile if the resources menu is hidden.
 4. Reload the browser completely, then add **Flex Accordion Card** to a dashboard. Alternatively, choose the native **Manual** card and paste the YAML example below.
 
 For dashboards with resources managed in YAML, add the resource to your existing configuration:
@@ -38,7 +38,7 @@ For dashboards with resources managed in YAML, add the resource to your existing
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=0.13.0
+    - url: /local/flex-accordion-card.js?v=1.0.0
       type: module
 ```
 

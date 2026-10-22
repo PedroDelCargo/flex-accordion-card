@@ -1,5 +1,13 @@
 # Historique
 
+## 1.0.0 — 22 octobre 2026 — première version stable majeure
+
+- Fonctionnement de la 0.13.0 conservé, validé par le mainteneur sur ordinateur et mobile.
+- Documentation utilisateur en anglais, français, espagnol et allemand, avec instructions HACS comme dépôt personnalisé.
+- Captures réelles, galerie et vidéo de démonstration allégée.
+- Validation officielle HACS ajoutée au dépôt. La demande d’admission au catalogue reste différée jusqu’à la relecture de la documentation.
+- Pour les mises à jour depuis Verticale/Grille, vérifier les dimensions et positions après conversion automatique vers Sections.
+
 ## 0.13.0 — 19 octobre 2026 — présentation Sections unique
 
 **Après mise à jour : contrôler les largeurs, hauteurs et positions des cartes converties, sur ordinateur et mobile.**

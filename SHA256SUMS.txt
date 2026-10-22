@@ -1,1 +1,1 @@
-bd48feccc438c17aaffb28a16c2b8210c16876ef3fd4a246666c459744669cdc  dist/flex-accordion-card.js
+951a9585486b56e6dbaafced2de4ff0d6018de6b5eb60ef6711ed8e3ef24265e  dist/flex-accordion-card.js
