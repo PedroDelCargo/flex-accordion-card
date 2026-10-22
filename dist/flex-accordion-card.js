@@ -1,4 +1,4 @@
-/* flex-accordion-card v0.13.0 | MIT | No runtime dependencies */
+/* flex-accordion-card v1.0.0 | MIT | No runtime dependencies */
 // UI messages only. User titles, names and configuration keys are never translated.
 const messages = {
   "fr": {
@@ -606,7 +606,7 @@ function language(hass) { const code = (hass?.locale?.language || hass?.language
 function t(hass, key, params = {}) { return (messages[language(hass)][key] || messages.en[key] || key).replace(/\{(\w+)\}/g, (match, name) => Object.hasOwn(params,name) ? String(params[name]) : match); }
 function localizeSchema(schema, hass) { return schema.map(field => ({ ...field, ...(field.selector?.select ? { selector: { ...field.selector, select: { ...field.selector.select, options: field.selector.select.options.map(option => typeof option === "string" ? option : { ...option, label: t(hass,option.label) }) } } } : {}), ...(field.schema ? { schema: localizeSchema(field.schema,hass) } : {}) })); }
 
-const VERSION = "0.13.0";
+const VERSION = "1.0.0";
 const clone = (value) => JSON.parse(JSON.stringify(value));
 // HA may echo configuration objects with a different property order.
 const configKey = (value) => JSON.stringify(value, (_key, item) =>
