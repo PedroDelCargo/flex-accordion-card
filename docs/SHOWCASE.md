@@ -20,6 +20,6 @@ These screenshots show a real Home Assistant installation with the maintainer’
 
 ## Video demonstration
 
-[Watch the demonstration (MP4, about 1 MB, 11 seconds)](media/accordion-demo.mp4)
+https://github.com/user-attachments/assets/cee9c77f-e56f-4211-a526-4a8265ccddc8
 
 The demonstration shows sections opening and closing. The video was resized to 720 pixels wide, with the original aspect ratio retained; audio and source metadata were removed. The original recording is unchanged.

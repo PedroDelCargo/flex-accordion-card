@@ -6,7 +6,11 @@ Un conteneur accordéon pour les tableaux de bord Home Assistant, avec cartes Lo
 
 ![Cartes jauges natives dans une section accordéon ouverte](images/accordion-toner.png)
 
-[Voir la démonstration — MP4, 11 s](media/accordion-demo.mp4) · [Autres captures](SHOWCASE.md)
+Voir la démonstration — MP4, 11 s
+
+https://github.com/user-attachments/assets/cee9c77f-e56f-4211-a526-4a8265ccddc8
+
+[Autres captures](SHOWCASE.md)
 
 ## Fonctionnalités
 

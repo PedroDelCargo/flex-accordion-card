@@ -6,7 +6,11 @@ Un contenedor de acordeón para paneles de Home Assistant, con tarjetas Lovelace
 
 ![Tarjetas de indicador nativas en una sección de acordeón abierta](images/accordion-toner.png)
 
-[Ver la demostración — MP4, 11 s](media/accordion-demo.mp4) · [Más capturas](SHOWCASE.md)
+Ver la demostración — MP4, 11 s
+
+https://github.com/user-attachments/assets/cee9c77f-e56f-4211-a526-4a8265ccddc8
+
+[Más capturas](SHOWCASE.md)
 
 ## Funciones
 

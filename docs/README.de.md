@@ -6,7 +6,11 @@ Ein Akkordeon-Container für Home-Assistant-Dashboards mit eingebetteten Lovelac
 
 ![Native Anzeige-Karten in einem geöffneten Akkordeon-Abschnitt](images/accordion-toner.png)
 
-[Demonstration ansehen — MP4, 11 s](media/accordion-demo.mp4) · [Weitere Screenshots](SHOWCASE.md)
+Demonstration ansehen — MP4, 11 s
+
+https://github.com/user-attachments/assets/cee9c77f-e56f-4211-a526-4a8265ccddc8
+
+[Weitere Screenshots](SHOWCASE.md)
 
 ## Funktionen
 
