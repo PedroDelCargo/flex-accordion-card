@@ -1,5 +1,5 @@
 import { t } from "./i18n.js";
-export const VERSION = "0.13.0";
+export const VERSION = "1.0.0";
 export const clone = (value) => JSON.parse(JSON.stringify(value));
 // HA may echo configuration objects with a different property order.
 export const configKey = (value) => JSON.stringify(value, (_key, item) =>
