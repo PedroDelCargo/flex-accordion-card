@@ -6,7 +6,11 @@ An accordion container for Home Assistant dashboards, with nested Lovelace cards
 
 ![Native gauge cards in an open accordion section](docs/images/accordion-toner.png)
 
-[Watch the demonstration — MP4, 11 s](docs/media/accordion-demo.mp4) · [More screenshots](docs/SHOWCASE.md)
+Watch the demonstration — MP4, 11 s
+
+https://github.com/user-attachments/assets/cee9c77f-e56f-4211-a526-4a8265ccddc8
+
+[More screenshots](docs/SHOWCASE.md)
 
 ## Features
 
