@@ -4,6 +4,10 @@
 
 Un contenedor de acordeón para paneles de Home Assistant, con tarjetas Lovelace anidadas, insignias nativas y un editor visual contextual.
 
+![Tarjetas de indicador nativas en una sección de acordeón abierta](images/accordion-toner.png)
+
+[Ver la demostración — MP4, 11 s](media/accordion-demo.mp4) · [Más capturas](SHOWCASE.md)
+
 ## Funciones
 
 - Tarjeta unificada o tarjetas separadas por sección, con fondo global opcional.
@@ -17,6 +21,12 @@ Un contenedor de acordeón para paneles de Home Assistant, con tarjetas Lovelace
 - Interfaz en inglés, francés, español y alemán según el idioma del perfil de Home Assistant.
 
 ## Instalación
+
+### HACS (repositorio personalizado)
+
+La tarjeta está disponible como repositorio personalizado mientras se tramita su inclusión en el catálogo predeterminado. En HACS, abre el menú ⋮ → Repositorios personalizados, añade `https://github.com/PedroDelCargo/flex-accordion-card` con categoría **Dashboard** y descarga Flex Accordion Card. Cuando los recursos se gestionan desde la interfaz de Home Assistant, HACS normalmente registra el módulo automáticamente. Conserva solo el recurso HACS (`/hacsfiles/flex-accordion-card/flex-accordion-card.js` con su sufijo de versión) y elimina los antiguos recursos manuales/de prueba de esta tarjeta. Los recursos gestionados en YAML deben declararse manualmente. Recarga completamente el navegador.
+
+### Instalación manual
 
 1. Descarga **flex-accordion-card.js** desde la [última versión de GitHub](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Cópialo a `<config>/www/flex-accordion-card.js` en Home Assistant. Crea `www` si es necesario y reinicia Home Assistant una vez después de crearlo.

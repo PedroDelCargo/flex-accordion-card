@@ -1,0 +1,20 @@
+name: HACS validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate dashboard card
+        uses: hacs/action@main
+        with:
+          category: plugin
+          comment: false

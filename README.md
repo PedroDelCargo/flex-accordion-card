@@ -4,6 +4,10 @@ English · [Français](docs/README.fr.md) · [Español](docs/README.es.md) · [D
 
 An accordion container for Home Assistant dashboards, with nested Lovelace cards, native badges and a contextual visual editor.
 
+![Native gauge cards in an open accordion section](docs/images/accordion-toner.png)
+
+[Watch the demonstration — MP4, 11 s](docs/media/accordion-demo.mp4) · [More screenshots](docs/SHOWCASE.md)
+
 ## Features
 
 - Unified card or separate section cards, with an optional global background.
@@ -17,6 +21,12 @@ An accordion container for Home Assistant dashboards, with nested Lovelace cards
 - Interface in English, French, Spanish and German, following your Home Assistant profile language.
 
 ## Installation
+
+### HACS (custom repository)
+
+The card is available as a custom repository while default-catalog inclusion is pending. In HACS, open the three-dot menu → Custom repositories, add `https://github.com/PedroDelCargo/flex-accordion-card` with category **Dashboard**, then download Flex Accordion Card. When resources are managed in the Home Assistant UI, HACS normally registers the module automatically. Keep only the HACS resource (`/hacsfiles/flex-accordion-card/flex-accordion-card.js` with its version suffix) and remove any old manual/test resource for this card. Resources managed in YAML must be declared manually. Reload the browser completely.
+
+### Manual installation
 
 1. Download **flex-accordion-card.js** from the [latest GitHub release](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Copy it to `<config>/www/flex-accordion-card.js` on your Home Assistant installation. Create `www` if necessary; restart Home Assistant once after creating it.
