@@ -4,6 +4,10 @@
 
 Un conteneur accordéon pour les tableaux de bord Home Assistant, avec cartes Lovelace imbriquées, badges natifs et éditeur visuel contextuel.
 
+![Cartes jauges natives dans une section accordéon ouverte](images/accordion-toner.png)
+
+[Voir la démonstration — MP4, 11 s](media/accordion-demo.mp4) · [Autres captures](SHOWCASE.md)
+
 ## Fonctionnalités
 
 - Carte unique ou cartes séparées par section, avec fond global facultatif.
@@ -17,6 +21,12 @@ Un conteneur accordéon pour les tableaux de bord Home Assistant, avec cartes Lo
 - Interface en anglais, français, espagnol et allemand selon la langue de votre profil Home Assistant.
 
 ## Installation
+
+### HACS (dépôt personnalisé)
+
+La carte est disponible comme dépôt personnalisé en attendant son admission au catalogue par défaut. Dans HACS, ouvrir le menu ⋮ → Dépôts personnalisés, ajouter `https://github.com/PedroDelCargo/flex-accordion-card`, catégorie **Dashboard / Tableau de bord**, puis télécharger Flex Accordion Card. Lorsque les ressources sont gérées dans l’interface Home Assistant, HACS enregistre normalement le module automatiquement. Conserver uniquement la ressource HACS (`/hacsfiles/flex-accordion-card/flex-accordion-card.js` avec son suffixe de version) et retirer toute ancienne ressource manuelle/de test de cette carte. Les ressources gérées en YAML doivent être déclarées manuellement. Recharger complètement le navigateur.
+
+### Installation manuelle
 
 1. Télécharger **flex-accordion-card.js** depuis la [dernière version GitHub](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Le copier dans `<config>/www/flex-accordion-card.js` sur votre installation Home Assistant. Créer `www` si nécessaire ; redémarrer Home Assistant une fois après sa création.

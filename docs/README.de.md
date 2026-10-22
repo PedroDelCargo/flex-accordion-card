@@ -4,6 +4,10 @@
 
 Ein Akkordeon-Container für Home-Assistant-Dashboards mit eingebetteten Lovelace-Karten, nativen Badges und einem kontextbezogenen visuellen Editor.
 
+![Native Anzeige-Karten in einem geöffneten Akkordeon-Abschnitt](images/accordion-toner.png)
+
+[Demonstration ansehen — MP4, 11 s](media/accordion-demo.mp4) · [Weitere Screenshots](SHOWCASE.md)
+
 ## Funktionen
 
 - Gemeinsame Karte oder separate Abschnittskarten, mit optionalem Gesamthintergrund.
@@ -17,6 +21,12 @@ Ein Akkordeon-Container für Home-Assistant-Dashboards mit eingebetteten Lovelac
 - Oberfläche auf Englisch, Französisch, Spanisch und Deutsch entsprechend der Sprache im Home-Assistant-Profil.
 
 ## Installation
+
+### HACS (benutzerdefiniertes Repository)
+
+Die Karte ist als benutzerdefiniertes Repository verfügbar, solange die Aufnahme in den Standardkatalog aussteht. Öffne in HACS das Menü ⋮ → Benutzerdefinierte Repositories, füge `https://github.com/PedroDelCargo/flex-accordion-card` mit der Kategorie **Dashboard** hinzu und lade Flex Accordion Card herunter. Bei Ressourcenverwaltung über die Home-Assistant-Oberfläche registriert HACS das Modul normalerweise automatisch. Behalte nur die HACS-Ressource (`/hacsfiles/flex-accordion-card/flex-accordion-card.js` mit Versionssuffix) und entferne alte manuelle/Testressourcen dieser Karte. In YAML verwaltete Ressourcen müssen manuell eingetragen werden. Lade den Browser vollständig neu.
+
+### Manuelle Installation
 
 1. Lade **flex-accordion-card.js** aus dem [neuesten GitHub-Release](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest) herunter.
 2. Kopiere die Datei nach `<config>/www/flex-accordion-card.js` in Home Assistant. Erstelle `www` bei Bedarf und starte Home Assistant danach einmal neu.
