@@ -30,7 +30,7 @@ La carte est disponible comme dépôt personnalisé en attendant son admission a
 
 1. Télécharger **flex-accordion-card.js** depuis la [dernière version GitHub](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Le copier dans `<config>/www/flex-accordion-card.js` sur votre installation Home Assistant. Créer `www` si nécessaire ; redémarrer Home Assistant une fois après sa création.
-3. Dans les ressources du tableau de bord, ajouter `/local/flex-accordion-card.js?v=0.13.0`, type **module JavaScript**. Activer le mode avancé du profil si le menu Ressources est masqué.
+3. Dans les ressources du tableau de bord, ajouter `/local/flex-accordion-card.js?v=1.0.0`, type **module JavaScript**. Activer le mode avancé du profil si le menu Ressources est masqué.
 4. Recharger complètement le navigateur, puis ajouter **Flex Accordion Card** au tableau de bord. Vous pouvez aussi choisir la carte native **Manuel** et coller l’exemple YAML ci-dessous.
 
 Pour les tableaux de bord dont les ressources sont gérées en YAML, ajouter la ressource à la configuration existante :
@@ -38,7 +38,7 @@ Pour les tableaux de bord dont les ressources sont gérées en YAML, ajouter la 
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=0.13.0
+    - url: /local/flex-accordion-card.js?v=1.0.0
       type: module
 ```
 
