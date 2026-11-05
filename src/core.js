@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 import { t } from "./i18n.js";
 export const VERSION = "1.0.2";
 export const clone = (value) => JSON.parse(JSON.stringify(value));

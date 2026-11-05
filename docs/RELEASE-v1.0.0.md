@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v1.0.0
 
 The first major stable release, following successful desktop and mobile testing by the maintainer.

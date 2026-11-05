@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card
 
 [English](../README.md) · Français · [Español](README.es.md) · [Deutsch](README.de.md)

@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Tests et recette — 0.7.0
 
 ## Résultats locaux du 15 octobre 2026

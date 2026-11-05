@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v0.7.0
 
 First public release of an accordion container for Home Assistant Lovelace.

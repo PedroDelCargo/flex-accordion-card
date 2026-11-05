@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Validation sur une instance Home Assistant
 
 Statut initial : à compléter par les testeurs. Les tests Node avec doubles ne remplacent pas cette recette. Ne cocher que ce qui a été observé sur la version du module testée.

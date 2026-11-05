@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Historique
 
 ## 1.0.2 — 5 novembre 2026 — documentation Marketplace

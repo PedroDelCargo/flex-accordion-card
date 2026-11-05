@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # GitHub and Home Assistant Marketplace releases
 
 Repository: https://github.com/PedroDelCargo/flex-accordion-card

@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v0.13.0
 
 ## Check your layout after upgrading

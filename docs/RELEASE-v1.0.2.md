@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v1.0.2
 
 This minor release updates the installation documentation in English, French, Spanish and German to use the built-in Home Assistant Marketplace.

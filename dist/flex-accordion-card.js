@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 /* flex-accordion-card v1.0.2 | MIT | No runtime dependencies */
 // UI messages only. User titles, names and configuration keys are never translated.
 const messages = {

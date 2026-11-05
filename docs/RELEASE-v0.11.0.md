@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v0.11.0
 
 Flex Accordion Card groups your Home Assistant cards into configurable accordion sections.
