@@ -1,5 +1,10 @@
 # Historique
 
+## 1.0.1 — 2 novembre 2026 — installation HACS simplifiée
+
+- L’installation HACS commence par la recherche de « Flex Accordion Card » dans le catalogue ; l’ajout du dépôt personnalisé est conservé comme solution de repli.
+- Consignes mises à jour dans les README anglais, français, espagnol et allemand ; exemples d’installation manuelle actualisés pour la version 1.0.1.
+
 ## 1.0.0 — 22 octobre 2026 — première version stable majeure
 
 - Fonctionnement de la 0.13.0 conservé, validé par le mainteneur sur ordinateur et mobile.

@@ -26,15 +26,15 @@ https://github.com/user-attachments/assets/cee9c77f-e56f-4211-a526-4a8265ccddc8
 
 ## Instalación
 
-### HACS (repositorio personalizado)
+### HACS (recomendado)
 
-La tarjeta está disponible como repositorio personalizado mientras se tramita su inclusión en el catálogo predeterminado. En HACS, abre el menú ⋮ → Repositorios personalizados, añade `https://github.com/PedroDelCargo/flex-accordion-card` con categoría **Dashboard** y descarga Flex Accordion Card. Cuando los recursos se gestionan desde la interfaz de Home Assistant, HACS normalmente registra el módulo automáticamente. Conserva solo el recurso HACS (`/hacsfiles/flex-accordion-card/flex-accordion-card.js` con su sufijo de versión) y elimina los antiguos recursos manuales/de prueba de esta tarjeta. Los recursos gestionados en YAML deben declararse manualmente. Recarga completamente el navegador.
+En HACS, busca **Flex Accordion Card** e instálala desde el catálogo. Si aún no aparece en tu instalación de HACS, abre el menú ⋮ → **Repositorios personalizados**, añade `https://github.com/PedroDelCargo/flex-accordion-card` con la categoría **Dashboard** y descarga Flex Accordion Card. Cuando los recursos se gestionan desde la interfaz de Home Assistant, HACS normalmente registra el módulo automáticamente. Conserva solo el recurso HACS (`/hacsfiles/flex-accordion-card/flex-accordion-card.js` con su sufijo de versión) y elimina los antiguos recursos manuales/de prueba de esta tarjeta. Los recursos gestionados en YAML deben declararse manualmente. Recarga completamente el navegador.
 
 ### Instalación manual
 
 1. Descarga **flex-accordion-card.js** desde la [última versión de GitHub](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Cópialo a `<config>/www/flex-accordion-card.js` en Home Assistant. Crea `www` si es necesario y reinicia Home Assistant una vez después de crearlo.
-3. En los recursos del panel, añade `/local/flex-accordion-card.js?v=1.0.0` como **módulo JavaScript**. Activa el modo avanzado del perfil si el menú de recursos está oculto.
+3. En los recursos del panel, añade `/local/flex-accordion-card.js?v=1.0.1` como **módulo JavaScript**. Activa el modo avanzado del perfil si el menú de recursos está oculto.
 4. Recarga completamente el navegador y añade **Flex Accordion Card** al panel. También puedes elegir la tarjeta nativa **Manual** y pegar el ejemplo YAML siguiente.
 
 Si gestionas los recursos en YAML, añade el recurso a la configuración existente:
@@ -42,7 +42,7 @@ Si gestionas los recursos en YAML, añade el recurso a la configuración existen
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=1.0.0
+    - url: /local/flex-accordion-card.js?v=1.0.1
       type: module
 ```
 
