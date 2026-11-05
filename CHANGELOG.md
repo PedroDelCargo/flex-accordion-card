@@ -1,5 +1,10 @@
 # Historique
 
+## 1.0.3 — 5 novembre 2026 — correction de publication
+
+- Fichiers source et bundle corrigés après l’échec de compilation de la release 1.0.2 ; aucun changement fonctionnel de la carte.
+- Exemples d’installation manuelle actualisés pour la version 1.0.3.
+
 ## 1.0.2 — 5 novembre 2026 — documentation Marketplace
 
 - Documentation d’installation actualisée dans les quatre langues pour le Marketplace intégré de Home Assistant.
