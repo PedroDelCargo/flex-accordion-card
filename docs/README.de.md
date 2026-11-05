@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card
 
 [English](../README.md) · [Français](README.fr.md) · [Español](README.es.md) · Deutsch
@@ -26,15 +27,15 @@ https://github.com/user-attachments/assets/cee9c77f-e56f-4211-a526-4a8265ccddc8
 
 ## Installation
 
-### HACS (empfohlen)
+### Home Assistant Marketplace (empfohlen)
 
-Suche in HACS nach **Flex Accordion Card** und installiere die Karte aus dem Katalog. Falls sie in deiner HACS-Installation noch nicht angezeigt wird, öffne das Menü ⋮ → **Benutzerdefinierte Repositories**, füge `https://github.com/PedroDelCargo/flex-accordion-card` mit der Kategorie **Dashboard** hinzu und lade Flex Accordion Card herunter. Bei Ressourcenverwaltung über die Home-Assistant-Oberfläche registriert HACS das Modul normalerweise automatisch. Behalte nur die HACS-Ressource (`/hacsfiles/flex-accordion-card/flex-accordion-card.js` mit Versionssuffix) und entferne alte manuelle/Testressourcen dieser Karte. In YAML verwaltete Ressourcen müssen manuell eingetragen werden. Lade den Browser vollständig neu.
+Öffne in Home Assistant **Einstellungen → Marketplace**, suche nach **Flex Accordion Card** und installiere die Karte. Der Marketplace verwaltet die Dashboard-Ressource automatisch. Wenn du Dashboard-Ressourcen per YAML verwaltest, trage `/local/community/flex-accordion-card/flex-accordion-card.js` ein. Entferne alte manuelle oder Testressourcen dieser Karte und lade den Browser vollständig neu. Es kann einige Stunden dauern, bis eine neue Version im Marketplace-Katalog erscheint.
 
 ### Manuelle Installation
 
 1. Lade **flex-accordion-card.js** aus dem [neuesten GitHub-Release](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest) herunter.
 2. Kopiere die Datei nach `<config>/www/flex-accordion-card.js` in Home Assistant. Erstelle `www` bei Bedarf und starte Home Assistant danach einmal neu.
-3. Füge in den Dashboard-Ressourcen `/local/flex-accordion-card.js?v=1.0.1` als **JavaScript-Modul** hinzu. Aktiviere den erweiterten Modus im Profil, falls das Ressourcenmenü nicht sichtbar ist.
+3. Füge in den Dashboard-Ressourcen `/local/flex-accordion-card.js?v=1.0.2` als **JavaScript-Modul** hinzu. Aktiviere den erweiterten Modus im Profil, falls das Ressourcenmenü nicht sichtbar ist.
 4. Lade den Browser vollständig neu und füge **Flex Accordion Card** zum Dashboard hinzu. Alternativ kannst du die native Karte **Manuell** auswählen und das folgende YAML-Beispiel einfügen.
 
 Bei Ressourcenverwaltung über YAML ergänze die bestehende Konfiguration um die Ressource:
@@ -42,7 +43,7 @@ Bei Ressourcenverwaltung über YAML ergänze die bestehende Konfiguration um die
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=1.0.1
+    - url: /local/flex-accordion-card.js?v=1.0.2
       type: module
 ```
 

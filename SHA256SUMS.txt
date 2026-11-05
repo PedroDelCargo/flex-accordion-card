@@ -1,1 +1,2 @@
-951a9585486b56e6dbaafced2de4ff0d6018de6b5eb60ef6711ed8e3ef24265e  dist/flex-accordion-card.js
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
+79bdf8729f1bb1e17c1c55129fb82760bf05f710b49e9670151f178a8a0ac25c  dist/flex-accordion-card.js

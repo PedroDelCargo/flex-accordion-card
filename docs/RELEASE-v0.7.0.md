@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v0.7.0
 
 First public release of an accordion container for Home Assistant Lovelace.
@@ -19,7 +20,7 @@ See the [README](https://github.com/PedroDelCargo/flex-accordion-card#readme) fo
 
 53 local tests pass using component/DOM doubles. The maintainer confirms successful Home Assistant and mobile testing. Exact HA/browser/device versions have not yet been recorded; no minimum HA version or universal compatibility is claimed. The automated browser suite has not been rerun in the agent environment. Native frontend adapters rely on internal HA components.
 
-HACS custom-repository installation remains to be tested; this project is not yet included in the default HACS catalog.
+At that time, installation through the Home Assistant integration catalog had not yet been tested and the project was not listed in its default catalog.
 
 ## Existing configurations
 

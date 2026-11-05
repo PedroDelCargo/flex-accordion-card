@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v0.11.0
 
 Flex Accordion Card groups your Home Assistant cards into configurable accordion sections.
@@ -16,6 +17,6 @@ Add `/local/flex-accordion-card.js?v=0.11.0` as a **JavaScript module** dashboar
 
 [Features, configuration and examples](https://github.com/PedroDelCargo/flex-accordion-card#readme)
 
-Shortcut badges require a Home Assistant frontend with native Shortcut badge support. HACS publication is deferred.
+Shortcut badges require a Home Assistant frontend with native Shortcut badge support. Catalog distribution was deferred at that time.
 
 Validated by the maintainer for publication. All 76 local automated tests pass.

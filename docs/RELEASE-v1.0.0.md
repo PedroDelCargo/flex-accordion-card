@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v1.0.0
 
 The first major stable release, following successful desktop and mobile testing by the maintainer.
@@ -11,16 +12,16 @@ The first major stable release, following successful desktop and mobile testing 
 - Contextual visual editor with reorder, drag-and-drop and move/copy controls.
 - English, French, Spanish and German interface and user guides.
 
-This release retains the functionality of v0.13.0 and adds real screenshots, a demonstration video, HACS custom-repository installation instructions and the official HACS validation workflow. Admission to the default HACS catalog has not yet been requested.
+This release retains the functionality of v0.13.0 and adds real screenshots, a demonstration video, repository-based installation instructions and the official integration validation workflow. Admission to the default catalog had not yet been requested at that time.
 
 ## Upgrading
 
 **When upgrading from the former Vertical or Grid layouts, check card widths, heights and positions on desktop and mobile after automatic conversion to Sections.** Confirm “Layout checked” in the editor and save after reviewing the result.
 
-Update through HACS if installed as a custom repository. For manual installations, replace the JavaScript file, use `/local/flex-accordion-card.js?v=1.0.0` as the JavaScript module resource, and reload the browser completely. Keep only one resource for this card.
+For catalog installations, update through the Home Assistant Marketplace when available. For manual installations, replace the JavaScript file, use `/local/flex-accordion-card.js?v=1.0.0` as the JavaScript module resource, and reload the browser completely. Keep only one resource for this card.
 
 Download `flex-accordion-card.js` below. It contains the card, editor and translations; no additional runtime files are required.
 
 ## Validation
 
-84 automated tests pass. All four translation dictionaries contain 148 entries with matching placeholders. The maintainer confirmed the real Home Assistant rendering, mobile behavior and layout conversions. GitHub CI and official HACS validation must pass on the release commit before publication.
+84 automated tests pass. All four translation dictionaries contain 148 entries with matching placeholders. The maintainer confirmed the real Home Assistant rendering, mobile behavior and layout conversions. GitHub CI and the official integration validation must pass on the release commit before publication.

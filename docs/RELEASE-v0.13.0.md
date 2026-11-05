@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card v0.13.0
 
 ## Check your layout after upgrading
@@ -14,4 +15,4 @@ Download `flex-accordion-card.js`, replace your existing module and reload your 
 
 Native section components must be loaded by the Home Assistant frontend. If they are unavailable, open a native Sections view, return and select Retry. The built-in list controls continue to handle card reordering.
 
-The maintainer has validated native Sections on desktop and mobile and confirmed successful automatic layout conversion. All 84 local automated tests pass. No submission to the default HACS catalog has been made.
+The maintainer has validated native Sections on desktop and mobile and confirmed successful automatic layout conversion. All 84 local automated tests pass. At that time, no submission to the default integration catalog had been made.

@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Flex Accordion Card
 
 [English](../README.md) · Français · [Español](README.es.md) · [Deutsch](README.de.md)
@@ -26,15 +27,15 @@ https://github.com/user-attachments/assets/cee9c77f-e56f-4211-a526-4a8265ccddc8
 
 ## Installation
 
-### HACS (recommandé)
+### Marketplace Home Assistant (recommandé)
 
-Dans HACS, recherchez **Flex Accordion Card** et installez-la depuis le catalogue. Si elle n’apparaît pas encore dans votre installation HACS, ouvrez le menu ⋮ → **Dépôts personnalisés**, ajoutez `https://github.com/PedroDelCargo/flex-accordion-card` avec la catégorie **Dashboard / Tableau de bord**, puis téléchargez Flex Accordion Card. Lorsque les ressources sont gérées dans l’interface Home Assistant, HACS enregistre normalement le module automatiquement. Conservez uniquement la ressource HACS (`/hacsfiles/flex-accordion-card/flex-accordion-card.js` avec son suffixe de version) et retirez toute ancienne ressource manuelle/de test de cette carte. Les ressources gérées en YAML doivent être déclarées manuellement. Rechargez complètement le navigateur.
+Dans Home Assistant, ouvrez **Paramètres → Marketplace**, recherchez **Flex Accordion Card**, puis installez-la. Le Marketplace gère automatiquement la ressource du tableau de bord. Si les ressources sont gérées en YAML, déclarez `/local/community/flex-accordion-card/flex-accordion-card.js`. Supprimez toute ancienne ressource manuelle ou de test de cette carte, puis rechargez complètement le navigateur. Le catalogue du Marketplace peut mettre quelques heures à afficher une nouvelle version publiée.
 
 ### Installation manuelle
 
 1. Télécharger **flex-accordion-card.js** depuis la [dernière version GitHub](https://github.com/PedroDelCargo/flex-accordion-card/releases/latest).
 2. Le copier dans `<config>/www/flex-accordion-card.js` sur votre installation Home Assistant. Créer `www` si nécessaire ; redémarrer Home Assistant une fois après sa création.
-3. Dans les ressources du tableau de bord, ajouter `/local/flex-accordion-card.js?v=1.0.1`, type **module JavaScript**. Activer le mode avancé du profil si le menu Ressources est masqué.
+3. Dans les ressources du tableau de bord, ajouter `/local/flex-accordion-card.js?v=1.0.2`, type **module JavaScript**. Activer le mode avancé du profil si le menu Ressources est masqué.
 4. Recharger complètement le navigateur, puis ajouter **Flex Accordion Card** au tableau de bord. Vous pouvez aussi choisir la carte native **Manuel** et coller l’exemple YAML ci-dessous.
 
 Pour les tableaux de bord dont les ressources sont gérées en YAML, ajouter la ressource à la configuration existante :
@@ -42,7 +43,7 @@ Pour les tableaux de bord dont les ressources sont gérées en YAML, ajouter la 
 ```yaml
 lovelace:
   resources:
-    - url: /local/flex-accordion-card.js?v=1.0.1
+    - url: /local/flex-accordion-card.js?v=1.0.2
       type: module
 ```
 

@@ -1,16 +1,22 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Historique
 
-## 1.0.1 — 2 novembre 2026 — installation HACS simplifiée
+## 1.0.2 — 5 novembre 2026 — documentation Marketplace
 
-- L’installation HACS commence par la recherche de « Flex Accordion Card » dans le catalogue ; l’ajout du dépôt personnalisé est conservé comme solution de repli.
+- Documentation d’installation actualisée dans les quatre langues pour le Marketplace intégré de Home Assistant.
+- Les étapes de mise à jour, la ressource du tableau de bord et les délais de synchronisation du catalogue sont clarifiés.
+
+## 1.0.1 — 2 novembre 2026 — installation depuis le catalogue simplifiée
+
+- L’installation commence par la recherche de « Flex Accordion Card » dans le catalogue ; les dépôts personnalisés sont conservés comme solution de repli historique.
 - Consignes mises à jour dans les README anglais, français, espagnol et allemand ; exemples d’installation manuelle actualisés pour la version 1.0.1.
 
 ## 1.0.0 — 22 octobre 2026 — première version stable majeure
 
 - Fonctionnement de la 0.13.0 conservé, validé par le mainteneur sur ordinateur et mobile.
-- Documentation utilisateur en anglais, français, espagnol et allemand, avec instructions HACS comme dépôt personnalisé.
+- Documentation utilisateur en anglais, français, espagnol et allemand, avec instructions d’installation par dépôt personnalisé.
 - Captures réelles, galerie et vidéo de démonstration allégée.
-- Validation officielle HACS ajoutée au dépôt. La demande d’admission au catalogue reste différée jusqu’à la relecture de la documentation.
+- Validation officielle du catalogue ajoutée au dépôt. La demande d’admission au catalogue reste différée jusqu’à la relecture de la documentation.
 - Pour les mises à jour depuis Verticale/Grille, vérifier les dimensions et positions après conversion automatique vers Sections.
 
 ## 0.13.0 — 19 octobre 2026 — présentation Sections unique
@@ -31,7 +37,7 @@
 - Aucun chemin ni accès de sauvegarde du tableau de bord transmis au rendu natif. Pas de déplacement direct ni de poignées de redimensionnement dans le rendu de l’accordéon.
 - Message local avec réessai si les composants Sections ne sont pas chargés, sans bloquer les autres sections.
 - Traductions fr/en/es/de, exemple sans entité et documentation utilisateur mis à jour.
-- 81 tests locaux avec doubles DOM/composants réussis ; rendu HA et tactile à valider. Non publié sur GitHub/HACS.
+- 81 tests locaux avec doubles DOM/composants réussis ; rendu HA et tactile à valider. Non publié sur GitHub ni dans un catalogue.
 
 ## 0.11.0 — 16 octobre 2026
 
@@ -97,8 +103,8 @@
 - Taille numérique libre du titre en pixels : défaut 16 px sans valeur affichée ni option YAML ajoutée ; effacer rétablit le défaut. Migration des anciennes tailles prédéfinies.
 - Durée de transition par défaut de 750 ms, sans écraser les durées explicites.
 - Interface fr/en/es/de selon le profil HA, variantes régionales et repli anglais ; données utilisateur préservées.
-- README réorganisé avec guides dans quatre langues, contribution, fiche de validation réelle, préparation GitHub/HACS et CI sans publication automatique.
-- 47 tests locaux réussis ; validation réelle HA et HACS restant à effectuer.
+- README réorganisé avec guides dans quatre langues, contribution, fiche de validation réelle, préparation GitHub/catalogue et CI sans publication automatique.
+- 47 tests locaux réussis ; validation réelle HA et du catalogue restant à effectuer.
 
 
 ## 0.5.0 — 15 octobre 2026
@@ -149,4 +155,4 @@ Première version expérimentale : deux présentations, conteneur Lovelace, badg
 
 ### Validation de la première publication
 
-Le mainteneur confirme le fonctionnement sur son instance Home Assistant et sur mobile. Versions/appareils non encore renseignés. La publication GitHub de la 0.7.0 est autorisée ; HACS reste à valider.
+Le mainteneur confirme le fonctionnement sur son instance Home Assistant et sur mobile. Versions/appareils non encore renseignés. La publication GitHub de la 0.7.0 est autorisée ; l’installation depuis le catalogue reste à valider.

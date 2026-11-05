@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Validation sur une instance Home Assistant
 
 Statut initial : à compléter par les testeurs. Les tests Node avec doubles ne remplacent pas cette recette. Ne cocher que ce qui a été observé sur la version du module testée.
@@ -6,11 +7,11 @@ Statut initial : à compléter par les testeurs. Les tests Node avec doubles ne 
 
 - Version Flex Accordion :
 - Version HA Core / Frontend :
-- Version HACS (si utilisé) :
+- Version du Marketplace (si utilisé) :
 - Navigateur / système / appareil :
 - Type de vue : masonry / Sections / autre :
 - Thème, langue du profil et date :
-- Installation : manuelle / HACS personnalisé :
+- Installation : manuelle / Marketplace :
 
 ## Parcours
 
@@ -35,7 +36,7 @@ Statut initial : à compléter par les testeurs. Les tests Node avec doubles ne 
 - [ ] Profils fr/en/es/de et variante régionale ; champs, menus, actions et libellés accessibles correctement traduits.
 - [ ] Carte native et carte tierce, éditeurs visuel/code, graphiques et médias au premier dépliage.
 - [ ] Clavier, focus visible, mobile/tactile, thèmes clair et sombre ; pas de débordement des contrôles.
-- [ ] Installation/mise à jour via HACS personnalisé, lorsque le dépôt sera disponible.
+- [ ] Installation/mise à jour via le Marketplace Home Assistant.
 
 ## Résultats et anomalies
 
@@ -46,7 +47,7 @@ Pour chaque échec : résultat attendu, résultat observé, étapes, configurati
 - Version candidate et date :
 - Points bloquants restants :
 - Versions HA/navigateurs réellement validés :
-- Décision du mainteneur : à tester / préversion GitHub / release / essai HACS.
+- Décision du mainteneur : à tester / préversion GitHub / release / essai Marketplace.
 
 ## Complément sections toujours ouvertes
 
@@ -57,4 +58,4 @@ Pour chaque échec : résultat attendu, résultat observé, étapes, configurati
 
 ## Validation déclarée par le mainteneur — 15 octobre 2026
 
-Le mainteneur a confirmé pour la 0.7.0 : « Tout fonctionne », puis « Tests sur mobile validés également ». Publication GitHub autorisée. Cette confirmation concerne les essais utilisateur ; elle ne constitue pas une exécution de la suite navigateur automatisée par l’agent. Les versions HA, OS, navigateurs et modèles d’appareils restent non renseignés. Les cases détaillées ci-dessus ne sont pas cochées automatiquement, afin de ne pas attribuer des scénarios précis non explicitement rapportés. Installation/mise à jour HACS encore à valider.
+Le mainteneur a confirmé pour la 0.7.0 : « Tout fonctionne », puis « Tests sur mobile validés également ». Publication GitHub autorisée. Cette confirmation concerne les essais utilisateur ; elle ne constitue pas une exécution de la suite navigateur automatisée par l’agent. Les versions HA, OS, navigateurs et modèles d’appareils restent non renseignés. Les cases détaillées ci-dessus ne sont pas cochées automatiquement, afin de ne pas attribuer des scénarios précis non explicitement rapportés. Installation/mise à jour via le Marketplace encore à valider.

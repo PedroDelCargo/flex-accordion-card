@@ -1,5 +1,6 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 import { t } from "./i18n.js";
-export const VERSION = "1.0.1";
+export const VERSION = "1.0.2";
 export const clone = (value) => JSON.parse(JSON.stringify(value));
 // HA may echo configuration objects with a different property order.
 export const configKey = (value) => JSON.stringify(value, (_key, item) =>

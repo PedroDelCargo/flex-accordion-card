@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Tests et recette — 0.7.0
 
 ## Résultats locaux du 15 octobre 2026
@@ -58,7 +59,7 @@ Les nouveaux tests vérifient la normalisation, l’exclusion de l’état exclu
 
 ## Retour du mainteneur avant publication GitHub
 
-La 0.7.0 a été déclarée fonctionnelle sur l’instance HA du mainteneur ; les tests mobiles ont également été confirmés. Versions et appareils non encore renseignés. Ce résultat utilisateur complète les 53 tests locaux ; la suite navigateur automatisée n’a pas été relancée et la distribution HACS reste à tester.
+La 0.7.0 a été déclarée fonctionnelle sur l’instance HA du mainteneur ; les tests mobiles ont également été confirmés. Versions et appareils non encore renseignés. Ce résultat utilisateur complète les 53 tests locaux ; la suite navigateur automatisée n’a pas été relancée et la distribution par catalogue reste à tester.
 
 ## Candidat 0.8.0 — 16 octobre 2026
 
